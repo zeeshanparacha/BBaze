@@ -1,0 +1,96 @@
+.login
+{
+    background-color: $bg-dark;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &_text
+    {
+        color: $primary;
+    }
+
+    &_email, &_pass
+    {
+        position: relative;
+        width: 250px;
+        margin: 20px auto;
+
+        input
+        {
+            background: white;
+            border: none;
+            padding: 8px 10px 8px 50px;
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+        }
+
+        img
+        {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 37px;
+            height: 37px;
+        }
+    }
+
+    &_checkFields
+    {
+        display: flex;
+        margin: 25px 0;
+        flex-wrap: wrap;
+
+        div
+        {
+            margin: 0 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        label
+        {
+            margin-left: 5px;
+            font-size: 12px;
+        }
+    }
+
+    &_logo
+    {
+        width: 220px;
+        height: 220px;
+        margin: auto;
+    }
+
+    &_btn
+    {
+        border: none;
+        background: #C86838;
+        color: white;
+        padding: 5px 35px;
+    }
+
+    &_btn:hover
+    {
+        background: #d47d51;
+    }
+}
+
+@media (max-width: 991px)
+{
+    .login
+    {
+        &_checkFields
+        {
+            div
+            {
+                width: 100%;
+                justify-content: center;
+                margin: 8px 0;
+            }
+        }
+    }
+}
