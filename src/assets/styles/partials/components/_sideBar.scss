@@ -1,0 +1,42 @@
+.sideBar
+{
+    background-color: $bg-dark;
+    width: 160px;
+    flex-shrink: 0;
+
+    &_logo
+    {
+        width: 100px;
+        margin: 30px auto 10px;
+    }
+
+    &_role
+    {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    ul
+    {
+        margin: 0;
+        margin-top: 40px;
+    }
+
+    li
+    {
+        list-style-type: none;
+        margin-bottom: 10px;
+
+        a
+        {
+            color: $primary;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        a:hover
+        {
+            color: #1D88E5;
+        }
+    }
+}

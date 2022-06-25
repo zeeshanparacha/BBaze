@@ -1,0 +1,11 @@
+.dash
+{
+    background-color: $bg-medium;
+    min-height: 100vh;
+    display: flex;
+
+    &_body
+    {
+        width: 100%;
+    }
+}

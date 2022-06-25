@@ -1,8 +1,12 @@
+import { useNavigate } from 'react-router-dom'
 import Logo from '../../assets/images/logo.svg'
 import Icon1 from '../../assets/images/icon1.PNG'
 import Icon2 from '../../assets/images/icon2.PNG'
 
 const Login = () => {
+
+    const navigate = useNavigate()
+
     return(
         <div className="login">
             <div className="login_inner">
@@ -32,7 +36,7 @@ const Login = () => {
                         <label htmlFor="nom">Nom d'utilisateur oublie ?</label>
                     </div>
                 </div>
-                <button className="login_btn">CONNEXION</button>
+                <button className="login_btn" onClick={() => navigate('/dashboard')}>CONNEXION</button>
             </div>
         </div>
     )

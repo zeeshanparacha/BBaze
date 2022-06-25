@@ -4,7 +4,10 @@
 
 
 // COMPONENTS
-
+@import './partials/components/sideBar';
+@import './partials/components/header';
 
 // PAGES
 @import './partials/pages/login';
+@import './partials/pages/dashboard';
+@import './partials/pages/project';
