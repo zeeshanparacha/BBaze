@@ -8,9 +8,9 @@ const SideBar = () => {
             </div>
             <p className="sideBar_role">ADMIN</p>
             <ul>
-                <li><a href="#">Projects <img src="" alt="" /></a></li>
-                <li><a href="#">Organisateurs <img src="" alt="" /></a></li>
-                <li><a href="#">Profil <img src="" alt="" /></a></li>
+                <li><a href="#">Projects <img src="" alt="" /></a><i class="fa-solid fa-angle-right"></i></li>
+                <li><a href="#">Organisateurs <img src="" alt="" /></a><i class="fa-solid fa-angle-right"></i></li>
+                <li><a href="#">Profil <img src="" alt="" /></a><i class="fa-solid fa-angle-right"></i></li>
             </ul>
         </div>
     )

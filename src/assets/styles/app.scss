@@ -6,8 +6,11 @@
 // COMPONENTS
 @import './partials/components/sideBar';
 @import './partials/components/header';
+@import './partials/components/access';
+@import './partials/components/permission';
 
 // PAGES
 @import './partials/pages/login';
 @import './partials/pages/dashboard';
 @import './partials/pages/project';
+@import './partials/pages/addProject';

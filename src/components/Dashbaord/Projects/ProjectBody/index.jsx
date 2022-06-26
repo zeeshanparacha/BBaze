@@ -1,9 +1,13 @@
+import { useNavigate } from 'react-router-dom'
 import Icon1 from '../../../../assets/images/project-icon1.svg'
 import Icon2 from '../../../../assets/images/plus1.svg'
 import Icon3 from '../../../../assets/images/search1.svg'
 import people1 from '../../../../assets/images/people1.png'
 
 const ProjectBody = () => {
+
+    const navigate = useNavigate()
+
     return(
         <div className="project_body">
             <div className="project_head">
@@ -21,7 +25,7 @@ const ProjectBody = () => {
                     </div>
                 </div>
                 <div className="project_actions">
-                    <button className="project_add"><img src={Icon2} alt="" /></button>
+                    <button className="project_add" onClick={() => navigate('/addproject')}><img src={Icon2} alt="" /></button>
                     <div className="project_search">
                         <img src={Icon3} alt="" />
                         <input type="search" placeholder='Chercher un projet' />
