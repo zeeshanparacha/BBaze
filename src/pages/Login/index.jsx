@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import instance from '../../instance'
 
 import Logo from '../../assets/images/logo.svg'
@@ -9,17 +8,19 @@ import Icon2 from '../../assets/images/icon2.PNG'
 const Login = () => {
 
     const [data, setData] = useState({})
-    const navigate = useNavigate()
+    const [err, setErr] = useState('')
 
     const handleLogin = () => {
-
         console.log('data', data);
         instance.post('/security/login', data)
         .then(res => {
-            console.log('res', res)
+            localStorage.setItem('isLoggedIn', true)
+            localStorage.setItem('userId', res.data.user._id)
+            window.location.reload()
         })
-        .catch(err => console.log('err', err))
-        // navigate('/dashboard')
+        .catch(err => {
+            setErr(err.response.data.error)
+        })
     }
 
     return(
@@ -37,6 +38,7 @@ const Login = () => {
                     <input type="password" value={data.password} placeholder="Mot de passe" onChange={(e) => setData({...data, password: e.target.value })} />
                     <img src={Icon2} alt="" />
                 </div>
+                {err && <p className='login_err'>{err}</p>}
                 <div className="login_checkFields">
                     <div>
                         <input type="checkbox" id="memo" />

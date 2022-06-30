@@ -7,6 +7,11 @@
     justify-content: center;
     text-align: center;
 
+    &_inner
+    {
+        padding: 20px 0;
+    }
+
     &_text
     {
         color: $primary;
@@ -76,6 +81,12 @@
     &_btn:hover
     {
         background: #d47d51;
+    }
+
+    &_err
+    {
+        font-size: 14px;
+        color: rgb(255, 113, 113);
     }
 }
 
