@@ -1,11 +1,11 @@
 import Img from '../../../../assets/images/img1.jpg'
 import people1 from '../../../../assets/images/people1.png'
 
-const ProjectDetail = () => {
+const ProjectDetail = ({setModal}) => {
     return(
         <div className="projectDetail">
             <div className="projectDetail_inner">
-                <span className='access_close'>&#9587;</span>
+                <span className='projectDetail_close' onClick={() => setModal('')} >&#9587;</span>
                 <div className="projectDetail_projects">
                     <div className="projectDetail_box">
                         <div className="projectDetail_img">
@@ -52,40 +52,48 @@ const ProjectDetail = () => {
                     minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
                     ex ea commodo consequat. 
                 </p>
+                <p className='projectDetail_text'>Organisateurs</p>
                 <div className="projectDetail_users">
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
+                    <div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
                     </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
+                    <div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
+                        <div className="projectDetail_userImg">
+                            <img src={people1} alt="" />
+                        </div>
                     </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
-                    </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
-                    </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
-                    </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
-                    </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
-                    </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
-                    </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
-                    </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
-                    </div>
-                    <div className="projectDetail_img">
-                        <img src={people1} alt="" />
-                    </div>
+                </div>
+                <div className="projectDetail_btn">
+                    <button>MODIFIER</button>
                 </div>
             </div>
         </div>

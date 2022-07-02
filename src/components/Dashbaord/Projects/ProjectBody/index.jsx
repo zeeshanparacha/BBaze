@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import UserDetail from '../UserDetail'
@@ -11,6 +12,10 @@ import people1 from '../../../../assets/images/people1.png'
 const ProjectBody = () => {
 
     const navigate = useNavigate()
+
+    const [modal, setModal] = useState('')
+
+    console.log('modal', modal);
 
     return(
         <div className="project_body">
@@ -48,8 +53,8 @@ const ProjectBody = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><img src={people1} alt="" /></td>
+                        <tr onClick={() => setModal('project')} >
+                            <td><img src={people1} alt="" onClick={(e) => {setModal('user'); e.stopPropagation();}} /></td>
                             <td>
                                 <p className="project_tableText1">Jane Doe</p>
                                 <p className="project_tableText2">Linda Bi</p>
@@ -146,8 +151,8 @@ const ProjectBody = () => {
                     </tbody>
                 </table>
             </div>
-            {/* <UserDetail/> */}
-            <ProjectDetail/>
+            {modal === 'user' && <UserDetail setModal={setModal} />}
+            {modal === 'project' && <ProjectDetail setModal={setModal} />}
         </div>
     )
 }

@@ -1,11 +1,11 @@
 import ImgPeople from '../../../../assets/images/people4.jpg'
 import Img from '../../../../assets/images/img1.jpg'
 
-const UserDetail = () => {
+const UserDetail = ({setModal}) => {
     return(
         <div className="user">
             <div className="user_inner">
-                <span className='access_close'>&#9587;</span>
+                <span className='access_close' onClick={() => setModal('')}>&#9587;</span>
                 <div className="user_details">
                     <div className="user_left">
                         <img src={ImgPeople} alt="" />

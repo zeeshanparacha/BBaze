@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 
     &_inner
     {
@@ -24,6 +25,7 @@
     {
         position: absolute;
         right: 20px;
+        top: 15px;
         cursor: pointer;
         font-weight: 600;
     }
@@ -121,10 +123,32 @@
     &_users
     {
         display: flex;
-        flex-wrap: wrap;
+
+        div:first-child
+        {
+            div
+            {
+                width: 60px;
+                padding-right: 20px;
+                margin-right: 20px;
+                border-right: 1px solid #545454;
+            }
+        }
+
+        div:nth-child(2)
+        {
+            display: flex;
+            flex-wrap: wrap;
+        }
     }
 
-    &_img
+    &_text
+    {
+        color: $bg-light;
+        margin-top: 30px;
+    }
+
+    &_userImg
     {
         width: 40px;
         height: 40px;
@@ -137,57 +161,37 @@
         }
     }
 
-    &_img:first-child
+    // &_userImg:first-child
+    // {
+    //     width: 60px;
+    //     padding-right: 20px;
+    //     margin-right: 20px;
+    //     border-right: 1px solid #545454;
+    // }
+
+    &_btn
     {
-        width: 60px;
-        padding-right: 20px;
-        margin-right: 20px;
-        border-right: 1px solid #545454;
+        text-align: right;
+
+        button
+        {
+            background-color: $bg-light;
+            border: none;
+            font-size: 10px;
+            padding: 5px 25px;
+            color: #999999;
+            margin: 0 5px;
+        }
+
+        button:hover
+        {
+            background-color: $yellow;
+            color: $bg-dark;
+        }
     }
 }
 
 @media (max-width: 991px)
 {
-    .user
-    {
-        &_details
-        {
-            flex-wrap: wrap;
-        }
 
-        &_inner
-        {
-            padding: 10px;
-        }
-
-        &_left
-        {
-            margin-right: 10px;
-        }
-
-        &_right
-        {
-            margin-top: 10px;
-        }
-
-        &_descTitle
-        {
-            margin-top: 30px;
-        }
-
-        &_img
-        {
-            width: 105px;
-        }
-
-        &_name
-        {
-            width: 100px;
-        }
-
-        &_heading
-        {
-            margin-top: 30px;
-        }
-    }
 }
