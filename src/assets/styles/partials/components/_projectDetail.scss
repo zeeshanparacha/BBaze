@@ -1,4 +1,4 @@
-.user
+.projectDetail
 {
     position: fixed;
     top: 0;
@@ -35,26 +35,12 @@
 
     &_details
     {
-        display: flex;
-        align-items: center;
-    }
-
-    &_left
-    {
-
-        width: 200px;
-        height: 200px;
-        overflow: hidden;
-        margin-right: 25px;
-
-        img
+        div
         {
-            width: 100%;
+            justify-content: space-between;
+            display: flex;
         }
-    }
-
-    &_right
-    {
+        
         font-size: 14px;
         
         p
@@ -67,6 +53,8 @@
             color: $bg-light;
             margin-right: 10px;
         }
+
+        margin: 30px 0;
     }
 
     &_descTitle
@@ -95,7 +83,7 @@
     {
         display: flex;
         flex-wrap: wrap;
-        margin: 5px 0 30px;
+        margin-top: 30px;
     }
 
     &_box
@@ -128,6 +116,33 @@
     {
         font-size: 12px;
         color: $bg-light;
+    }
+
+    &_users
+    {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &_img
+    {
+        width: 40px;
+        height: 40px;
+        margin: 6px;
+
+        img
+        {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &_img:first-child
+    {
+        width: 60px;
+        padding-right: 20px;
+        margin-right: 20px;
+        border-right: 1px solid #545454;
     }
 }
 

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
 import UserDetail from '../UserDetail'
+import ProjectDetail from '../ProjectDetail'
 
 import Icon1 from '../../../../assets/images/project-icon1.svg'
 import Icon2 from '../../../../assets/images/plus1.svg'
@@ -145,7 +146,8 @@ const ProjectBody = () => {
                     </tbody>
                 </table>
             </div>
-            <UserDetail/>
+            {/* <UserDetail/> */}
+            <ProjectDetail/>
         </div>
     )
 }
