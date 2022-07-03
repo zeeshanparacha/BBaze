@@ -33,7 +33,7 @@
 
         img
         {
-            width: 50px;
+            height: 38px;
         }
     }
 
@@ -117,6 +117,8 @@
         background-color: $bg-dark;
         margin-top: 10px;
         padding: 15px 15px 30px;
+        height: 400px;
+        overflow: auto;
 
         table
         {

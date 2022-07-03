@@ -4,29 +4,26 @@ import { useNavigate } from 'react-router-dom'
 import UserDetail from '../UserDetail'
 import ProjectDetail from '../ProjectDetail'
 
-import Icon1 from '../../../../assets/images/project-icon1.svg'
-import Icon2 from '../../../../assets/images/plus1.svg'
-import Icon3 from '../../../../assets/images/search1.svg'
+// import Icon2 from '../../../../assets/images/plus1.svg'
+// import Icon3 from '../../../../assets/images/search1.svg'
 import people1 from '../../../../assets/images/people1.png'
 
-const ProjectBody = () => {
+const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
 
     const navigate = useNavigate()
 
     const [modal, setModal] = useState('')
-
-    console.log('modal', modal);
 
     return(
         <div className="project_body">
             <div className="project_head">
                 <div className="project_headTop">
                     <div className="project_logo">
-                        <img src={Icon1} alt="" />
+                        <img src={icon} alt="" />
                     </div>
                     <div className='project_detail'>
-                        <p className="project_num">989</p>
-                        <p className="project_name">Espace vert</p>
+                        <p className="project_num">{data.length}</p>
+                        <p className="project_name">{category}</p>
                     </div>
                     <div className="project_check">
                         <input type="checkbox" />
@@ -34,9 +31,9 @@ const ProjectBody = () => {
                     </div>
                 </div>
                 <div className="project_actions">
-                    <button className="project_add" onClick={() => navigate('/addproject')}><img src={Icon2} alt="" /></button>
+                    <button className="project_add" onClick={() => navigate('/addproject', {state: {category}})}><img src={plusIcon} alt="" /></button>
                     <div className="project_search">
-                        <img src={Icon3} alt="" />
+                        <img src={searchIcon} alt="" />
                         <input type="search" placeholder='Chercher un projet' />
                     </div>
                 </div>
@@ -53,101 +50,27 @@ const ProjectBody = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr onClick={() => setModal('project')} >
-                            <td><img src={people1} alt="" onClick={(e) => {setModal('user'); e.stopPropagation();}} /></td>
-                            <td>
-                                <p className="project_tableText1">Jane Doe</p>
-                                <p className="project_tableText2">Linda Bi</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">Street K</p>
-                                <p className="project_tableText2">Dakar</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src={people1} alt="" /></td>
-                            <td>
-                                <p className="project_tableText1">Jane Doe</p>
-                                <p className="project_tableText2">Linda Bi</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">Street K</p>
-                                <p className="project_tableText2">Dakar</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src={people1} alt="" /></td>
-                            <td>
-                                <p className="project_tableText1">Jane Doe</p>
-                                <p className="project_tableText2">Linda Bi</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">Street K</p>
-                                <p className="project_tableText2">Dakar</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src={people1} alt="" /></td>
-                            <td>
-                                <p className="project_tableText1">Jane Doe</p>
-                                <p className="project_tableText2">Linda Bi</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">Street K</p>
-                                <p className="project_tableText2">Dakar</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src={people1} alt="" /></td>
-                            <td>
-                                <p className="project_tableText1">Jane Doe</p>
-                                <p className="project_tableText2">Linda Bi</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">Street K</p>
-                                <p className="project_tableText2">Dakar</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                            <td>
-                                <p className="project_tableText1">1-Jan-2022</p>
-                                <p className="project_tableText2">2:36 PM</p>
-                            </td>
-                        </tr>
+                        {data.length > 0 && data.map((item, index) => (
+                            <tr onClick={() => setModal('project')} key={index} >
+                                <td><img src={people1} alt="" onClick={(e) => {setModal('user'); e.stopPropagation();}} /></td>
+                                <td>
+                                    <p className="project_tableText1">{item.user.name}</p>
+                                    <p className="project_tableText2">{item.user.role}</p>
+                                </td>
+                                <td>
+                                    <p className="project_tableText1">{item.town}</p>
+                                    <p className="project_tableText2">{item.headQuartier}</p>
+                                </td>
+                                <td>
+                                    <p className="project_tableText1">{item.createdAt.substr(0, 10)}</p>
+                                    {/* <p className="project_tableText2">2:36 PM</p> */}
+                                </td>
+                                <td>
+                                    {/* <p className="project_tableText1">1-Jan-2022</p>
+                                    <p className="project_tableText2">2:36 PM</p> */}
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

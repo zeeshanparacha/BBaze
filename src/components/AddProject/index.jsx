@@ -1,8 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import instance from '../../instance'
+
 import Access from './Access'
 import Permission from './Permission'
 
-import ProjectIcon from '../../assets/images/project-icon1.svg'
+import Icon1 from '../../assets/images/project-icon1.svg'
+import Icon2 from '../../assets/images/project-icon2.svg'
+import Icon3 from '../../assets/images/project-icon3.svg'
+import Icon4 from '../../assets/images/project-icon4.svg'
+import Icon5 from '../../assets/images/project-icon5.svg'
 import PlusIcon from '../../assets/images/plus1.svg'
 import Img1 from '../../assets/images/img1.jpg'
 import Img2 from '../../assets/images/img2.jpg'
@@ -11,15 +18,118 @@ import IconSend from '../../assets/images/send.svg'
 
 const AddProject = () => {
 
+    const [projectIcon, setProjectIcon] = useState()
     const [access, setAccess] = useState(false)
     const [permission, setPermission] = useState(false)
+    const [authorityName, setAuthorityName] = useState('')
+    const [authorityRole, setAuthorityRole] = useState('')
+    const [authorities, setAuthorities] = useState([])
+    const [participantName, setParticipantName] = useState('')
+    const [participantRole, setParticipantRole] = useState('')
+    const [participants, setParticipants] = useState([])
+    const [notesDate, setNotesDate] = useState('')
+    const [notesText, setNotesText] = useState('')
+    const [notes, setNotes] = useState([])
+    const [data, setData] = useState({})
+    const userId = localStorage.getItem('userId')
+    const docUrl = 'https://drive.google.com/file/d/1QLpg2lFg0RdqxEIss6famu7NOev-2N3R/view'
+    const imgUrl = 'https://images.pexels.com/photos/60597/dahlia-red-blossom-bloom-60597.jpeg'
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    useEffect(() => {
+        if (location.state.category === 'Espace vert')
+        {
+            setProjectIcon(Icon1)
+        }
+        else if (location.state.category === 'Fond local')
+        {
+            setProjectIcon(Icon2)
+        }
+        else if (location.state.category === 'Partage social')
+        {
+            setProjectIcon(Icon3)
+        }
+        else if (location.state.category === 'Wikend')
+        {
+            setProjectIcon(Icon4)
+        }
+        else if (location.state.category === 'KinFest')
+        {
+            setProjectIcon(Icon5)
+        }
+        // setData({...data, category: location.state.category, documents: [{url: docUrl}], images: [{url: imgUrl}]})
+    }, [])
+
+    useEffect(() => {
+        setData({...data, user: userId, authorities, otherParticipants: participants, notes, category: location.state.category, documents: [{url: docUrl}], images: [{url: imgUrl}]})
+    }, [authorities, participants, notes])
+
+    const handleChange = (e) => {
+        setData({...data, [e.target.name]: e.target.value})
+    }
+
+    const handleAuthorities = () => {
+        if (authorityName && authorityRole)
+        {
+            setAuthorities([...authorities, {name: authorityName, roleTitle: authorityRole}])
+            setAuthorityName('')
+            setAuthorityRole('')
+        }
+    }
+
+    const removeAuthority = (param) => {
+        const temp = authorities.filter((item, index) => index !== param)
+        setAuthorities(temp)
+    }
+
+    const handleParticipants = () => {
+        if (participantName && participantRole)
+        {
+            setParticipants([...participants, {name: participantName, roleTitle: participantRole}])
+            setParticipantName('')
+            setParticipantRole('')
+        }
+    }
+
+    const removeParticipant = (param) => {
+        const temp = authorities.filter((item, index) => index !== param)
+        setParticipants(temp)
+    }
+
+    const handleNotes = () => {
+        if (notesDate && notesText)
+        {
+            setNotes([...notes, {meetingDate: notesDate, text: notesText}])
+            setNotesDate('')
+            setNotesText('')
+        }
+    }
+
+    const removeNote = (param) => {
+        const temp = authorities.filter((item, index) => index !== param)
+        setNotes(temp)
+    }
+
+    const handleSubmit = () => {
+        // console.log('data', data);
+        instance.post('projects/create-project', data)
+        .then(res => {
+            console.log('res', res)
+            if (res.data.code === 1)
+            {
+                navigate('/dashboard')
+            }
+        })
+        .catch(err => console.log(err.response))
+    }
 
     return(
         <div className="add">
             <div className="add_top">
                 <div className="add_topLeft">
-                    <img src={ProjectIcon} alt="" />
-                    <p>ESPACE VERT: CREER UN NOUVEAU PROJET</p>
+                    <img src={projectIcon} alt="" />
+                    <p>{data.category}</p>
                 </div>
                 <div className="add_topRight">
                     <button className='add_btn' onClick={() => setAccess(true)}>ACCES A CE PROJET</button>
@@ -28,41 +138,59 @@ const AddProject = () => {
             <div className="add_form">
                 <div className="add_formLeft">
                     <label>Nom du projet</label>
-                    <input type="text" />
-                    <label>Vile</label>
-                    <input type="text" />
+                    <input type="text" name='projectName' value={data.projectName} onChange={handleChange} />
+                    <label>Ville</label>
+                    <input type="text" name='town' value={data.town} onChange={handleChange} />
                     <label>Quartier</label>
-                    <input type="text" />
-                    <label>A propos du projet</label>
-                    <textarea></textarea>
+                    <input type="text" name='headQuartier' value={data.headQuartier} onChange={handleChange} />
+                    <label>À propos du projet</label>
+                    <textarea name='about' value={data.about} onChange={handleChange}></textarea>
                     <label>Organisateur (trice)</label>
-                    <input type="text" placeholder="Taper le nom de l'organisateur" />
+                    <input type="text" placeholder="Taper le nom de l'organisateur" name='organizerName' value={data.organizerName} onChange={handleChange} />
                     <label>Animateur (trice)</label>
-                    <input type="text" placeholder="Taper le nom de l'animateur" />
+                    <input type="text" placeholder="Taper le nom de l'animateur" name='animator' value={data.animator} onChange={handleChange} />
                     <label>Hote / Hotesse</label>
-                    <input type="text" placeholder="Taper le nom de la personne (Physique ou morale) qui recoit" />
+                    <input type="text" placeholder="Taper le nom de la personne (Physique ou morale) qui recoit" name='host' value={data.host} onChange={handleChange} />
                 </div>
                 <div className="add_formRight">
                     <div>
-                        <label>Autorite locale</label>
+                        <label>Autorité locale</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Nom de l" />
-                            <button><img src={PlusIcon} alt="" /></button>
+                            <input type="text" placeholder="Nom de l" value={authorityName} onChange={(e) => setAuthorityName(e.target.value)} />
+                            <button><img src={PlusIcon} alt="" onClick={handleAuthorities} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Titre cu role" />
+                            <input type="text" placeholder="Titre cu role" value={authorityRole} onChange={(e) => setAuthorityRole(e.target.value)} />
                             <button className='add_btnHidden'></button>
+                        </div>
+                        <div className="add_authorities">
+                            {authorities.length > 0 && authorities.map((item, index) => (
+                                <div key={index}>
+                                    <p>{item.name}</p>
+                                    <p>{item.roleTitle}</p>
+                                    <span onClick={() => removeAuthority(index)}>x</span>
+                                </div>                                
+                            ))}
                         </div>
                     </div>
                     <div>
-                        <label>Autres participants cles</label>
+                        <label>Autres participants clés</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Nom de l'autorite" />
-                            <button><img src={PlusIcon} alt="" /></button>
+                            <input type="text" placeholder="Nom de l'autorite" value={participantName} onChange={(e) => setParticipantName(e.target.value)} />
+                            <button><img src={PlusIcon} alt="" onClick={handleParticipants} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Titre cu role" />
+                            <input type="text" placeholder="Titre cu role" value={participantRole} onChange={(e) => setParticipantRole(e.target.value)} />
                             <button className='add_btnHidden'></button>
+                        </div>
+                        <div className="add_authorities">
+                            {participants.length > 0 && participants.map((item, index) => (
+                                <div key={index}>
+                                    <p>{item.name}</p>
+                                    <p>{item.roleTitle}</p>
+                                    <span onClick={() => removeParticipant(index)}>x</span>
+                                </div>                                
+                            ))}
                         </div>
                     </div>
                     <div>
@@ -73,14 +201,23 @@ const AddProject = () => {
                         </div>
                     </div>
                     <div>
-                        <label>Notes de la reunion</label>
+                        <label>Notes de la réunion</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Date de la reunion" />
-                            <button><img src={PlusIcon} alt="" /></button>
+                            <input type="text" placeholder="Date de la reunion" value={notesDate} onChange={(e) => setNotesDate(e.target.value)} />
+                            <button><img src={PlusIcon} alt="" onClick={handleNotes} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <textarea type="text" placeholder="Notes" />
+                            <textarea type="text" placeholder="Notes" value={notesText} onChange={(e) => setNotesText(e.target.value)} />
                             <button className='add_btnHidden'></button>
+                        </div>
+                        <div className="add_authorities">
+                            {notes.length > 0 && notes.map((item, index) => (
+                                <div key={index}>
+                                    <p>{item.meetingDate}</p>
+                                    <p>{item.text}</p>
+                                    <span onClick={() => removeNote(index)}>x</span>
+                                </div>                                
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -106,7 +243,7 @@ const AddProject = () => {
                 <button>SAUVEGARDER</button>
                 <button>ANNULER</button>
                 <button>APPROUVER LE PROJET</button>
-                <button>LANCER LE PROJET</button>
+                <button onClick={handleSubmit}>LANCER LE PROJET</button>
                 <button>CLOTURER LE PROJET</button>
             </div>
             <div className="add_bot">

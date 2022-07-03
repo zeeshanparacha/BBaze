@@ -11,16 +11,23 @@ const Login = () => {
     const [err, setErr] = useState('')
 
     const handleLogin = () => {
-        console.log('data', data);
         instance.post('/security/login', data)
         .then(res => {
             localStorage.setItem('isLoggedIn', true)
             localStorage.setItem('userId', res.data.user._id)
+            localStorage.setItem('token', res.data.token)
             window.location.reload()
         })
         .catch(err => {
             setErr(err.response.data.error)
         })
+    }
+
+    const handleEnter = (e) => {
+        if (e.key === 'Enter')
+        {
+            handleLogin()
+        }
     }
 
     return(
@@ -35,7 +42,7 @@ const Login = () => {
                     <img src={Icon1} alt="" />
                 </div>
                 <div className="login_pass">
-                    <input type="password" value={data.password} placeholder="Mot de passe" onChange={(e) => setData({...data, password: e.target.value })} />
+                    <input type="password" value={data.password} placeholder="Mot de passe" onKeyDown={handleEnter} onChange={(e) => setData({...data, password: e.target.value })} />
                     <img src={Icon2} alt="" />
                 </div>
                 {err && <p className='login_err'>{err}</p>}

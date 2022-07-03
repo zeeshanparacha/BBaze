@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Logo from '../../../assets/images/logo-white.svg'
 
 const SideBar = () => {
@@ -14,7 +15,7 @@ const SideBar = () => {
             </div>
             <p className="sideBar_role">ADMIN</p>
             <ul>
-                <li><a href="#">Projects <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
+                <li><Link to="/dashboard">Projects <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
                 <li><a href="#">Organisateurs <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
                 <li><a href="#">Profil <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
                 <li><a href="#" onClick={handleLogout}>Logout <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>

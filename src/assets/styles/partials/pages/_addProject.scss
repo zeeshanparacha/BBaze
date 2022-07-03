@@ -315,6 +315,51 @@
             width: 25px;
         }
     }
+
+    &_authorities
+    {
+        margin-top: 10px;
+
+        > div
+        {
+            position: relative;
+            padding: 5px 20px;
+        }
+
+        > div:hover
+        {
+            background-color: #3f4954;
+
+            span
+            {
+                display: block;
+            }
+        }
+
+        > div p:first-child
+        {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        > div p:nth-child(2)
+        {
+            font-size: 12px;
+        }
+
+        span
+        {
+            position: absolute;
+            right: 20px;
+            top: 13px;    
+            background: black;
+            color: red;
+            border-radius: 100px;
+            padding: 0 8.1px;
+            cursor: pointer;
+            display: none;
+        }
+    }
 }
 
 @media (max-width: 991px)

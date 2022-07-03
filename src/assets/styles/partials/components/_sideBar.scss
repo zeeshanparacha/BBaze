@@ -109,12 +109,19 @@
                 color: $primary;
                 text-decoration: none;
                 font-size: 14px;
+                width: 100px;
+                display: inline-block;
             }
 
             a:hover
             {
                 color: #1D88E5;
             }
+        }
+
+        i
+        {
+            font-size: 12px;
         }
     }
 
