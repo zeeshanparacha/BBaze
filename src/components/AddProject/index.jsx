@@ -58,12 +58,38 @@ const AddProject = () => {
         {
             setProjectIcon(Icon5)
         }
-        // setData({...data, category: location.state.category, documents: [{url: docUrl}], images: [{url: imgUrl}]})
     }, [])
 
     useEffect(() => {
         setData({...data, user: userId, authorities, otherParticipants: participants, notes, category: location.state.category, documents: [{url: docUrl}], images: [{url: imgUrl}]})
     }, [authorities, participants, notes])
+
+    useEffect(() => {
+        if (location.state.edit)
+        {
+            const editData = location.state.data
+            setData({...data,
+                user: userId,
+                authorities: editData.authorities,
+                otherParticipants: editData.otherParticipants,
+                notes: editData.notes,
+                category: location.state.category,
+                documents: [{url: docUrl}],
+                images: [{url: imgUrl}],
+                about: editData.about,
+                animator: editData.animator,
+                headQuartier: editData.headQuartier,
+                host: editData.host,
+                organizerName: editData.organizerName,
+                projectName: editData.projectName,
+                town: editData.town,
+                _id: editData._id
+            })
+            setAuthorities(editData.authorities)
+            setParticipants(editData.otherParticipants)
+            setNotes(editData.notes)
+        }
+    }, [])
 
     const handleChange = (e) => {
         setData({...data, [e.target.name]: e.target.value})
@@ -112,10 +138,19 @@ const AddProject = () => {
     }
 
     const handleSubmit = () => {
-        // console.log('data', data);
         instance.post('projects/create-project', data)
         .then(res => {
-            console.log('res', res)
+            if (res.data.code === 1)
+            {
+                navigate('/dashboard')
+            }
+        })
+        .catch(err => console.log(err.response))
+    }
+
+    const handleUpdate = () => {
+        instance.post('projects/update-project', data)
+        .then(res => {
             if (res.data.code === 1)
             {
                 navigate('/dashboard')
@@ -239,7 +274,7 @@ const AddProject = () => {
                 </div>
             </div>
             <div className="add_btns">
-                <button>MODIFIER</button>
+                <button onClick={handleUpdate}>MODIFIER</button>
                 <button>SAUVEGARDER</button>
                 <button>ANNULER</button>
                 <button>APPROUVER LE PROJET</button>

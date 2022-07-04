@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import UserDetail from '../UserDetail'
 import ProjectDetail from '../ProjectDetail'
 
-// import Icon2 from '../../../../assets/images/plus1.svg'
-// import Icon3 from '../../../../assets/images/search1.svg'
 import people1 from '../../../../assets/images/people1.png'
 
 const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
@@ -13,6 +11,7 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
     const navigate = useNavigate()
 
     const [modal, setModal] = useState('')
+    const [clickIndex, setClickIndex] = useState(0)
 
     return(
         <div className="project_body">
@@ -51,7 +50,7 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
                     </thead>
                     <tbody>
                         {data.length > 0 && data.map((item, index) => (
-                            <tr onClick={() => setModal('project')} key={index} >
+                            <tr onClick={() => {setModal('project'); setClickIndex(index)}} key={index} >
                                 <td><img src={people1} alt="" onClick={(e) => {setModal('user'); e.stopPropagation();}} /></td>
                                 <td>
                                     <p className="project_tableText1">{item.user.name}</p>
@@ -75,7 +74,7 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
                 </table>
             </div>
             {modal === 'user' && <UserDetail setModal={setModal} />}
-            {modal === 'project' && <ProjectDetail setModal={setModal} />}
+            {modal === 'project' && <ProjectDetail category={category} data={data[clickIndex]} setModal={setModal} />}
         </div>
     )
 }

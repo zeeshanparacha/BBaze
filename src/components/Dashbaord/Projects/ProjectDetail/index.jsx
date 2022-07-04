@@ -1,7 +1,11 @@
+import { useNavigate } from 'react-router-dom'
 import Img from '../../../../assets/images/img1.jpg'
 import people1 from '../../../../assets/images/people1.png'
 
-const ProjectDetail = ({setModal}) => {
+const ProjectDetail = ({setModal, category, data}) => {
+
+    const navigate = useNavigate()
+
     return(
         <div className="projectDetail">
             <div className="projectDetail_inner">
@@ -93,7 +97,7 @@ const ProjectDetail = ({setModal}) => {
                     </div>
                 </div>
                 <div className="projectDetail_btn">
-                    <button>MODIFIER</button>
+                    <button onClick={() => navigate('/addproject', {state: {category, data, edit: 'true'}})}>MODIFIER</button>
                 </div>
             </div>
         </div>
