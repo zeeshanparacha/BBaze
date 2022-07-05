@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 import Logo from '../../../assets/images/logo-white.svg'
 
-const SideBarMobile = ({setMenu}) => {
+const SideBarMobile = ({ setMenu }) => {
 
     const handleLogout = () => {
         localStorage.clear()
         window.location.reload()
     }
 
-    return(
+    return (
         <div className="sideBarm">
             <span className='sideBarm_close' onClick={() => setMenu(false)}>&#9587;</span>
             <div className="sideBarm_logo">
@@ -17,9 +17,9 @@ const SideBarMobile = ({setMenu}) => {
             <p className="sideBarm_role">ADMIN</p>
             <ul>
                 <li><Link to="/dashboard">Projects <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="#">Organisateurs <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="#">Profil <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="#" onClick={handleLogout}>Logout <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
+                <li><a href="/#">Organisateurs <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
+                <li><a href="/#">Profil <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
+                <li><a href="/#" onClick={handleLogout}>Logout <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
             </ul>
         </div>
     )

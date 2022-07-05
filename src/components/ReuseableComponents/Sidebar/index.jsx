@@ -8,7 +8,7 @@ const SideBar = () => {
         window.location.reload()
     }
 
-    return(
+    return (
         <div className="sideBar">
             <div className="sideBar_logo">
                 <img src={Logo} alt="" />
@@ -16,9 +16,9 @@ const SideBar = () => {
             <p className="sideBar_role">ADMIN</p>
             <ul>
                 <li><Link to="/dashboard">Projects <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="#">Organisateurs <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="#">Profil <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="#" onClick={handleLogout}>Logout <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
+                <li><a href="/#">Organisateurs <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
+                <li><a href="/#">Profil <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
+                <li><a href="/#" onClick={handleLogout}>Logout <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
             </ul>
         </div>
     )
