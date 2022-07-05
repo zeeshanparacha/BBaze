@@ -38,44 +38,41 @@ const AddProject = () => {
     const location = useLocation()
 
     useEffect(() => {
-        if (location.state.category === 'Espace vert')
-        {
+        if (location.state.category === 'Espace vert') {
             setProjectIcon(Icon1)
         }
-        else if (location.state.category === 'Fond local')
-        {
+        else if (location.state.category === 'Fond local') {
             setProjectIcon(Icon2)
         }
-        else if (location.state.category === 'Partage social')
-        {
+        else if (location.state.category === 'Partage social') {
             setProjectIcon(Icon3)
         }
-        else if (location.state.category === 'Wikend')
-        {
+        else if (location.state.category === 'Wikend') {
             setProjectIcon(Icon4)
         }
-        else if (location.state.category === 'KinFest')
-        {
+        else if (location.state.category === 'KinFest') {
             setProjectIcon(Icon5)
         }
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
-        setData({...data, user: userId, authorities, otherParticipants: participants, notes, category: location.state.category, documents: [{url: docUrl}], images: [{url: imgUrl}]})
+        setData({ ...data, user: userId, authorities, otherParticipants: participants, notes, category: location.state.category, documents: [{ url: docUrl }], images: [{ url: imgUrl }] })
+        // eslint-disable-next-line
     }, [authorities, participants, notes])
 
     useEffect(() => {
-        if (location.state.edit)
-        {
+        if (location.state.edit) {
             const editData = location.state.data
-            setData({...data,
+            setData({
+                ...data,
                 user: userId,
                 authorities: editData.authorities,
                 otherParticipants: editData.otherParticipants,
                 notes: editData.notes,
                 category: location.state.category,
-                documents: [{url: docUrl}],
-                images: [{url: imgUrl}],
+                documents: [{ url: docUrl }],
+                images: [{ url: imgUrl }],
                 about: editData.about,
                 animator: editData.animator,
                 headQuartier: editData.headQuartier,
@@ -89,16 +86,16 @@ const AddProject = () => {
             setParticipants(editData.otherParticipants)
             setNotes(editData.notes)
         }
+        // eslint-disable-next-line
     }, [])
 
     const handleChange = (e) => {
-        setData({...data, [e.target.name]: e.target.value})
+        setData({ ...data, [e.target.name]: e.target.value })
     }
 
     const handleAuthorities = () => {
-        if (authorityName && authorityRole)
-        {
-            setAuthorities([...authorities, {name: authorityName, roleTitle: authorityRole}])
+        if (authorityName && authorityRole) {
+            setAuthorities([...authorities, { name: authorityName, roleTitle: authorityRole }])
             setAuthorityName('')
             setAuthorityRole('')
         }
@@ -110,9 +107,8 @@ const AddProject = () => {
     }
 
     const handleParticipants = () => {
-        if (participantName && participantRole)
-        {
-            setParticipants([...participants, {name: participantName, roleTitle: participantRole}])
+        if (participantName && participantRole) {
+            setParticipants([...participants, { name: participantName, roleTitle: participantRole }])
             setParticipantName('')
             setParticipantRole('')
         }
@@ -124,9 +120,8 @@ const AddProject = () => {
     }
 
     const handleNotes = () => {
-        if (notesDate && notesText)
-        {
-            setNotes([...notes, {meetingDate: notesDate, text: notesText}])
+        if (notesDate && notesText) {
+            setNotes([...notes, { meetingDate: notesDate, text: notesText }])
             setNotesDate('')
             setNotesText('')
         }
@@ -139,27 +134,25 @@ const AddProject = () => {
 
     const handleSubmit = () => {
         instance.post('projects/create-project', data)
-        .then(res => {
-            if (res.data.code === 1)
-            {
-                navigate('/dashboard')
-            }
-        })
-        .catch(err => console.log(err.response))
+            .then(res => {
+                if (res.data.code === 1) {
+                    navigate('/dashboard')
+                }
+            })
+            .catch(err => console.log(err.response))
     }
 
     const handleUpdate = () => {
         instance.post('projects/update-project', data)
-        .then(res => {
-            if (res.data.code === 1)
-            {
-                navigate('/dashboard')
-            }
-        })
-        .catch(err => console.log(err.response))
+            .then(res => {
+                if (res.data.code === 1) {
+                    navigate('/dashboard')
+                }
+            })
+            .catch(err => console.log(err.response))
     }
 
-    return(
+    return (
         <div className="add">
             <div className="add_top">
                 <div className="add_topLeft">
@@ -204,7 +197,7 @@ const AddProject = () => {
                                     <p>{item.name}</p>
                                     <p>{item.roleTitle}</p>
                                     <span onClick={() => removeAuthority(index)}>x</span>
-                                </div>                                
+                                </div>
                             ))}
                         </div>
                     </div>
@@ -224,7 +217,7 @@ const AddProject = () => {
                                     <p>{item.name}</p>
                                     <p>{item.roleTitle}</p>
                                     <span onClick={() => removeParticipant(index)}>x</span>
-                                </div>                                
+                                </div>
                             ))}
                         </div>
                     </div>
@@ -251,7 +244,7 @@ const AddProject = () => {
                                     <p>{item.meetingDate}</p>
                                     <p>{item.text}</p>
                                     <span onClick={() => removeNote(index)}>x</span>
-                                </div>                                
+                                </div>
                             ))}
                         </div>
                     </div>
