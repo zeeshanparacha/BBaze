@@ -4,7 +4,7 @@ const token = localStorage.getItem('token')
 const authToken = `Bearer ${token}`;
 
 const instance = axios.create({
-    baseURL: "http://localhost:4000/",
+    baseURL: "https://bbaze.herokuapp.com/",
     headers: {
         "Content-Type": "application/json",
         "Authorization": authToken,
