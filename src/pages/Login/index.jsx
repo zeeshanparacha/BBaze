@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import instance from '../../instance'
 
 import Logo from '../../assets/images/logo.svg'
@@ -44,6 +45,9 @@ const Login = () => {
                 <div className="login_pass">
                     <input type="password" value={data.password} placeholder="Mot de passe" onKeyDown={handleEnter} onChange={(e) => setData({...data, password: e.target.value })} />
                     <img src={Icon2} alt="" />
+                </div>
+                <div className="login_forget">
+                    <Link to="/forget">Forget Password ?</Link>
                 </div>
                 {err && <p className='login_err'>{err}</p>}
                 <div className="login_checkFields">

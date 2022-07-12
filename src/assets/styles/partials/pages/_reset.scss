@@ -1,4 +1,4 @@
-.login
+.reset
 {
     background-color: $bg-dark;
     min-height: 100vh;
@@ -43,40 +43,6 @@
         }
     }
 
-    &_forget
-    {
-        text-align: left;
-        margin-left: 80px;
-        margin-top: 5px;
-
-        a
-        {
-            color: $primary;
-            text-decoration: none;
-            font-size: 14px;
-        }
-    }
-
-    &_checkFields
-    {
-        display: flex;
-        margin: 25px 0;
-        flex-wrap: wrap;
-
-        div
-        {
-            margin: 0 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        label
-        {
-            margin-left: 5px;
-            font-size: 12px;
-        }
-    }
-
     &_logo
     {
         width: 220px;
@@ -90,6 +56,7 @@
         background: #C86838;
         color: white;
         padding: 5px 35px;
+        margin-top: 30px;
     }
 
     &_btn:hover
@@ -101,21 +68,5 @@
     {
         font-size: 14px;
         color: rgb(255, 113, 113);
-    }
-}
-
-@media (max-width: 991px)
-{
-    .login
-    {
-        &_checkFields
-        {
-            div
-            {
-                width: 100%;
-                justify-content: center;
-                margin: 8px 0;
-            }
-        }
     }
 }

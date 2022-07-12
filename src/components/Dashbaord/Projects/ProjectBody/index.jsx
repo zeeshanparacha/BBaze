@@ -12,6 +12,8 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
 
     const [modal, setModal] = useState('')
     const [clickIndex, setClickIndex] = useState(0)
+    const [search, setSearch] = useState('')
+    const updatedData = search ? data.filter(item => item.user.name.toLowerCase().includes(search.toLowerCase()) || item.user.role.toLowerCase().includes(search.toLowerCase())) : data
 
     return(
         <div className="project_body">
@@ -21,7 +23,7 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
                         <img src={icon} alt="" />
                     </div>
                     <div className='project_detail'>
-                        <p className="project_num">{data.length}</p>
+                        <p className="project_num">{updatedData.length}</p>
                         <p className="project_name">{category}</p>
                     </div>
                     <div className="project_check">
@@ -33,7 +35,7 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
                     <button className="project_add" onClick={() => navigate('/addproject', {state: {category}})}><img src={plusIcon} alt="" /></button>
                     <div className="project_search">
                         <img src={searchIcon} alt="" />
-                        <input type="search" placeholder='Chercher un projet' />
+                        <input type="search" placeholder='Chercher un projet' onChange={(e) => setSearch(e.target.value)} />
                     </div>
                 </div>
             </div>
@@ -49,7 +51,7 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.length > 0 && data.map((item, index) => (
+                        {updatedData.length > 0 && updatedData.map((item, index) => (
                             <tr onClick={() => {setModal('project'); setClickIndex(index)}} key={index} >
                                 <td><img src={people1} alt="" onClick={(e) => {setModal('user'); e.stopPropagation();}} /></td>
                                 <td>
@@ -74,7 +76,7 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
                 </table>
             </div>
             {modal === 'user' && <UserDetail setModal={setModal} />}
-            {modal === 'project' && <ProjectDetail category={category} data={data[clickIndex]} setModal={setModal} />}
+            {modal === 'project' && <ProjectDetail category={category} data={updatedData[clickIndex]} setModal={setModal} />}
         </div>
     )
 }
