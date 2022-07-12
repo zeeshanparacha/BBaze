@@ -1,0 +1,126 @@
+.addOrg
+{
+    width: 700px;
+    background-color: $bg-dark;
+    margin: 15px;
+    
+    &_top
+    {
+        text-align: right;
+        padding: 5px;
+
+        button
+        {
+            background: $bg-medium;
+            padding: 0px 12px;
+            margin: 2px;
+            border: none;
+
+            img
+            {
+                width: 10px;
+            }
+        }
+    }
+
+    &_field
+    {
+        display: flex;
+
+        label
+        {
+            margin-right: 10px;
+            flex-shrink: 0;
+            margin-top: 15px;
+            line-height: 17px;
+            font-size: 14px;
+            color: $bg-light;
+            width: 130px;
+            text-align: right;
+        }
+
+        input
+        {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid $bg-medium;
+            width: 100%;
+            outline: none;
+            color: $bg-light;
+        }
+    }
+
+    &_form
+    {
+        padding: 0 60px;
+    }
+
+    &_desc
+    {
+        margin: 0 25px;
+        border: 1px solid $bg-light;
+        padding: 15px 10px;
+        font-size: 12px;
+        color: gray;
+
+        p
+        {
+            margin-bottom: 20px;
+            line-height: 15px;
+        }
+    }
+
+    &_descTitle
+    {
+        margin: 20px 0 5px 25px;
+        font-size: 14px;
+        color: $bg-light;
+    }
+
+    &_btns
+    {
+
+        text-align: center;
+        padding: 30px 0 20px;
+
+        button
+        {
+            background-color: $bg-light;
+            border: none;
+            font-size: 10px;
+            padding: 5px 25px;
+            color: #999999;
+            margin: 0 5px;
+        }
+
+        button:hover
+        {
+            background-color: $yellow;
+            color: $bg-dark;
+        }
+    }
+}
+
+@media (max-width: 991px)
+{
+    .addOrg
+    {
+        width: auto;
+        margin: 5px;
+
+        &_form
+        {
+            padding: 0 10px;
+        }
+
+        &_desc
+        {
+            margin: 0 10px;
+        }
+
+        &_descTitle
+        {
+            margin: 20px 0 5px 10px;
+        }
+    }
+}

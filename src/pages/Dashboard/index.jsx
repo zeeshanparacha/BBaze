@@ -5,7 +5,7 @@ import Projects from "../../components/Dashbaord/Projects"
 const Dashboard = () => {
     return(
         <div className="dash">
-            <SideBar />
+            <SideBar index={1} />
             <div className="dash_body">
                 <Header/>
                 <Projects/>

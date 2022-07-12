@@ -34,6 +34,13 @@ const Projects = () => {
         .then(res => {
             setCategory1(res.data.data)
         })
+        .catch(err => {
+            if (err.response.data.error === 'Your token is expired, please login again.')
+            {
+                localStorage.clear()
+                window.location.reload()
+            }
+        })
 
         instance.post('projects/get-projects-by-category', {
             category: "Fond local"

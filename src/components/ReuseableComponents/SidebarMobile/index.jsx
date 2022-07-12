@@ -17,8 +17,8 @@ const SideBarMobile = ({ setMenu }) => {
             <p className="sideBarm_role">ADMIN</p>
             <ul>
                 <li><Link to="/dashboard">Projects <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="/#">Organisateurs <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="/#">Profil <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
+                <li><Link to="/organizer">Organisateurs <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
+                <li><Link to="/profile">Profil <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
                 <li><a href="/#" onClick={handleLogout}>Logout <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
             </ul>
         </div>

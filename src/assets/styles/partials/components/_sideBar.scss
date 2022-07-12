@@ -45,6 +45,11 @@
         {
             color: #1D88E5;
         }
+
+        a.active
+        {
+            color: #1D88E5;
+        }
     }
 }
 
@@ -114,6 +119,11 @@
             }
 
             a:hover
+            {
+                color: #1D88E5;
+            }
+
+            a.active
             {
                 color: #1D88E5;
             }

@@ -161,14 +161,6 @@
         }
     }
 
-    // &_userImg:first-child
-    // {
-    //     width: 60px;
-    //     padding-right: 20px;
-    //     margin-right: 20px;
-    //     border-right: 1px solid #545454;
-    // }
-
     &_btn
     {
         text-align: right;
@@ -189,9 +181,4 @@
             color: $bg-dark;
         }
     }
-}
-
-@media (max-width: 991px)
-{
-
 }

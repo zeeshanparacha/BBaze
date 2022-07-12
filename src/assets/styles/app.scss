@@ -9,9 +9,11 @@
 @import './partials/components/permission';
 @import './partials/components/userDetail';
 @import './partials/components/projectDetail';
+@import './partials/components/addOrganizer';
 
 // PAGES
 @import './partials/pages/login';
 @import './partials/pages/dashboard';
 @import './partials/pages/project';
 @import './partials/pages/addProject';
+@import './partials/pages/organizer';
