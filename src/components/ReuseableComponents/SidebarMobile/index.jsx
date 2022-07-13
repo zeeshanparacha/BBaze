@@ -3,11 +3,6 @@ import Logo from '../../../assets/images/logo-white.svg'
 
 const SideBarMobile = ({ setMenu }) => {
 
-    const handleLogout = () => {
-        localStorage.clear()
-        window.location.reload()
-    }
-
     return (
         <div className="sideBarm">
             <span className='sideBarm_close' onClick={() => setMenu(false)}>&#9587;</span>
@@ -19,7 +14,6 @@ const SideBarMobile = ({ setMenu }) => {
                 <li><Link to="/dashboard">Projects <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
                 <li><Link to="/organizer">Organisateurs <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
                 <li><Link to="/profile">Profil <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="/#" onClick={handleLogout}>Logout <img src="" alt="" /></a><i className="fa-solid fa-angle-right"></i></li>
             </ul>
         </div>
     )

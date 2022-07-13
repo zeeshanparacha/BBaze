@@ -1,7 +1,7 @@
 .sideBar
 {
     background-color: $bg-dark;
-    width: 160px;
+    width: 180px;
     flex-shrink: 0;
 
     &_logo
@@ -37,7 +37,7 @@
             color: $primary;
             text-decoration: none;
             font-size: 14px;
-            width: 100px;
+            width: 110px;
             display: inline-block;
         }
 
@@ -69,7 +69,7 @@
     {
         display: block;
         background-color: $bg-dark;
-        width: 160px;
+        width: 180px;
         flex-shrink: 0;
         position: fixed;
         top: 0;
@@ -114,7 +114,7 @@
                 color: $primary;
                 text-decoration: none;
                 font-size: 14px;
-                width: 100px;
+                width: 110px;
                 display: inline-block;
             }
 

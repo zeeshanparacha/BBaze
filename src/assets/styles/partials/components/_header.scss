@@ -45,8 +45,10 @@
     {
         width: 40px;
         height: 40px;
-        overflow: hidden;
+        // overflow: hidden;
         border-radius: 100px;
+        position: relative;
+        cursor: pointer;
 
         img
         {
@@ -61,6 +63,26 @@
         font-size: 12px;
         color: black;
         margin-right: 10px;
+    }
+
+    &_logout
+    {
+        position: absolute;
+        right: 0;
+        background: white;
+        top: 45px;
+        width: 100px;
+        text-align: center;
+        padding: 12px 20px;
+        z-index: 1;
+        border-radius: 5px;
+
+        a
+        {
+            color: black;
+            text-decoration: none;
+            font-weight: 600;
+        }
     }
 }
 
@@ -89,6 +111,7 @@
         {
             text-align: center;
             color: black;
+            position: relative;
         }
 
         img
@@ -116,6 +139,26 @@
             background-color: $bg-dark;
             outline: none;
             color: #818d9a;
+        }
+
+        &_logout
+        {
+            position: absolute;
+            right: 0;
+            background: white;
+            top: 45px;
+            width: 100px;
+            text-align: center;
+            padding: 12px 20px;
+            z-index: 1;
+            border-radius: 5px;
+    
+            a
+            {
+                color: black;
+                text-decoration: none;
+                font-weight: 600;
+            }
         }
     }
 }

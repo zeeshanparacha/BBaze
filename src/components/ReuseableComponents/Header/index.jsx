@@ -9,6 +9,12 @@ const Header = () => {
 
     const [search, setSearch] = useState(false)
     const [menu, setMenu] = useState(false)
+    const [isTrue, setIsTrue] = useState(false)
+
+    const handleLogout = () => {
+        localStorage.clear()
+        window.location.reload()
+    }
 
     return(
         <React.Fragment>
@@ -22,7 +28,10 @@ const Header = () => {
                     <div className="header_user">
                         <p className="header_username">Joe Chanson</p>
                         <div className="header_userimg">
-                            <img src={People} alt="..." />
+                            <img src={People} alt="..." onClick={() => setIsTrue(!isTrue)} />
+                            {isTrue && <div className="header_logout">
+                                <a href="#" onClick={handleLogout}>Logout</a>
+                            </div>}
                         </div>
                     </div>
                 </div>
@@ -34,7 +43,10 @@ const Header = () => {
                 </div>
                 <div className="headerm_user">
                     <div className="headerm_userimg">
-                        <img src={People} alt="..." />
+                        <img src={People} alt="..." onClick={() => setIsTrue(!isTrue)} />
+                        {isTrue && <div className="header_logout">
+                            <a href="#" onClick={handleLogout}>Logout</a>
+                        </div>}
                     </div>
                     <p className="headerm_username">Joe Chanson</p>
                 </div>
