@@ -5,7 +5,7 @@ const Organizer = () => {
 
     return(
         <div className="org">
-            <SideBar index={3} />
+            <SideBar index={4} />
             <div className="org_body">
                 <Header/>
                 <div className="addOrg">

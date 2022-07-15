@@ -11,17 +11,18 @@
 
     &_tabs
     {
-        background: black;
-        padding: 10px 50px;
+        background: $bg-dark;
+        margin: 20px 20px -10px;
+        padding: 15px 50px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        width: 500px;
+        justify-content: center;
     }
 
     &_tabName
     {
         cursor: pointer;
+        margin: 0 10px;
     }
 
     &_tabName.active, &_tabName:hover
@@ -80,15 +81,39 @@
     &_table
     {
         background-color: $bg-dark;
-        margin: 15px 15px;
+        margin: 20px;
         padding: 15px 15px 30px;
         height: 550px;
-        width: 485px;
         overflow: auto;
 
         table
         {
             width: 100%;
+        }
+
+        tr
+        {
+            display: flex;
+
+            td:first-child
+            {
+                min-width: 50px;
+            }
+
+            td:nth-child(2)
+            {
+                min-width: 150px;
+            }
+
+            td:nth-child(3)
+            {
+                min-width: 150px;
+            }
+
+            td:nth-child(4)
+            {
+                min-width: 150px;
+            }
         }
 
         thead
@@ -122,6 +147,22 @@
                 cursor: pointer;
             }
         }
+
+        button
+        {
+            background-color: $bg-light;
+            border: none;
+            font-size: 10px;
+            padding: 5px 25px;
+            color: #999999;
+            margin: 0 5px;
+        }
+
+        button:hover
+        {
+            background-color: $yellow;
+            color: $bg-dark;
+        }
     }
 
     &_tableText1
@@ -141,15 +182,45 @@
 {
     .org
     {
+
+        &_head
+        {
+            width: 520px;
+        }
+
+        &_search
+        {
+            width: 520px;
+        }
+
         &_table
         {
-            width: auto;
-            margin: 15px 5px;
+            margin: 5px;
+
+            table
+            {
+                width: 520px;
+            }
+
+            tr
+            {
+                display: table-row;
+
+                td
+                {
+                    min-width: auto !important;
+                }
+            }
         }
 
         &_tabs
         {
-            padding: 10px 20px;
+            margin: 15px 5px 5px;
+        }
+
+        &_tabs
+        {
+            padding: 15px;
             width: auto;
             font-size: 14px;
         }

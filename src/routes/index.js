@@ -32,10 +32,16 @@ const Forget = lazy(() => {
         setTimeout(() => resolve(import('../pages/Forget')), 1000);
     });
 });
+const Approve = lazy(() => {
+    return new Promise(resolve => {
+        setTimeout(() => resolve(import('../pages/Approve')), 1000);
+    });
+});
 
 export const Routes = () => {
 
     const isLoggedIn = localStorage.getItem('isLoggedIn')
+    // const isLoggedIn = 'true'
 
     return (
         <Suspense fallback={<Loader/>}>
@@ -46,6 +52,7 @@ export const Routes = () => {
                 {isLoggedIn === 'true' && <Route exact path="/addproject" element={<AddProject />} />}
                 {isLoggedIn === 'true' && <Route exact path="/organizer" element={<Organizer />} />}
                 {isLoggedIn === 'true' && <Route exact path="/profile" element={<Profile />} />}
+                {isLoggedIn === 'true' && <Route exact path="/approve" element={<Approve />} />}
                 <Route path="*" element={isLoggedIn === 'true' ? <Navigate to="/dashboard" replace /> : <Navigate to="/" replace />}/>
             </Switch>
         </Suspense>

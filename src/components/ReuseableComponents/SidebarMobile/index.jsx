@@ -13,6 +13,7 @@ const SideBarMobile = ({ setMenu }) => {
             <ul>
                 <li><Link to="/dashboard">Projects <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
                 <li><Link to="/organizer">Organisateurs <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
+                <li><Link to="/approve">Approve Projects <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
                 <li><Link to="/profile">Profil <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
             </ul>
         </div>
