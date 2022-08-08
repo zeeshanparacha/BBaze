@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import instance from '../../instance'
 
+import InfoModal from './InfoModal'
+import ConfirmModal from './ConfirmModal'
 import Access from './Access'
 import Permission from './Permission'
 
@@ -15,12 +17,12 @@ import Img1 from '../../assets/images/img1.jpg'
 import Img2 from '../../assets/images/img2.jpg'
 import PeopleImg from '../../assets/images/people1.png'
 import IconSend from '../../assets/images/send.svg'
+import axios from 'axios'
 
 const AddProject = () => {
 
     const [projectIcon, setProjectIcon] = useState()
-    const [access, setAccess] = useState(false)
-    const [permission, setPermission] = useState(false)
+    const [modal, setModal] = useState('')
     const [authorityName, setAuthorityName] = useState('')
     const [authorityRole, setAuthorityRole] = useState('')
     const [authorities, setAuthorities] = useState([])
@@ -29,15 +31,48 @@ const AddProject = () => {
     const [participants, setParticipants] = useState([])
     const [notesDate, setNotesDate] = useState('')
     const [notesText, setNotesText] = useState('')
+    const [isNewProject, setIsNewProject] = useState(false)
     const [notes, setNotes] = useState([])
     const [data, setData] = useState({})
+    const [images, setImages] = useState([])
+    const [documents, setDocuments] = useState([])
+    const [fileType, setFileType] = useState('')
+    const [fileToRemove, setFileToRemove] = useState({})
     const userId = localStorage.getItem('userId')
-    const docUrl = 'https://drive.google.com/file/d/1QLpg2lFg0RdqxEIss6famu7NOev-2N3R/view'
-    const imgUrl = 'https://images.pexels.com/photos/60597/dahlia-red-blossom-bloom-60597.jpeg'
+    // const [img, setImg] = useState('')
+    // const docUrl = 'https://drive.google.com/file/d/1QLpg2lFg0RdqxEIss6famu7NOev-2N3R/view'
+    // const imgUrl = 'https://images.pexels.com/photos/60597/dahlia-red-blossom-bloom-60597.jpeg'
     const navigate = useNavigate()
     const location = useLocation()
 
     useEffect(() => {
+        setData({
+            ...data,
+            authorities,
+            otherParticipants: participants,
+            notes,
+            documents: documents,
+            images: images
+        })
+        // console.log('run1');
+        // eslint-disable-next-line
+    }, [authorities, participants, notes, images, documents])
+
+    useEffect(() => {
+        getProjectCategoryName()
+        getProjectData()
+        getProjectImages()
+        // eslint-disable-next-line
+    }, [])
+
+    const getProjectImages = () => {
+        if (location.state.edit) {
+            instance.post('s3/bucket/images', { projectId: location.state.data._id })
+                .then(res => console.log('res all img', res))
+        }
+    }
+
+    const getProjectCategoryName = () => {
         if (location.state.category === 'Espace vert') {
             setProjectIcon(Icon1)
         }
@@ -53,41 +88,49 @@ const AddProject = () => {
         else if (location.state.category === 'KinFest') {
             setProjectIcon(Icon5)
         }
-        // eslint-disable-next-line
-    }, [])
+    }
 
-    useEffect(() => {
-        setData({ ...data, user: userId, authorities, otherParticipants: participants, notes, category: location.state.category, documents: [{ url: docUrl }], images: [{ url: imgUrl }] })
-        // eslint-disable-next-line
-    }, [authorities, participants, notes])
+    // console.log('data', data);
 
-    useEffect(() => {
+    const getProjectData = () => {
         if (location.state.edit) {
-            const editData = location.state.data
-            setData({
-                ...data,
-                user: userId,
-                authorities: editData.authorities,
-                otherParticipants: editData.otherParticipants,
-                notes: editData.notes,
-                category: location.state.category,
-                documents: [{ url: docUrl }],
-                images: [{ url: imgUrl }],
-                about: editData.about,
-                animator: editData.animator,
-                headQuartier: editData.headQuartier,
-                host: editData.host,
-                organizerName: editData.organizerName,
-                projectName: editData.projectName,
-                town: editData.town,
-                _id: editData._id
+
+            instance.post('projects/get-project', {
+                _id: location.state.data._id
             })
-            setAuthorities(editData.authorities)
-            setParticipants(editData.otherParticipants)
-            setNotes(editData.notes)
+                .then(res => {
+                    const editData = res.data.data
+                    console.log(editData.images);
+                    setData({
+                        user: userId,
+                        authorities: editData.authorities,
+                        otherParticipants: editData.otherParticipants,
+                        notes: editData.notes,
+                        category: location.state.category,
+                        about: editData.about,
+                        animator: editData.animator,
+                        headQuartier: editData.headQuartier,
+                        host: editData.host,
+                        organizerName: editData.organizerName,
+                        projectName: editData.projectName,
+                        town: editData.town,
+                        _id: editData._id
+                    })
+                    setAuthorities(editData.authorities)
+                    setParticipants(editData.otherParticipants)
+                    setNotes(editData.notes)
+                    setImages(editData.images)
+                    setDocuments(editData.documents)
+                })
         }
-        // eslint-disable-next-line
-    }, [])
+        else {
+            setIsNewProject(true)
+        }
+    }
+
+    // console.log('images', images);
+    // console.log('data..', data);
+    // console.log('documents', documents);
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value })
@@ -132,6 +175,41 @@ const AddProject = () => {
         setNotes(temp)
     }
 
+    const removeFile = (param) => {
+        // console.log('param', param);
+
+        const fileName = param.url.split('/').pop()
+        const tempData = images
+        const newData = tempData.filter((item) => item._id !== param._id)
+
+        // console.log('fileName', fileName);
+
+        if (fileType === 'img') {
+            instance.post('s3/delete/images', {
+                projectId: data._id,
+                fileName: fileName,
+                fileId: param._id
+            })
+                .then(res => {
+                    console.log('res delete file', res)
+                    setImages(newData)
+                })
+                .catch(err => console.log('err', err.response))
+        }
+        else if (fileType === 'doc') {
+            instance.post('s3/delete/files', {
+                projectId: data._id,
+                fileName: fileName,
+                fileId: param._id
+            })
+                .then(res => {
+                    console.log('res delete doc', res)
+                    setDocuments(newData)
+                })
+                .catch(err => console.log('err', err.response))
+        }
+    }
+
     const handleSubmit = () => {
         instance.post('projects/create-project', data)
             .then(res => {
@@ -152,6 +230,32 @@ const AddProject = () => {
             .catch(err => console.log(err.response))
     }
 
+    const uploadFile = (e, type) => {
+        const file = e.target.files[0]
+
+        if (file) {
+            const formData = new FormData()
+            formData.append(
+                'file', file,
+            )
+            formData.append(
+                'projectId', location.state.data._id
+            )
+            if (type === 'image') {
+                instance.post('s3/upload/images', formData)
+                    .then(res => {
+                        setImages([...images, { url: res.data.data }])
+                    })
+            }
+            else if (type === 'doc') {
+                instance.post('s3/upload/files', formData)
+                    .then(res => {
+                        setDocuments([...documents, { url: res.data.data }])
+                    })
+            }
+        }
+    }
+
     return (
         <div className="add">
             <div className="add_top">
@@ -160,7 +264,7 @@ const AddProject = () => {
                     <p>{data.category}</p>
                 </div>
                 <div className="add_topRight">
-                    <button className='add_btn' onClick={() => setAccess(true)}>ACCES A CE PROJET</button>
+                    <button className='add_btn' onClick={() => setModal('access')}>ACCES A CE PROJET</button>
                 </div>
             </div>
             <div className="add_form">
@@ -224,8 +328,22 @@ const AddProject = () => {
                     <div>
                         <label>Document</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Nom du document" />
-                            <button><img src={PlusIcon} alt="" /></button>
+                            <input disabled type="text" placeholder="Nom du document" />
+                            {isNewProject === false ? <div>
+                                <label htmlFor="doc">
+                                    <img src={PlusIcon} alt="" />
+                                </label>
+                                <input type="file" id='doc' onChange={(e) => uploadFile(e, 'doc')} />
+                            </div> : <button onClick={() => setModal('info')}><img src={PlusIcon} alt="" /></button>}
+                        </div>
+                        <div className="add_authorities">
+                            {documents.length > 0 && documents.map((item, index) => (
+                                <div key={index}>
+                                    <a href={item.url} download><i class="fa-solid fa-file"></i></a>
+                                    <p>{item.url.split('/').pop()}</p>
+                                    <span onClick={() => { setModal('confirm'); setFileToRemove(item); setFileType('doc') }}>x</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div>
@@ -252,18 +370,20 @@ const AddProject = () => {
             </div>
             <div className="add_imagesBody">
                 <div className="add_btnImg">
-                    <img src={PlusIcon} alt="" />
+                    {isNewProject === false ? <div>
+                        <label htmlFor="img">
+                            <img src={PlusIcon} alt="" />
+                        </label>
+                        <input type="file" id='img' onChange={(e) => uploadFile(e, 'image')} />
+                    </div> : <img src={PlusIcon} alt="" onClick={() => setModal('info')} />}
                 </div>
                 <div className="add_images">
-                    <div className="add_image">
-                        <img src={Img1} alt="" />
-                    </div>
-                    <div className="add_image">
-                        <img src={Img2} alt="" />
-                    </div>
-                    <div className="add_image">
-                        <img src={Img1} alt="" />
-                    </div>
+                    {data?.images && data.images.map((item) => (
+                        <div className="add_image" key={item.id}>
+                            <img src={item.url} alt="" />
+                            <i className="fa-solid fa-trash" onClick={() => { setModal('confirm'); setFileToRemove(item); setFileType('img') }} ></i>
+                        </div>
+                    ))}
                 </div>
             </div>
             <div className="add_btns">
@@ -305,9 +425,11 @@ const AddProject = () => {
                     </div>
                 </div>
             </div>
-            {access && <Access setAccess={setAccess} setPermission={setPermission} />}
-            {permission && <Permission setPermission={setPermission} />}
-        </div>
+            {modal === 'confirm' && <ConfirmModal setModal={setModal} removeFile={removeFile} fileToRemove={fileToRemove} />}
+            {modal === 'info' && <InfoModal setModal={setModal} />}
+            {modal === 'access' && <Access setModal={setModal} />}
+            {modal === 'permission' && <Permission setModal={setModal} />}
+        </div >
     )
 }
 

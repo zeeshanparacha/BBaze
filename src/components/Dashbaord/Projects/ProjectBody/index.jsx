@@ -6,7 +6,7 @@ import ProjectDetail from '../ProjectDetail'
 
 import people1 from '../../../../assets/images/people1.png'
 
-const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
+const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
 
     const navigate = useNavigate()
 
@@ -15,7 +15,7 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
     const [search, setSearch] = useState('')
     const updatedData = search ? data.filter(item => item.user.name.toLowerCase().includes(search.toLowerCase()) || item.user.role.toLowerCase().includes(search.toLowerCase())) : data
 
-    return(
+    return (
         <div className="project_body">
             <div className="project_head">
                 <div className="project_headTop">
@@ -32,7 +32,7 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
                     </div>
                 </div>
                 <div className="project_actions">
-                    <button className="project_add" onClick={() => navigate('/addproject', {state: {category}})}><img src={plusIcon} alt="" /></button>
+                    <button className="project_add" onClick={() => navigate('/addproject', { state: { category } })}><img src={plusIcon} alt="" /></button>
                     <div className="project_search">
                         <img src={searchIcon} alt="" />
                         <input type="search" placeholder='Chercher un projet' onChange={(e) => setSearch(e.target.value)} />
@@ -52,11 +52,11 @@ const ProjectBody = ({category, icon, plusIcon, searchIcon, data}) => {
                     </thead>
                     <tbody>
                         {updatedData.length > 0 && updatedData.map((item, index) => (
-                            <tr onClick={() => {setModal('project'); setClickIndex(index)}} key={index} >
-                                <td><img src={people1} alt="" onClick={(e) => {setModal('user'); e.stopPropagation();}} /></td>
+                            <tr onClick={() => { setModal('project'); setClickIndex(index) }} key={index} >
+                                <td><img src={people1} alt="" onClick={(e) => { setModal('user'); e.stopPropagation(); }} /></td>
                                 <td>
-                                    <p className="project_tableText1">{item.user.name}</p>
-                                    <p className="project_tableText2">{item.user.role}</p>
+                                    <p className="project_tableText1">{item?.user?.name}</p>
+                                    <p className="project_tableText2">{item?.user?.role}</p>
                                 </td>
                                 <td>
                                     <p className="project_tableText1">{item.town}</p>

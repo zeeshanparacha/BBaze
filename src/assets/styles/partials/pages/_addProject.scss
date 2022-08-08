@@ -1,9 +1,7 @@
-.add
-{
+.add {
     padding: 20px;
 
-    &_top
-    {
+    &_top {
         background-color: $bg-dark;
         padding: 20px;
         display: flex;
@@ -11,25 +9,21 @@
         align-items: center;
     }
 
-    &_topLeft
-    {
+    &_topLeft {
         display: flex;
         align-items: center;
 
-        img
-        {
+        img {
             width: 50px;
         }
 
-        p
-        {
+        p {
             color: white;
             margin-left: 25px;
         }
     }
 
-    &_btn
-    {
+    &_btn {
         background-color: $bg-light;
         border: none;
         font-size: 10px;
@@ -37,24 +31,20 @@
         color: $primary;
     }
 
-    &_form
-    {
+    &_form {
         display: flex;
         justify-content: space-between;
         margin-top: 40px;
     }
 
-    &_formLeft
-    {
+    &_formLeft {
         width: 49%;
 
-        label
-        {
+        label {
             font-size: 14px;
         }
 
-        input
-        {
+        input {
             width: 100%;
             background: $bg-dark;
             border: none;
@@ -64,8 +54,7 @@
             color: $primary;
         }
 
-        textarea
-        {
+        textarea {
             width: 100%;
             background: $bg-dark;
             border: none;
@@ -76,23 +65,19 @@
         }
     }
 
-    &_formRight
-    {
+    &_formRight {
         width: 49%;
 
-        > div
-        {
+        >div {
             margin-bottom: 40px;
         }
     }
 
-    &_inputMain
-    {
+    &_inputMain {
         display: flex;
         justify-content: space-between;
 
-        input
-        {
+        input {
             width: 100%;
             background: #272C33;
             border: none;
@@ -103,8 +88,7 @@
             color: $primary;
         }
 
-        textarea
-        {
+        textarea {
             width: 100%;
             background: #272C33;
             border: none;
@@ -114,8 +98,9 @@
             color: #999999;
         }
 
-        button
-        {   
+        button,
+        label {
+            cursor: pointer;
             background: $bg-dark;
             border: none;
             width: 35px;
@@ -125,62 +110,82 @@
             justify-content: center;
             margin-bottom: 2px;
 
-            img
-            {
+            img {
                 width: 15px;
             }
         }
+
+        input[type="file"] {
+            display: none;
+        }
     }
 
-    &_btnHidden
-    {
+    &_btnHidden {
         background: transparent !important;
         pointer-events: none;
     }
 
-    &_btnImg
-    {
+    &_btnImg {
         text-align: center;
 
-        img
-        {
+        img {
             width: 20px;
             cursor: pointer;
         }
+
+        input {
+            display: none;
+        }
     }
 
-    &_images
-    {
+    &_images {
         margin-top: 20px;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
     }
 
-    &_image
-    {
+    &_image {
+        background-color: black;
         width: 120px;
         height: 80px;
         overflow: hidden;
         margin: 10px;
         border: 1px solid white;
+        position: relative;
 
-        img
-        {
+        i {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+
+        img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
     }
 
-    &_btns
-    {
+    &_image:hover {
+        img {
+            opacity: 0.5;
+        }
+
+        i {
+            display: block;
+        }
+    }
+
+    &_btns {
         display: flex;
         justify-content: center;
         margin: 50px 0 10px;
 
-        button
-        {
+        button {
             background-color: $bg-dark;
             border: none;
             font-size: 10px;
@@ -189,23 +194,20 @@
             margin: 0 5px;
         }
 
-        button:hover
-        {
+        button:hover {
             background-color: $yellow;
             color: $bg-dark;
         }
     }
 
-    &_bot
-    {
+    &_bot {
         display: flex;
         background: $bg-light;
         margin: 0 -20px;
         padding: 50px;
     }
 
-    &_peopleTitle
-    {
+    &_peopleTitle {
         background-color: #272C33;
         border: none;
         font-size: 12px;
@@ -213,38 +215,32 @@
         color: #999999;
     }
 
-    &_peopleBody
-    {
+    &_peopleBody {
         background-color: $bg-dark;
         margin-top: 3px;
         padding: 15px;
         min-height: 100px;
 
-        img
-        {
+        img {
             width: 40px;
             margin: 5px;
         }
     }
 
-    &_people
-    {
+    &_people {
         width: 40%;
         margin-right: 60px;
     }
 
-    &_convo
-    {
+    &_convo {
         width: 400px;
 
-        img
-        {
+        img {
             width: 30px;
         }
     }
 
-    &_convoTitle
-    {
+    &_convoTitle {
         background-color: #272C33;
         border: none;
         font-size: 12px;
@@ -252,51 +248,43 @@
         color: #999999;
     }
 
-    &_convoBody
-    {
+    &_convoBody {
         background-color: $bg-dark;
         margin-top: 3px;
         padding: 20px;
         display: flex;
     }
 
-    &_convoLeft
-    {
+    &_convoLeft {
         margin-right: 20px;
 
-        img
-        {
+        img {
             width: 45px;
         }
     }
 
-    &_convoname
-    {
+    &_convoname {
         color: white;
         font-size: 14px;
     }
 
-    &_convodesc
-    {
+    &_convodesc {
         font-size: 12px;
         line-height: 16px;
         margin-top: 10px;
     }
 
-    &_convoreplies
-    {
+    &_convoreplies {
         font-size: 12px;
         margin-top: 10px;
         color: white;
     }
 
-    &_convoReply
-    {
+    &_convoReply {
         position: relative;
         margin-top: 10px;
 
-        input
-        {
+        input {
             width: 100%;
             background-color: #272C33;
             border: none;
@@ -307,8 +295,7 @@
             color: $bg-light;
         }
 
-        img
-        {
+        img {
             position: absolute;
             right: 10px;
             top: 6px;
@@ -316,42 +303,35 @@
         }
     }
 
-    &_authorities
-    {
+    &_authorities {
         margin-top: 10px;
 
-        > div
-        {
+        >div {
             position: relative;
             padding: 5px 20px;
         }
 
-        > div:hover
-        {
+        >div:hover {
             background-color: #3f4954;
 
-            span
-            {
+            span {
                 display: block;
             }
         }
 
-        > div p:first-child
-        {
+        >div p:first-child {
             font-size: 16px;
             font-weight: 500;
         }
 
-        > div p:nth-child(2)
-        {
+        >div p:nth-child(2) {
             font-size: 12px;
         }
 
-        span
-        {
+        span {
             position: absolute;
             right: 20px;
-            top: 13px;    
+            top: 13px;
             background: black;
             color: red;
             border-radius: 100px;
@@ -359,87 +339,80 @@
             cursor: pointer;
             display: none;
         }
+
+        i {
+            font-size: 24px;
+        }
+
+        a {
+            color: white;
+        }
     }
 }
 
-@media (max-width: 991px)
-{
-    .add
-    {
+@media (max-width: 991px) {
+    .add {
         padding: 0px;
 
-        &_top
-        {
+        &_top {
             padding: 10px;
         }
 
-        &_topLeft
-        {
-            img
-            {
+        &_topLeft {
+            img {
                 width: 30px;
             }
 
-            p
-            {
+            p {
                 margin-left: 15px;
                 font-size: 12px;
                 margin-right: 15px;
             }
         }
 
-        &_btn
-        {
+        &_btn {
             width: 125px;
         }
 
-        &_form
-        {
+        &_form {
             padding: 15px;
             flex-wrap: wrap;
         }
 
-        &_formLeft, &_formRight
-        {
+        &_formLeft,
+        &_formRight {
             width: 100%;
         }
 
-        &_images
-        {
+        &_images {
             padding: 15px;
         }
 
-        &_imagesBody
-        {
+        &_imagesBody {
             margin-top: -20px;
         }
 
-        &_image
-        {
+        &_image {
             width: 85px;
             height: 60px;
         }
 
-        &_btns
-        {
+        &_btns {
             flex-wrap: wrap;
             margin: 20px 0 10px;
 
-            button
-            {
+            button {
                 margin: 5px;
             }
         }
 
-        &_bot
-        {
+        &_bot {
             flex-wrap: wrap;
             margin: 0;
             padding: 50px 10px;
         }
 
-        &_people
-        {
+        &_people {
             width: 100%;
             margin: 0;
             margin-bottom: 30px;

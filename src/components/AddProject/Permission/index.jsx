@@ -1,7 +1,7 @@
 import People from '../../../assets/images/people1.png'
 
-const Permission = ({setPermission}) => {
-    return(
+const Permission = ({ setModal }) => {
+    return (
         <div className="per">
             <div className="per_inner">
                 <div className="per_top">
@@ -82,7 +82,7 @@ const Permission = ({setPermission}) => {
                 </div>
                 <div className="per_btns">
                     <button>AJOUTER</button>
-                    <button onClick={() => setPermission(false)}>ANNULER</button>
+                    <button onClick={() => setModal('')}>ANNULER</button>
                 </div>
             </div>
         </div>
