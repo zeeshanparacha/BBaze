@@ -1,33 +1,27 @@
-.addOrg
-{
+.addOrg {
     background-color: $bg-dark;
     margin: 20px;
-    
-    &_top
-    {
+
+    &_top {
         text-align: right;
         padding: 5px;
 
-        button
-        {
+        button {
             background: $bg-medium;
             padding: 0px 12px;
             margin: 2px;
             border: none;
 
-            img
-            {
+            img {
                 width: 10px;
             }
         }
     }
 
-    &_field
-    {
+    &_field {
         display: flex;
 
-        label
-        {
+        label {
             margin-right: 10px;
             flex-shrink: 0;
             margin-top: 15px;
@@ -38,8 +32,7 @@
             text-align: right;
         }
 
-        input
-        {
+        input {
             background: transparent;
             border: none;
             border-bottom: 1px solid $bg-medium;
@@ -49,41 +42,41 @@
         }
     }
 
-    &_form
-    {
+    &_form {
         padding: 0 60px;
     }
 
-    &_desc
-    {
+    &_desc {
         margin: 0 25px;
         border: 1px solid $bg-light;
         padding: 15px 10px;
         font-size: 12px;
         color: gray;
 
-        p
-        {
+        p {
             margin-bottom: 20px;
             line-height: 15px;
         }
     }
 
-    &_descTitle
-    {
+    &_err {
+        color: red;
+        padding-left: 140px;
+        margin-top: 10px;
+    }
+
+    &_descTitle {
         margin: 20px 0 5px 25px;
         font-size: 14px;
         color: $bg-light;
     }
 
-    &_btns
-    {
+    &_btns {
 
         text-align: center;
         padding: 30px 0 20px;
 
-        button
-        {
+        button {
             background-color: $bg-light;
             border: none;
             font-size: 10px;
@@ -92,33 +85,27 @@
             margin: 0 5px;
         }
 
-        button:hover
-        {
+        button:hover {
             background-color: $yellow;
             color: $bg-dark;
         }
     }
 }
 
-@media (max-width: 991px)
-{
-    .addOrg
-    {
+@media (max-width: 991px) {
+    .addOrg {
         width: auto;
         margin: 5px;
 
-        &_form
-        {
+        &_form {
             padding: 0 10px;
         }
 
-        &_desc
-        {
+        &_desc {
             margin: 0 10px;
         }
 
-        &_descTitle
-        {
+        &_descTitle {
             margin: 20px 0 5px 10px;
         }
     }

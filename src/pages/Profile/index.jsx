@@ -1,58 +1,74 @@
+import { useState, useEffect } from "react"
+
+import instance from '../../instance'
+
 import SideBar from "../../components/ReuseableComponents/Sidebar"
 import Header from "../../components/ReuseableComponents/Header"
 
 const Organizer = () => {
 
-    return(
+    const [data, setData] = useState({})
+
+    useEffect(() => {
+        instance.post('profile/get-profile', { _id: localStorage.getItem('userId') })
+            .then(res => {
+                console.log('get profile', res)
+                setData({
+                    _id: res.data.data._id,
+                    name: res.data.data.name,
+                    profession: res.data.data.profession,
+                    expertiseFeild: res.data.data.expertiseFeild,
+                    town: res.data.data.town,
+                    mobileNumber: res.data.data.mobileNumber,
+                    telephone: res.data.data.telephone,
+                    fax: res.data.data.fax,
+                })
+            })
+    }, [])
+
+    const handleChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmit = () => {
+        instance.post('profile/update-profile', data)
+            .then(res => console.log('res update', res))
+    }
+
+    return (
         <div className="org">
             <SideBar index={4} />
             <div className="org_body">
-                <Header/>
+                <Header />
                 <div className="addOrg">
                     <div className="addOrg_form">
                         <div className="addOrg_field">
                             <label>Noms:</label>
-                            <input type="text" />
+                            <input type="text" value={data.name} name='name' onChange={handleChange} />
                         </div>
                         <div className="addOrg_field">
                             <label>Profession:</label>
-                            <input type="text" />
+                            <input type="text" value={data.profession} name='profession' onChange={handleChange} />
                         </div>
                         <div className="addOrg_field">
                             <label>Domaine d’expertise:</label>
-                            <input type="text" />
+                            <input type="text" value={data.expertiseFeild} name='expertiseFeild' onChange={handleChange} />
                         </div>
                         <div className="addOrg_field">
                             <label>Ville:</label>
-                            <input type="text" />
-                        </div>
-                        <div className="addOrg_field">
-                            <label>Email:</label>
-                            <input type="text" />
+                            <input type="text" value={data.town} name='town' onChange={handleChange} />
                         </div>
                         <div className="addOrg_field">
                             <label>Tél. portable:</label>
-                            <input type="text" />
+                            <input type="text" value={data.mobileNumber} name='mobileNumber' onChange={handleChange} />
                         </div>
                         <div className="addOrg_field">
                             <label>Tél. bureau:</label>
-                            <input type="text" />
+                            <input type="text" value={data.telephone} name='telephone' onChange={handleChange} />
                         </div>
                         <div className="addOrg_field">
                             <label>Fax:</label>
-                            <input type="text" />
-                        </div>
-                        <div className="addOrg_field">
-                            <label>Photo:</label>
-                            <input type="text" />
-                        </div>
-                        <div className="addOrg_field">
-                            <label>Nom d'utilisateur:</label>
-                            <input type="text" />
-                        </div>
-                        <div className="addOrg_field">
-                            <label>Mot de passe:</label>
-                            <input type="text" />
+                            <input type="text" value={data.fax} name='fax' onChange={handleChange} />
                         </div>
                     </div>
                     <p className='addOrg_descTitle'>A PROPOS</p>
@@ -61,7 +77,7 @@ const Organizer = () => {
                         <p>Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</p>
                     </div>
                     <div className="addOrg_btns">
-                        <button>UPDATE PROFILE</button>
+                        <button onClick={handleSubmit}>UPDATE PROFILE</button>
                     </div>
                 </div>
             </div>

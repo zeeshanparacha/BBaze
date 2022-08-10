@@ -13,11 +13,8 @@ import Icon3 from '../../assets/images/project-icon3.svg'
 import Icon4 from '../../assets/images/project-icon4.svg'
 import Icon5 from '../../assets/images/project-icon5.svg'
 import PlusIcon from '../../assets/images/plus1.svg'
-import Img1 from '../../assets/images/img1.jpg'
-import Img2 from '../../assets/images/img2.jpg'
 import PeopleImg from '../../assets/images/people1.png'
 import IconSend from '../../assets/images/send.svg'
-import axios from 'axios'
 
 const AddProject = () => {
 
@@ -39,29 +36,27 @@ const AddProject = () => {
     const [fileType, setFileType] = useState('')
     const [fileToRemove, setFileToRemove] = useState({})
     const userId = localStorage.getItem('userId')
-    // const [img, setImg] = useState('')
-    // const docUrl = 'https://drive.google.com/file/d/1QLpg2lFg0RdqxEIss6famu7NOev-2N3R/view'
-    // const imgUrl = 'https://images.pexels.com/photos/60597/dahlia-red-blossom-bloom-60597.jpeg'
     const navigate = useNavigate()
     const location = useLocation()
 
     useEffect(() => {
         setData({
             ...data,
+            category: location.state.category,
+            user: userId,
             authorities,
             otherParticipants: participants,
             notes,
             documents: documents,
             images: images
         })
-        // console.log('run1');
         // eslint-disable-next-line
     }, [authorities, participants, notes, images, documents])
 
     useEffect(() => {
         getProjectCategoryName()
         getProjectData()
-        getProjectImages()
+        // getProjectImages()
         // eslint-disable-next-line
     }, [])
 
@@ -90,8 +85,6 @@ const AddProject = () => {
         }
     }
 
-    // console.log('data', data);
-
     const getProjectData = () => {
         if (location.state.edit) {
 
@@ -100,7 +93,6 @@ const AddProject = () => {
             })
                 .then(res => {
                     const editData = res.data.data
-                    console.log(editData.images);
                     setData({
                         user: userId,
                         authorities: editData.authorities,
@@ -127,10 +119,6 @@ const AddProject = () => {
             setIsNewProject(true)
         }
     }
-
-    // console.log('images', images);
-    // console.log('data..', data);
-    // console.log('documents', documents);
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value })
@@ -176,13 +164,9 @@ const AddProject = () => {
     }
 
     const removeFile = (param) => {
-        // console.log('param', param);
-
         const fileName = param.url.split('/').pop()
         const tempData = images
         const newData = tempData.filter((item) => item._id !== param._id)
-
-        // console.log('fileName', fileName);
 
         if (fileType === 'img') {
             instance.post('s3/delete/images', {
@@ -191,7 +175,6 @@ const AddProject = () => {
                 fileId: param._id
             })
                 .then(res => {
-                    console.log('res delete file', res)
                     setImages(newData)
                 })
                 .catch(err => console.log('err', err.response))
@@ -203,7 +186,6 @@ const AddProject = () => {
                 fileId: param._id
             })
                 .then(res => {
-                    console.log('res delete doc', res)
                     setDocuments(newData)
                 })
                 .catch(err => console.log('err', err.response))
@@ -236,10 +218,10 @@ const AddProject = () => {
         if (file) {
             const formData = new FormData()
             formData.append(
-                'file', file,
+                'projectId', location.state.data._id
             )
             formData.append(
-                'projectId', location.state.data._id
+                'file', file,
             )
             if (type === 'image') {
                 instance.post('s3/upload/images', formData)

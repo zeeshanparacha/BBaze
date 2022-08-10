@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import UserDetail from './UserDetails'
 import dateFormat from "dateformat";
+
+import instance from "../../../instance"
 
 import people1 from '../../../assets/images/people1.png'
 import Search from '../../../assets/images/search7.svg'
 
-const OrganizerTable = ({ users }) => {
+const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
 
     const [modal, setModal] = useState('')
 
@@ -26,8 +28,8 @@ const OrganizerTable = ({ users }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user => {
-                        return <tr key={user.username} onClick={() => setModal('user')}>
+                    {users.map(((user, index) => {
+                        return <tr key={user.username} onClick={() => { setModal('user'); setClickIndex(index) }}>
                             <td><img src={people1} alt="" /></td>
                             <td>
                                 <p className="org_tableText1">{user.name}</p>
@@ -44,7 +46,11 @@ const OrganizerTable = ({ users }) => {
                     }))}
                 </tbody>
             </table>
-            {modal === 'user' && <UserDetail setModal={setModal} />}
+            {modal === 'user' && <UserDetail
+                setModal={setModal}
+                setActiveTab={setActiveTab}
+                data={users[clickIndex]}
+            />}
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import ImgPeople from '../../../../assets/images/people4.jpg'
 
-const UserDetail = ({ setModal }) => {
+const UserDetail = ({ setModal, setActiveTab, data }) => {
     return (
         <div className="user">
             <div className="user_inner">
@@ -36,7 +36,7 @@ const UserDetail = ({ setModal }) => {
                 <div className="user_bot">
                     <p className="user_heading">Projets en cours: <span>6</span></p>
                     <p className="user_heading">Projets realises: <span>11</span></p>
-                    <button>MODIFIER</button>
+                    <button onClick={() => { setActiveTab(2) }}>MODIFIER</button>
                 </div>
             </div>
         </div>
