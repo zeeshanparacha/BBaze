@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react"
 
 import instance from '../../instance'
-
 import SideBar from "../../components/ReuseableComponents/Sidebar"
 import Header from "../../components/ReuseableComponents/Header"
+
+import avatar from '../../assets/images/icon1.PNG'
 
 const Organizer = () => {
 
@@ -22,6 +23,7 @@ const Organizer = () => {
                     mobileNumber: res.data.data.mobileNumber,
                     telephone: res.data.data.telephone,
                     fax: res.data.data.fax,
+                    profile: res.data.data.profile,
                 })
             })
     }, [])
@@ -30,9 +32,27 @@ const Organizer = () => {
         setData({ ...data, [e.target.name]: e.target.value })
     }
 
+    const handleImg = (e) => {
+        const file = e.target.files[0]
+
+        if (file) {
+            const formData = new FormData()
+            formData.append(
+                'userId', localStorage.getItem('userId')
+            )
+            formData.append(
+                'file', file,
+            )
+            instance.post('s3/upload/profile', formData)
+                .then(res => {
+                    setData({ ...data, profile: res.data.data })
+                })
+        }
+    }
+
     const handleSubmit = () => {
         instance.post('profile/update-profile', data)
-            .then(res => console.log('res update', res))
+        // .then(res => console.log('res update', res))
     }
 
     return (
@@ -42,6 +62,10 @@ const Organizer = () => {
                 <Header />
                 <div className="addOrg">
                     <div className="addOrg_form">
+                        <label htmlFor="dp" className="addOrg_labelImg">
+                            <img src={data?.profile ? data?.profile : avatar} alt="" />
+                        </label>
+                        <input type="file" id="dp" onChange={handleImg} />
                         <div className="addOrg_field">
                             <label>Noms:</label>
                             <input type="text" value={data.name} name='name' onChange={handleChange} />

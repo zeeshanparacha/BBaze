@@ -29,6 +29,7 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
     const handleChange = (e) => {
         setErr('')
         setData({ ...data, [e.target.name]: e.target.value })
+
     }
 
     const handleSubmit = () => {
