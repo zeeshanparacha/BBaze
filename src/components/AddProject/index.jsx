@@ -245,9 +245,9 @@ const AddProject = () => {
                     <img src={projectIcon} alt="" />
                     <p>{data.category}</p>
                 </div>
-                <div className="add_topRight">
+                {location.state.edit && <div className="add_topRight">
                     <button className='add_btn' onClick={() => setModal('access')}>ACCES A CE PROJET</button>
-                </div>
+                </div>}
             </div>
             <div className="add_form">
                 <div className="add_formLeft">
@@ -409,7 +409,7 @@ const AddProject = () => {
             </div>
             {modal === 'confirm' && <ConfirmModal setModal={setModal} removeFile={removeFile} fileToRemove={fileToRemove} />}
             {modal === 'info' && <InfoModal setModal={setModal} />}
-            {modal === 'access' && <Access setModal={setModal} />}
+            {modal === 'access' && <Access setModal={setModal} projectId={location.state.data._id} />}
             {modal === 'permission' && <Permission setModal={setModal} />}
         </div >
     )

@@ -1,7 +1,18 @@
+import { useEffect } from 'react';
+import instance from '../../../instance';
+
 import people1 from '../../../assets/images/people1.png'
 import Search6 from '../../../assets/images/search6.svg'
 
-const Access = ({ setModal }) => {
+const Access = ({ setModal, projectId }) => {
+
+    useEffect(() => {
+        instance.post('permissions/get-all-users-permissions', { projectId })
+            .then(res => console.log('res..', res))
+    }, [])
+
+    console.log('runn access');
+
     return (
         <div className="access">
             <div className="access_inner">
