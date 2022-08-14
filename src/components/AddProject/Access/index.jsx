@@ -1,27 +1,25 @@
 import { useEffect, useState } from 'react';
+
 import instance from '../../../instance';
 
-import people1 from '../../../assets/images/people1.png'
 import Search6 from '../../../assets/images/search6.svg'
 import Avatar from '../../../assets/images/icon1.PNG'
 
-const Access = ({ setModal, projectId }) => {
+const Access = ({ setModal, projectId, setClickUserId }) => {
 
+    const [users, setUsers] = useState([])
     const [list, setList] = useState([])
     const [search, setSearch] = useState('')
-
     const newList = list.filter(item => item.loginName.toLowerCase().includes(search.toLowerCase()))
-
-    console.log('list', list);
-    console.log('newList', newList);
 
     useEffect(() => {
         instance.post('permissions/get-all-users-permissions', { projectId })
-            .then(res => console.log('res..', res))
+            .then(res => {
+                setUsers(res.data.data)
+            })
 
         instance.get('organization/users')
             .then(res => {
-                // setUsers(res.data.data)
                 setList(res.data.data)
             })
             .catch(err => {
@@ -30,8 +28,6 @@ const Access = ({ setModal, projectId }) => {
                 }
             })
     }, [])
-
-    console.log('runn access');
 
     return (
         <div className="access">
@@ -52,119 +48,24 @@ const Access = ({ setModal, projectId }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <span className='access_remove'>&#9587;</span>
-                                    <img src={people1} alt="" onClick={() => setModal('permission')} />
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">Jane Doe</p>
-                                    <p className="access_tableText2">Linda Bi</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">rosette@gmail.com</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">207 258 356 781</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span className='access_remove'>&#9587;</span>
-                                    <img src={people1} alt="" />
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">Jane Doe</p>
-                                    <p className="access_tableText2">Linda Bi</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">rosette@gmail.com</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">207 258 356 781</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span className='access_remove'>&#9587;</span>
-                                    <img src={people1} alt="" />
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">Jane Doe</p>
-                                    <p className="access_tableText2">Linda Bi</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">rosette@gmail.com</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">207 258 356 781</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span className='access_remove'>&#9587;</span>
-                                    <img src={people1} alt="" />
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">Jane Doe</p>
-                                    <p className="access_tableText2">Linda Bi</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">rosette@gmail.com</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">207 258 356 781</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span className='access_remove'>&#9587;</span>
-                                    <img src={people1} alt="" />
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">Jane Doe</p>
-                                    <p className="access_tableText2">Linda Bi</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">rosette@gmail.com</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">207 258 356 781</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span className='access_remove'>&#9587;</span>
-                                    <img src={people1} alt="" />
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">Jane Doe</p>
-                                    <p className="access_tableText2">Linda Bi</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">rosette@gmail.com</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">207 258 356 781</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span className='access_remove'>&#9587;</span>
-                                    <img src={people1} alt="" />
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">Jane Doe</p>
-                                    <p className="access_tableText2">Linda Bi</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">rosette@gmail.com</p>
-                                </td>
-                                <td>
-                                    <p className="access_tableText1">207 258 356 781</p>
-                                </td>
-                            </tr>
-
+                            {users.map((item, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <span className='access_remove' onClick={() => { setModal('delete'); setClickUserId(item.user._id) }}>&#9587;</span>
+                                        <img src={item.user.profile} alt="" onClick={() => { setModal('permission'); setClickUserId(item.user._id) }} />
+                                    </td>
+                                    <td>
+                                        <p className="access_tableText1">{item.user.loginName}</p>
+                                        <p className="access_tableText2">{item.user.profession}</p>
+                                    </td>
+                                    <td>
+                                        <p className="access_tableText1">{item.user.email}</p>
+                                    </td>
+                                    <td>
+                                        <p className="access_tableText1">{item.user.telephone}</p>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -178,7 +79,7 @@ const Access = ({ setModal, projectId }) => {
                     {search && newList.map((item, index) => (
                         <li key={index}>
                             <div className="access_img">
-                                <img src={item.profile ? item.profile : Avatar} alt="" />
+                                <img src={item.profile ? item.profile : Avatar} alt="" onClick={() => { setModal('permission'); setClickUserId(item._id) }} />
                             </div>
                             <p className="access_tableText1">{item.loginName}</p>
                         </li>

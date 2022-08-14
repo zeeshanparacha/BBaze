@@ -6,6 +6,7 @@ import InfoModal from './InfoModal'
 import ConfirmModal from './ConfirmModal'
 import Access from './Access'
 import Permission from './Permission'
+import DeleteUser from './Access/DeleteUser'
 
 import Icon1 from '../../assets/images/project-icon1.svg'
 import Icon2 from '../../assets/images/project-icon2.svg'
@@ -35,6 +36,7 @@ const AddProject = () => {
     const [documents, setDocuments] = useState([])
     const [fileType, setFileType] = useState('')
     const [fileToRemove, setFileToRemove] = useState({})
+    const [clickUserId, setClickUserId] = useState('')
     const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
     const location = useLocation()
@@ -409,8 +411,9 @@ const AddProject = () => {
             </div>
             {modal === 'confirm' && <ConfirmModal setModal={setModal} removeFile={removeFile} fileToRemove={fileToRemove} />}
             {modal === 'info' && <InfoModal setModal={setModal} />}
-            {modal === 'access' && <Access setModal={setModal} projectId={location.state.data._id} />}
-            {modal === 'permission' && <Permission setModal={setModal} />}
+            {modal === 'access' && <Access setModal={setModal} projectId={location.state.data._id} setClickUserId={setClickUserId} />}
+            {modal === 'permission' && <Permission setModal={setModal} projectId={location.state.data._id} clickUserId={clickUserId} />}
+            {modal === 'delete' && <DeleteUser setModal={setModal} projectId={location.state.data._id} clickUserId={clickUserId} />}
         </div >
     )
 }
