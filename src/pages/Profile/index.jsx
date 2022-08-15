@@ -4,7 +4,7 @@ import instance from '../../instance'
 import SideBar from "../../components/ReuseableComponents/Sidebar"
 import Header from "../../components/ReuseableComponents/Header"
 
-import avatar from '../../assets/images/icon1.PNG'
+import avatar from '../../assets/images/avatar.jpg'
 
 const Organizer = () => {
 

@@ -29,7 +29,6 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
     const handleChange = (e) => {
         setErr('')
         setData({ ...data, [e.target.name]: e.target.value })
-
     }
 
     const handleSubmit = () => {
@@ -61,10 +60,10 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
 
     return (
         <div className="addOrg">
-            <div className="addOrg_top">
+            {/* <div className="addOrg_top">
                 <button><img src={Check} alt="..." /></button>
                 <button><img src={Cross} alt="..." /></button>
-            </div>
+            </div> */}
             <div className="addOrg_form">
                 <div className="addOrg_field">
                     <label>Noms:</label>

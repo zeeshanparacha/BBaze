@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import dateFormat from "dateformat";
 
 import UserDetail from '../UserDetail'
 import ProjectDetail from '../ProjectDetail'
 
-import people1 from '../../../../assets/images/people1.png'
+import Avatar from '../../../../assets/images/avatar.jpg'
 
 const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
 
@@ -13,7 +14,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
     const [modal, setModal] = useState('')
     const [clickIndex, setClickIndex] = useState(0)
     const [search, setSearch] = useState('')
-    const updatedData = search ? data.filter(item => item.user.name.toLowerCase().includes(search.toLowerCase()) || item.user.role.toLowerCase().includes(search.toLowerCase())) : data
+    const updatedData = search ? data.filter(item => item?.user?.name.toLowerCase().includes(search.toLowerCase()) || item?.user?.role.toLowerCase().includes(search.toLowerCase())) : data
 
     return (
         <div className="project_body">
@@ -53,29 +54,29 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                     <tbody>
                         {updatedData.length > 0 && updatedData.map((item, index) => (
                             <tr onClick={() => { setModal('project'); setClickIndex(index) }} key={index} >
-                                <td><img src={people1} alt="" onClick={(e) => { setModal('user'); e.stopPropagation(); }} /></td>
+                                <td>
+                                    <div className='project_img'>
+                                        <img src={item?.user?.profile ? item.user.profile : Avatar} alt="" onClick={(e) => { setModal('user'); setClickIndex(index); e.stopPropagation(); }} />
+                                    </div>
+                                </td>
                                 <td>
                                     <p className="project_tableText1">{item?.user?.name}</p>
-                                    <p className="project_tableText2">{item?.user?.role}</p>
+                                    <p className="project_tableText2">{item?.user?.profession}</p>
                                 </td>
                                 <td>
                                     <p className="project_tableText1">{item.town}</p>
                                     <p className="project_tableText2">{item.headQuartier}</p>
                                 </td>
                                 <td>
-                                    <p className="project_tableText1">{item.createdAt.substr(0, 10)}</p>
-                                    {/* <p className="project_tableText2">2:36 PM</p> */}
-                                </td>
-                                <td>
-                                    {/* <p className="project_tableText1">1-Jan-2022</p>
-                                    <p className="project_tableText2">2:36 PM</p> */}
+                                    <p className="project_tableText1">{dateFormat(item.createdAt, "paddedShortDate")}</p>
+                                    <p className="project_tableText2">{dateFormat(item.createdAt, "shortTime")}</p>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-            {modal === 'user' && <UserDetail setModal={setModal} />}
+            {modal === 'user' && <UserDetail setModal={setModal} data={updatedData[clickIndex]} />}
             {modal === 'project' && <ProjectDetail category={category} data={updatedData[clickIndex]} setModal={setModal} />}
         </div>
     )

@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import UserDetail from './UserDetails'
 import dateFormat from "dateformat";
 
-import instance from "../../../instance"
-
-import people1 from '../../../assets/images/people1.png'
+import Avatar from '../../../assets/images/avatar.jpg'
 import Search from '../../../assets/images/search7.svg'
 
 const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
@@ -30,7 +28,11 @@ const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
                 <tbody>
                     {users.map(((user, index) => {
                         return <tr key={user.username} onClick={() => { setModal('user'); setClickIndex(index) }}>
-                            <td><img src={people1} alt="" /></td>
+                            <td>
+                                <div className='org_img'>
+                                    <img src={user?.profile ? user.profile : Avatar} alt="" />
+                                </div>
+                            </td>
                             <td>
                                 <p className="org_tableText1">{user.name}</p>
                                 <p className="org_tableText2">{user.profession}</p>
