@@ -1,4 +1,4 @@
-import instance from "../../../instance";
+import instance from "../../../instance"
 
 const ConfirmModal = ({ getProjects, setModal, type, id }) => {
 
