@@ -13,7 +13,14 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
     const [modal, setModal] = useState('')
     const [clickIndex, setClickIndex] = useState(0)
     const [search, setSearch] = useState('')
-    const updatedData = search ? data.filter(item => item.user.name.toLowerCase().includes(search.toLowerCase()) || item.user.role.toLowerCase().includes(search.toLowerCase())) : data
+    const updatedData = search ? data.filter(item => {
+        return Object.keys(item).some(() =>
+            item?.user?.[["name"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()) ||
+            item?.user?.[["role"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()) ||
+            item[["town"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()) ||
+            item[["headQuartier"]]?.toString()?.toLowerCase().includes(search?.toLowerCase())
+        );
+    }) : data;
 
     return (
         <div className="project_body">
@@ -23,7 +30,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                         <img src={icon} alt="" />
                     </div>
                     <div className='project_detail'>
-                        <p className="project_num">{updatedData.length}</p>
+                        <p className="project_num">{updatedData?.length}</p>
                         <p className="project_name">{category}</p>
                     </div>
                     <div className="project_check">
@@ -51,7 +58,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {updatedData.length > 0 && updatedData.map((item, index) => (
+                        {updatedData && updatedData.length > 0 && updatedData.map((item, index) => (
                             <tr onClick={() => { setModal('project'); setClickIndex(index) }} key={index} >
                                 <td><img src={people1} alt="" onClick={(e) => { setModal('user'); e.stopPropagation(); }} /></td>
                                 <td>
