@@ -15,11 +15,11 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
     const [clickIndex, setClickIndex] = useState(0)
     const [search, setSearch] = useState('')
     const updatedData = search ? data.filter(item => {
-        return Object.keys(item).some(() =>
+        return Object.keys(item).some(() => (
             item?.user?.[["name"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()) ||
             item?.user?.[["role"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()) ||
             item[["town"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()) ||
-            item[["headQuartier"]]?.toString()?.toLowerCase().includes(search?.toLowerCase())
+            item[["headQuartier"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()))
         );
     }) : data;
 

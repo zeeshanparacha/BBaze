@@ -13,7 +13,6 @@ const Organizer = () => {
     useEffect(() => {
         instance.post('profile/get-profile', { _id: localStorage.getItem('userId') })
             .then(res => {
-                console.log('get profile', res)
                 setData({
                     _id: res.data.data._id,
                     name: res.data.data.name,
@@ -34,7 +33,6 @@ const Organizer = () => {
 
     const handleImg = (e) => {
         const file = e.target.files[0]
-
         if (file) {
             const formData = new FormData()
             formData.append(
@@ -45,9 +43,11 @@ const Organizer = () => {
             )
             instance.post('s3/upload/profile', formData)
                 .then(res => {
+                    console.log('file', res)
                     setData({ ...data, profile: res.data.data })
                 })
         }
+        e.target.value = ''
     }
 
     const handleSubmit = () => {
