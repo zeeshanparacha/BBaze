@@ -4,9 +4,11 @@ import instance from "../../instance"
 import SideBar from "../../components/ReuseableComponents/Sidebar"
 import Header from "../../components/ReuseableComponents/Header"
 import ConfirmModal from "../../components/Approve/ConfirmModal"
+import dateFormat from "dateformat";
 
 import people1 from '../../assets/images/people1.png'
 import Search from '../../assets/images/search7.svg'
+import Avatar from '../../assets/images/avatar.jpg'
 
 const Approve = () => {
 
@@ -42,8 +44,9 @@ const Approve = () => {
                     <table>
                         <thead>
                             <tr>
-                                {/* <td></td> */}
-                                <td>Noms</td>
+                                <td></td>
+                                <td>Organisateur</td>
+                                <td>Nom du projet</td>
                                 <td>Ville</td>
                                 <td>Date entrée</td>
                                 <td>Actions</td>
@@ -52,7 +55,15 @@ const Approve = () => {
                         <tbody>
                             {projectList.map((item, index) => (
                                 <tr key={index}>
-                                    {/* <td><img src={people1} alt="" /></td> */}
+                                    <td>
+                                        <div className='project_img'>
+                                            <img src={item?.user?.profile ? item.user.profile : Avatar} alt="" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p className="project_tableText1">{item?.user?.name}</p>
+                                        <p className="project_tableText2">{item?.user?.profession}</p>
+                                    </td>
                                     <td>
                                         <p className="org_tableText1">{item.projectName}</p>
                                         <p className="org_tableText2">{item.about}</p>
@@ -61,8 +72,8 @@ const Approve = () => {
                                         <p className="org_tableText1">{item.town}</p>
                                     </td>
                                     <td>
-                                        <p className="org_tableText1">{item.createdAt}</p>
-                                        <p className="org_tableText2">2:36 PM</p>
+                                        <p className="project_tableText1">{dateFormat(item.createdAt, "dd-mmm-yyyy")}</p>
+                                        <p className="project_tableText2">{dateFormat(item.createdAt, "shortTime")}</p>
                                     </td>
                                     <td>
                                         <button onClick={() => { setModal('confirm'); setType('approve'); setId(item._id) }}>APPROVE</button>

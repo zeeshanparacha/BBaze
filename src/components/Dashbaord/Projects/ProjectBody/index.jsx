@@ -75,7 +75,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                                     <p className="project_tableText2">{item.headQuartier}</p>
                                 </td>
                                 <td>
-                                    <p className="project_tableText1">{dateFormat(item.createdAt, "paddedShortDate")}</p>
+                                    <p className="project_tableText1">{dateFormat(item.createdAt, "dd-mmm-yyyy")}</p>
                                     <p className="project_tableText2">{dateFormat(item.createdAt, "shortTime")}</p>
                                 </td>
                             </tr>
