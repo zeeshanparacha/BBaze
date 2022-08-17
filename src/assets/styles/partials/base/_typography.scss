@@ -1,0 +1,18 @@
+@font-face 
+{
+    font-family: europa;
+    src: url('../../../fonts/Europa\ Regular.ttf');
+}
+
+$bg-light: #495058;
+$bg-medium: #373E47;
+$bg-dark: #272C33;
+$primary: #999999;
+$secondary: #3E4956;
+$yellow: #CC9933;
+
+body
+{
+    font-family: europa;
+    color: $primary;
+}

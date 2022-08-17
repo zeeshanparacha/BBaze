@@ -1,0 +1,193 @@
+.access
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &_inner
+    {
+        width: 500px;
+        background-color: $bg-dark;
+        padding: 25px;
+        overflow: auto;
+        max-height: 95vh;
+        position: relative;
+    }
+
+    &_num
+    {
+        margin-top: 15px;
+        font-size: 14px;
+        color: $bg-light;
+
+        span
+        {
+            color: #85919f;
+            font-size: 16px;
+            margin-left: 5px;
+        }
+    }
+
+    &_table
+    {
+        background-color: $bg-dark;
+        margin-top: 10px;
+        padding: 15px 15px 15px;
+        max-height: 260px;
+        overflow: auto;
+
+        table
+        {
+            width: 100%;
+        }
+
+        thead
+        {
+
+            td
+            {
+                padding-bottom: 8px;
+                font-size: 14px;
+                color: $bg-light;
+                font-weight: 500;
+            }
+        }
+
+        tbody
+        {
+            td
+            {
+                padding: 5px 0;
+            }
+        }
+
+        img
+        {
+            width: 30px;
+            height: 30px;
+            border-radius: 100px;
+            cursor: pointer;
+        }
+    }
+
+    &_tableText1
+    {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    &_tableText2
+    {
+        color: $bg-light;
+        font-size: 10px;
+    }
+
+    &_remove
+    {
+        font-size: 10px;
+        font-weight: 600;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    &_remove:hover
+    {
+        color: $yellow;
+    }
+
+    &_search
+    {
+        display: flex;
+        justify-content: center;
+
+        img
+        {
+            width: 20px;
+        }
+
+        input
+        {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid gray;
+            font-size: 12px;
+            margin-left: 5px;
+            outline: none;
+            color: $primary;
+        }
+    }
+
+    &_close
+    {
+        position: absolute;
+        right: 20px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    &_close:hover
+    {
+        color: $yellow;
+    }
+
+    &_list
+    {
+        max-height: 100px;
+        overflow: auto;
+        padding: 0;
+        width: 200px;
+        margin: auto;
+        margin-top: 10px;
+
+        li
+        {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+
+            p
+            {
+                margin-top: 3px;
+            }
+        }
+    }
+
+    &_img
+    {
+        width: 20px;
+        height: 20px;
+        overflow: hidden;
+        cursor: pointer;
+        margin-right: 6px;
+        border-radius: 100px;
+
+        img
+        {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+@media (max-width: 991px)
+{
+    .access
+    {
+        &_inner
+        {
+            padding: 10px;
+        }
+
+        &_table
+        {
+            padding: 0;
+        }
+    }
+}

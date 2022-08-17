@@ -1,0 +1,22 @@
+// BASE
+@import './partials/base/typography';
+@import './partials/base/general';
+
+// COMPONENTS
+@import './partials/components/sideBar';
+@import './partials/components/header';
+@import './partials/components/access';
+@import './partials/components/permission';
+@import './partials/components/userDetail';
+@import './partials/components/projectDetail';
+@import './partials/components/addOrganizer';
+@import './partials/components/loader';
+@import './partials/components/infoModal';
+
+// PAGES
+@import './partials/pages/login';
+@import './partials/pages/dashboard';
+@import './partials/pages/project';
+@import './partials/pages/addProject';
+@import './partials/pages/organizer';
+@import './partials/pages/reset';
