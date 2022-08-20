@@ -22,8 +22,8 @@ const Header = () => {
         <React.Fragment>
             <div className="header">
                 <div className="header_search">
-                    <input type="search" placeholder="Chercher" />
-                    <img src={SearchIcon} alt="" />
+                    {/* <input type="search" placeholder="Chercher" />
+                    <img src={SearchIcon} alt="" /> */}
                 </div>
                 <div className="header_right">
                     <p>Se deconnector</p>
@@ -42,8 +42,8 @@ const Header = () => {
             </div>
             <div className="headerm">
                 <div className="headerm_search">
-                    <img src={SearchIcon} alt="" onClick={() => setSearch(!search)} />
-                    {search && <input type="search" placeholder="Chercher" />}
+                    {/* <img src={SearchIcon} alt="" onClick={() => setSearch(!search)} />
+                    {search && <input type="search" placeholder="Chercher" />} */}
                 </div>
                 <div className="headerm_user">
                     <div className='position-relative'>

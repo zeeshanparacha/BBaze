@@ -25,7 +25,15 @@ const Organizer = () => {
     const getUsers = () => {
         instance.get('organization/users')
             .then(res => {
-                setUsers(res.data.data)
+                const array = []
+                res.data.data.forEach(item => {
+                    let obj = {}
+                    obj = item
+                    obj.ongoingProjects = item.projects.filter(item => item.status === 'approved')
+                    obj.completedProjects = item.projects.filter(item => item.status === 'closed')
+                    array.push(obj)
+                })
+                setUsers(array)
             })
             .catch(err => {
                 if (err.response.data.error) {
@@ -33,6 +41,8 @@ const Organizer = () => {
                 }
             })
     }
+
+    console.log('users', users);
 
     return (
         <div className="org">

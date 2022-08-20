@@ -25,6 +25,8 @@ const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
                         <td>Noms</td>
                         <td>Ville</td>
                         <td>Date entrée</td>
+                        <td>Projets en cours</td>
+                        <td>Projets realises</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,8 +45,14 @@ const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
                                 <p className="org_tableText1">Luanda</p>
                             </td>
                             <td>
-                                <p className="org_tableText1">{dateFormat(user.createdAt, "paddedShortDate")}</p>
+                                <p className="org_tableText1">{dateFormat(user.createdAt, "dd-mmm-yyyy")}</p>
                                 <p className="org_tableText2">{dateFormat(user.createdAt, "shortTime")}</p>
+                            </td>
+                            <td>
+                                <p className="org_tableText1">{user.ongoingProjects.length}</p>
+                            </td>
+                            <td>
+                                <p className="org_tableText1">{user.completedProjects.length}</p>
                             </td>
                         </tr>
                     }))}

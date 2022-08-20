@@ -35,7 +35,7 @@ const ProjectDetail = ({ setModal, category, data }) => {
                 <div className="projectDetail_details">
                     <p><span>Nom du projet:</span>{data.projectName}</p>
                     <div>
-                        <p><span>Début:</span>{dateFormat(data.createdAt, "paddedShortDate")}</p>
+                        <p><span>Début:</span>{dateFormat(data.createdAt, "dd-mmm-yyyy")}</p>
                         <p><span>Clôture:</span>10-12-2022</p>
                     </div>
                     <p><span>Ville:</span>{data.town}</p>
