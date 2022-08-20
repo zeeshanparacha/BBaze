@@ -19,9 +19,6 @@ const ProjectDetail = ({ setModal, category, data }) => {
             })
     }, [])
 
-    console.log('users', users);
-    console.log('data', data);
-
     return (
         <div className="projectDetail">
             <div className="projectDetail_inner">

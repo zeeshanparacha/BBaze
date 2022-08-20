@@ -1,10 +1,7 @@
-// import ImgPeople from '../../../../assets/images/people4.jpg'
 import Avatar from '../../../../assets/images/avatar.jpg'
 import Img from '../../../../assets/images/img1.jpg'
 
 const UserDetail = ({ setModal, data }) => {
-
-    console.log('data', data);
 
     return (
         <div className="user">

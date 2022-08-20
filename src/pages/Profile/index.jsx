@@ -13,7 +13,6 @@ const Organizer = () => {
     useEffect(() => {
         instance.post('profile/get-profile', { _id: localStorage.getItem('userId') })
             .then(res => {
-                console.log('get profile', res)
                 setData({
                     _id: res.data.data._id,
                     name: res.data.data.name,
@@ -54,7 +53,6 @@ const Organizer = () => {
 
     const handleSubmit = () => {
         instance.post('profile/update-profile', data)
-        // .then(res => console.log('res update', res))
     }
 
     return (

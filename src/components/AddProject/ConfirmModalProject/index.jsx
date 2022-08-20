@@ -5,8 +5,6 @@ const ConfirmModalProject = ({ setModal, type, data }) => {
 
     const navigate = useNavigate()
 
-    console.log('data', data);
-
     const createProject = () => {
         instance.post('projects/create-project', data)
             .then(res => {

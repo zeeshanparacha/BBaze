@@ -6,7 +6,6 @@ import SideBar from "../../components/ReuseableComponents/Sidebar"
 import Header from "../../components/ReuseableComponents/Header"
 import ConfirmModal from "../../components/Approve/ConfirmModal"
 
-import people1 from '../../assets/images/people1.png'
 import Search from '../../assets/images/search7.svg'
 
 const Approve = () => {
@@ -28,8 +27,6 @@ const Approve = () => {
                 setProjectList(res.data.data)
             })
     }
-
-    console.log('projectList', projectList);
 
     return (
         <div className="org">

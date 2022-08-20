@@ -10,11 +10,6 @@ const DeleteUser = ({ setModal, projectId, clickUserId }) => {
             .then(res => console.log('res delete', res))
     }
 
-    console.log('projectId', projectId);
-    console.log('clickUserId', clickUserId);
-    console.log('setModal', setModal);
-
-
     return (
         <div className="info">
             <div className="info_inner">

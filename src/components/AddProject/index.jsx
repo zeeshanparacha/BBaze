@@ -48,9 +48,6 @@ const AddProject = () => {
     const navigate = useNavigate()
     const location = useLocation()
 
-    console.log('role', role);
-    console.log('projectStatus', projectStatus);
-
     useEffect(() => {
         setData({
             ...data,
@@ -81,9 +78,6 @@ const AddProject = () => {
                 })
         }
     }
-
-    console.log('users', users);
-    console.log('documents', documents);
 
     const getProjectCategoryName = () => {
         if (location.state.category === 'Espace vert') {

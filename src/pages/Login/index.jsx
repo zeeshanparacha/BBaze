@@ -14,7 +14,6 @@ const Login = () => {
     const handleLogin = () => {
         instance.post('/security/login', data)
             .then(res => {
-                console.log('res', res);
                 localStorage.setItem('isLoggedIn', true)
                 localStorage.setItem('userId', res.data.user._id)
                 localStorage.setItem('role', res.data.user.role)
