@@ -16,7 +16,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
     const [search, setSearch] = useState('')
     const [projects, setProjects] = useState([])
     const [showMyProjects, setShowMyProjects] = useState(false)
-    const updatedData = search ? projects.filter(item => item?.user?.name.toLowerCase().includes(search.toLowerCase()) || item?.user?.role.toLowerCase().includes(search.toLowerCase())) : projects
+    // const updatedData = search ? projects.filter(item => item?.user?.name.toLowerCase().includes(search.toLowerCase()) || item?.user?.role.toLowerCase().includes(search.toLowerCase())) : projects
     const userId = localStorage.getItem('userId')
 
     useEffect(() => {
@@ -28,6 +28,15 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
         }
     }, [data, showMyProjects])
 
+    const updatedData = search ? projects.filter(item => {
+        return Object.keys(item).some(() => (
+            item?.user?.[["name"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()) ||
+            item?.user?.[["role"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()) ||
+            item[["town"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()) ||
+            item[["headQuartier"]]?.toString()?.toLowerCase().includes(search?.toLowerCase()))
+        );
+    }) : projects;
+
     return (
         <div className="project_body">
             <div className="project_head">
@@ -36,7 +45,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                         <img src={icon} alt="" />
                     </div>
                     <div className='project_detail'>
-                        <p className="project_num">{updatedData.length}</p>
+                        <p className="project_num">{updatedData?.length}</p>
                         <p className="project_name">{category}</p>
                     </div>
                     <div className="project_check">
@@ -64,7 +73,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {updatedData.length > 0 && updatedData.map((item, index) => (
+                        {updatedData && updatedData.length > 0 && updatedData.map((item, index) => (
                             <tr onClick={() => { setModal('project'); setClickIndex(index) }} key={index} >
                                 <td>
                                     <div className='project_img'>
@@ -80,7 +89,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                                     <p className="project_tableText2">{item.headQuartier}</p>
                                 </td>
                                 <td>
-                                    <p className="project_tableText1">{dateFormat(item.createdAt, "paddedShortDate")}</p>
+                                    <p className="project_tableText1">{dateFormat(item.createdAt, "dd-mmm-yyyy")}</p>
                                     <p className="project_tableText2">{dateFormat(item.createdAt, "shortTime")}</p>
                                 </td>
                                 <td>

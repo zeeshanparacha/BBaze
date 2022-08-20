@@ -34,7 +34,6 @@ const Organizer = () => {
 
     const handleImg = (e) => {
         const file = e.target.files[0]
-
         if (file) {
             setData({ ...data, profile: '' })
             const formData = new FormData()
@@ -46,9 +45,11 @@ const Organizer = () => {
             )
             instance.post('s3/upload/profile', formData)
                 .then(res => {
+                    console.log('file', res)
                     setData({ ...data, profile: res.data.data })
                 })
         }
+        e.target.value = ''
     }
 
     const handleSubmit = () => {
