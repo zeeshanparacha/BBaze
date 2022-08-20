@@ -52,7 +52,7 @@ const Access = ({ setModal, projectId, setClickUserId }) => {
                                 <tr key={index}>
                                     <td>
                                         <span className='access_remove' onClick={() => { setModal('delete'); setClickUserId(item.user._id) }}>&#9587;</span>
-                                        <img src={item.user.profile} alt="" onClick={() => { setModal('permission'); setClickUserId(item.user._id) }} />
+                                        <img src={item.user.profile ? item.user.profile : Avatar} alt="" onClick={() => { setModal('permission'); setClickUserId(item.user._id) }} />
                                     </td>
                                     <td>
                                         <p className="access_tableText1">{item.user.loginName}</p>

@@ -45,9 +45,8 @@
     {
         width: 40px;
         height: 40px;
-        // overflow: hidden;
+        overflow: hidden;
         border-radius: 100px;
-        position: relative;
         cursor: pointer;
 
         img
@@ -152,7 +151,7 @@
             padding: 12px 20px;
             z-index: 1;
             border-radius: 5px;
-    
+
             a
             {
                 color: black;

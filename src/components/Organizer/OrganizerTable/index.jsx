@@ -8,13 +8,15 @@ import Search from '../../../assets/images/search7.svg'
 const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
 
     const [modal, setModal] = useState('')
+    const [search, setSearch] = useState('')
+    const updatedUsers = search ? users.filter(item => item?.name.toLowerCase().includes(search.toLowerCase()) || item?.profession.toLowerCase().includes(search.toLowerCase())) : users
 
     return (
         <div className="org_table">
             <div className="org_head"><p><span>{users.length}</span> Organisateur</p></div>
             <div className="org_search">
                 <img src={Search} alt="" />
-                <input type="search" placeholder="Chercher" />
+                <input type="search" placeholder="Chercher" onChange={(e) => setSearch(e.target.value)} />
             </div>
             <table>
                 <thead>
@@ -26,7 +28,7 @@ const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map(((user, index) => {
+                    {updatedUsers.map(((user, index) => {
                         return <tr key={user.username} onClick={() => { setModal('user'); setClickIndex(index) }}>
                             <td>
                                 <div className='org_img'>

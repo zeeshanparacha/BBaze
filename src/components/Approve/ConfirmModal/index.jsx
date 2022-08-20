@@ -2,8 +2,6 @@ import instance from "../../../instance"
 
 const ConfirmModal = ({ getProjects, setModal, type, id }) => {
 
-    console.log('type', type);
-
     const handleApprove = () => {
         instance.post('projects/approve-project', { _id: id })
             .then(res => {

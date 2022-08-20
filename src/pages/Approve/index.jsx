@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import instance from "../../instance"
+import dateFormat from "dateformat";
 
 import SideBar from "../../components/ReuseableComponents/Sidebar"
 import Header from "../../components/ReuseableComponents/Header"
@@ -14,6 +15,8 @@ const Approve = () => {
     const [modal, setModal] = useState('')
     const [type, setType] = useState('')
     const [id, setId] = useState('')
+    const [search, setSearch] = useState('')
+    const updatedProjects = search ? projectList.filter(item => item?.projectName.toLowerCase().includes(search.toLowerCase())) : projectList
 
     useEffect(() => {
         getProjects()
@@ -34,10 +37,10 @@ const Approve = () => {
             <div className="org_body">
                 <Header />
                 <div className="org_table">
-                    <div className="org_head"><p><span>10</span> Organisateur</p></div>
+                    <div className="org_head"><p><span>{projectList.length}</span> Approve/Reject Projects</p></div>
                     <div className="org_search">
                         <img src={Search} alt="" />
-                        <input type="search" placeholder="Chercher" />
+                        <input type="search" placeholder="Chercher" onChange={(e) => setSearch(e.target.value)} />
                     </div>
                     <table>
                         <thead>
@@ -50,7 +53,7 @@ const Approve = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {projectList.map((item, index) => (
+                            {updatedProjects.map((item, index) => (
                                 <tr key={index}>
                                     {/* <td><img src={people1} alt="" /></td> */}
                                     <td>
@@ -61,8 +64,8 @@ const Approve = () => {
                                         <p className="org_tableText1">{item.town}</p>
                                     </td>
                                     <td>
-                                        <p className="org_tableText1">{item.createdAt}</p>
-                                        <p className="org_tableText2">2:36 PM</p>
+                                        <p className="org_tableText1">{dateFormat(item.createdAt, "paddedShortDate")}</p>
+                                        <p className="org_tableText2">{dateFormat(item.createdAt, "shortTime")}</p>
                                     </td>
                                     <td>
                                         <button onClick={() => { setModal('confirm'); setType('approve'); setId(item._id) }}>APPROVE</button>

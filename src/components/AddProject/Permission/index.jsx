@@ -132,11 +132,6 @@ const Permission = ({ setModal, clickUserId, projectId }) => {
                 <div className="per_roles">
                     <span className="per_type">Ecrire</span>
                     <span className="per_type">Lire</span>
-                    {/* <div>
-                        <input type="checkbox" checked={permissions.about.write} />
-                        <input type="checkbox" checked={permissions.about.read} />
-                        <label>Tout</label>
-                    </div> */}
                     <div>
                         <input type="checkbox" checked={permissions.otherParticipants.write} onChange={() => handleChange('otherParticipants', 'write')} />
                         <input type="checkbox" checked={permissions.otherParticipants.read} onChange={() => handleChange('otherParticipants', 'read')} />
