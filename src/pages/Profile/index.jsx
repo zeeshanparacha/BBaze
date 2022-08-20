@@ -23,6 +23,7 @@ const Organizer = () => {
                     telephone: res.data.data.telephone,
                     fax: res.data.data.fax,
                     profile: res.data.data.profile,
+                    about: res.data.data.about,
                 })
             })
     }, [])
@@ -34,6 +35,7 @@ const Organizer = () => {
     const handleImg = (e) => {
         const file = e.target.files[0]
         if (file) {
+            setData({ ...data, profile: '' })
             const formData = new FormData()
             formData.append(
                 'userId', localStorage.getItem('userId')
@@ -52,7 +54,6 @@ const Organizer = () => {
 
     const handleSubmit = () => {
         instance.post('profile/update-profile', data)
-        // .then(res => console.log('res update', res))
     }
 
     return (
@@ -97,8 +98,7 @@ const Organizer = () => {
                     </div>
                     <p className='addOrg_descTitle'>A PROPOS</p>
                     <div className="addOrg_desc">
-                        <p>RESUME / CV<br />Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
-                        <p>Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</p>
+                        <textarea value={data.about} name="about" placeholder="A PROPOS" onChange={handleChange}></textarea>
                     </div>
                     <div className="addOrg_btns">
                         <button onClick={handleSubmit}>UPDATE PROFILE</button>

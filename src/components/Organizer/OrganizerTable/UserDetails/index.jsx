@@ -22,22 +22,11 @@ const UserDetail = ({ setModal, setActiveTab, data }) => {
                         <p><span>Fax</span>{data?.fax}</p>
                     </div>
                 </div>
-                {/* <p className="user_descTitle">A PROPOS</p>
-                <p className="user_desc">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                    euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
-                    minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip
-                    ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate
-                    velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros
-                    et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit
-                    augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh
-                    euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
-                    minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip
-                    ex ea commodo consequat.
-                </p> */}
+                <p className="user_descTitle">A PROPOS</p>
+                <p className="user_desc">{data.about}</p>
                 <div className="user_bot">
-                    <p className="user_heading">Projets en cours: <span>6</span></p>
-                    <p className="user_heading">Projets realises: <span>11</span></p>
+                    <p className="user_heading">Projets en cours: <span>{data.ongoingProjects.length}</span></p>
+                    <p className="user_heading">Projets realises: <span>{data.completedProjects.length}</span></p>
                     <button onClick={() => { setActiveTab(2) }}>MODIFIER</button>
                 </div>
             </div>

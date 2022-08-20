@@ -2,12 +2,9 @@ import instance from "../../../instance"
 
 const ConfirmModal = ({ getProjects, setModal, type, id }) => {
 
-    console.log('type', type);
-
     const handleApprove = () => {
         instance.post('projects/approve-project', { _id: id })
             .then(res => {
-                console.log('res approve', res)
                 if (res.data.code === 1) {
                     getProjects()
                     setModal('')
@@ -18,7 +15,6 @@ const ConfirmModal = ({ getProjects, setModal, type, id }) => {
     const handleReject = () => {
         instance.post('projects/reject-project', { _id: id })
             .then(res => {
-                console.log('res reject', res)
                 if (res.data.code === 1) {
                     getProjects()
                     setModal('')

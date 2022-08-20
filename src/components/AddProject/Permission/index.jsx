@@ -59,11 +59,6 @@ const Permission = ({ setModal, clickUserId, projectId }) => {
         }
     })
 
-
-    // console.log('clickUserId', clickUserId);
-    // console.log('projectId', projectId);
-    console.log('permissions', permissions);
-
     useEffect(() => {
         getUserPermissions()
     }, [])
@@ -71,7 +66,6 @@ const Permission = ({ setModal, clickUserId, projectId }) => {
     const updatePermissions = () => {
         instance.post('permissions/add-user', permissions)
             .then(res => {
-                console.log('res update', res)
                 setModal('access')
             })
     }
@@ -82,7 +76,6 @@ const Permission = ({ setModal, clickUserId, projectId }) => {
             user: clickUserId
         })
             .then(res => {
-                console.log('get permissions', res)
                 if (res.data.code === 1) {
                     setPermissions({
                         ...permissions,
@@ -105,14 +98,8 @@ const Permission = ({ setModal, clickUserId, projectId }) => {
     }
 
     const handleChange = (value, type) => {
-        console.log('value', type);
         setPermissions({ ...permissions, [value]: type === 'write' ? { read: permissions[value]['read'], write: !permissions[value]['write'] } : { read: !permissions[value]['read'], write: permissions[value]['write'] } })
-        // setPermissions({ ...permissions, [`${value}.${type}`]: permissions[value][type] ? false : true })
     }
-
-    const value = 'otherParticipants'
-    const type = 'read'
-    // console.log('permissions[value[type]]', permissions[value][type]);
 
     return (
         <div className="per">
@@ -132,11 +119,6 @@ const Permission = ({ setModal, clickUserId, projectId }) => {
                 <div className="per_roles">
                     <span className="per_type">Ecrire</span>
                     <span className="per_type">Lire</span>
-                    {/* <div>
-                        <input type="checkbox" checked={permissions.about.write} />
-                        <input type="checkbox" checked={permissions.about.read} />
-                        <label>Tout</label>
-                    </div> */}
                     <div>
                         <input type="checkbox" checked={permissions.otherParticipants.write} onChange={() => handleChange('otherParticipants', 'write')} />
                         <input type="checkbox" checked={permissions.otherParticipants.read} onChange={() => handleChange('otherParticipants', 'read')} />
