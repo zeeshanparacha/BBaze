@@ -37,8 +37,6 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
         );
     }) : projects;
 
-    console.log('updatedData', updatedData);
-
     return (
         <div className="project_body">
             <div className="project_head">

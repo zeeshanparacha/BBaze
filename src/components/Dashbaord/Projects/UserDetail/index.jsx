@@ -1,24 +1,16 @@
 import { useState, useEffect } from 'react'
 import Avatar from '../../../../assets/images/avatar.jpg'
-import Img from '../../../../assets/images/img1.jpg'
 
 const UserDetail = ({ setModal, data, projectList }) => {
 
     const [onGoing, setOngoing] = useState([])
     const [closed, setClosed] = useState([])
 
-    console.log('data', data);
-    console.log('projectList', projectList);
-    console.log('onGoing', onGoing);
-    console.log('closed', closed);
-
     useEffect(() => {
         const array1 = []
         const array2 = []
         projectList.forEach(item => {
-            console.log('data.user.projects.includes(item._id)', data.user.projects.includes(item._id));
             if (data.user.projects.includes(item._id)) {
-                console.log('run');
                 if (item.status === 'approved') {
                     array1.push(item)
                 }
