@@ -37,7 +37,7 @@ const Approve = () => {
             <div className="org_body">
                 <Header />
                 <div className="org_table">
-                    <div className="org_head"><p><span>{projectList.length}</span> Approve/Reject Projects</p></div>
+                    <div className="org_head"><p><span>{projectList.length}</span>Projets en attente</p></div>
                     <div className="org_search">
                         <img src={Search} alt="" />
                         <input type="search" placeholder="Chercher" onChange={(e) => setSearch(e.target.value)} />
