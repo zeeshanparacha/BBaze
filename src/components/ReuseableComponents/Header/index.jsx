@@ -26,7 +26,6 @@ const Header = () => {
                     <img src={SearchIcon} alt="" /> */}
                 </div>
                 <div className="header_right">
-                    <p>Se deconnector</p>
                     <div className="header_user">
                         <p className="header_username">{userName}</p>
                         <div className='position-relative'>
