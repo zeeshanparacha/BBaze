@@ -29,8 +29,6 @@ const Approve = () => {
             })
     }
 
-    console.log('updatedProjects', updatedProjects);
-
     return (
         <div className="org">
             <SideBar index={3} />

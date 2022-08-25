@@ -43,6 +43,10 @@ const AddProject = () => {
     const [projectStatus, setProjectStatus] = useState('')
     const [users, setUsers] = useState([])
     const [err, setErr] = useState({})
+    const [msgList, setMsgList] = useState([])
+    const [msg, setMsg] = useState('')
+    const [reply, setReply] = useState('')
+    const [clickIndex, setClickIndex] = useState(-1)
     const role = localStorage.getItem('role')
     const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
@@ -66,9 +70,56 @@ const AddProject = () => {
         getProjectCategoryName()
         getProjectData()
         getUsers()
-        // getProjectImages()
+        getMsgs()
         // eslint-disable-next-line
     }, [])
+
+    const addMsg = (e) => {
+        if (msg) {
+            if (e.key === 'Enter') {
+                instance.post('chat/add-message', {
+                    message: msg,
+                    projectId: location.state.data._id,
+                    user: userId,
+                    parentId: null
+                })
+                    .then(res => {
+                        if (res.data.code === 1) {
+                            getMsgs()
+                            setMsg('')
+                        }
+                    })
+            }
+        }
+    }
+
+    const addReply = (e, parentId) => {
+        if (reply) {
+            if (e.key === 'Enter') {
+                instance.post('chat/add-message', {
+                    message: reply,
+                    projectId: location.state.data._id,
+                    user: userId,
+                    parentId
+                })
+                    .then(res => {
+                        if (res.data.code === 1) {
+                            getMsgs()
+                            setReply('')
+                        }
+                    })
+            }
+        }
+    }
+
+    const getMsgs = () => {
+        if (location.state.edit) {
+            instance.post('/chat/get-messages', { projectId: location.state.data._id })
+                .then(res => {
+                    setMsgList(res.data.data)
+                })
+        }
+    }
 
     const getUsers = () => {
         if (location.state.edit) {
@@ -249,6 +300,15 @@ const AddProject = () => {
         }
     }
 
+    const toggleReply = (index) => {
+        if (clickIndex === index) {
+            setClickIndex(-1)
+        }
+        else {
+            setClickIndex(index)
+        }
+    }
+
     return (
         <div className="add">
             <div className="add_top">
@@ -388,7 +448,7 @@ const AddProject = () => {
                 {isNewProject && <button onClick={() => { setBtnType('CREATE'); setModal('projectModal') }}>LANCER LE PROJET</button>}
                 {role === 'admin' && projectStatus === 'approved' && <button onClick={() => { setBtnType('CLOSE'); setModal('projectModal') }}>CLOTURER LE PROJET</button>}
             </div>
-            <div className="add_bot">
+            {location.state.edit && <div className="add_bot">
                 <div className="add_people">
                     <span className='add_peopleTitle'>ACCES A CE PROJET</span>
                     <div className="add_peopleBody">
@@ -401,22 +461,37 @@ const AddProject = () => {
                 </div>
                 <div className="add_convo">
                     <span className='add_convoTitle'>CONVERSATIONS</span>
-                    <div className="add_convoBody">
-                        <div className="add_convoLeft">
-                            <img src={PeopleImg} alt="..." />
-                        </div>
-                        <div className="add_convoRight">
-                            <p className="add_convoname">Joseph Mpia</p>
-                            <p className="add_convodesc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium aliquam officia eaque aperiam neque. Officia alias dolorum a temporibus sequi.</p>
-                            <p className="add_convoreplies">5 responses</p>
-                        </div>
+                    <div className="add_convoBox">
+                        {msgList.map((item, index) => (
+                            <div className="add_convoBody" key={index}>
+                                <div className="add_convoLeft">
+                                    <img src={item.user.profile ? item.user.profile : Avatar} alt="..." />
+                                </div>
+                                <div className="add_convoRight">
+                                    <p className="add_convoname">{item.user.name}</p>
+                                    <p className="add_convodesc">{item.message}</p>
+                                    {item.replies.length > 0 && <p className="add_convoreplies" onClick={() => toggleReply(index)}>{item.replies.length} responses</p>}
+                                    {item.replies.map((reply) => (
+                                        <p className={index === clickIndex ? 'add_reply show' : 'add_reply'} key={reply._id} >{reply.message}</p>
+                                    ))}
+                                    {/* <input type="text" placeholder='Add Reply' /> */}
+                                    <div className="add_convoReply">
+                                        <input type="text" placeholder='Reply To This Conversation' value={reply} onChange={(e) => setReply(e.target.value)} onKeyDown={(e) => addReply(e, item._id)} />
+                                        <img src={IconSend} alt="..." />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    <div className="add_convoReply">
-                        <input type="text" placeholder='Ecrivez ici' />
+                    {msgList.length === 0 && <div className="add_convoBody">
+                        <h6>THERE IS NO CONVERSATION IN THIS PROJECT BE THE FIRST ONE TO START A CONVERSATION</h6>
+                    </div>}
+                    <div className="add_convoMsg">
+                        <input type="text" placeholder='Ecrivez ici' value={msg} onChange={(e) => setMsg(e.target.value)} onKeyDown={addMsg} />
                         <img src={IconSend} alt="..." />
                     </div>
                 </div>
-            </div>
+            </div>}
             {modal === 'projectModal' && <ConfirmModalProject setModal={setModal} type={btnType} data={data} />}
             {modal === 'confirm' && <ConfirmModal setModal={setModal} removeFile={removeFile} fileToRemove={fileToRemove} />}
             {modal === 'info' && <InfoModal setModal={setModal} />}

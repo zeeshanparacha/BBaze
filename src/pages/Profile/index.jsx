@@ -45,7 +45,6 @@ const Organizer = () => {
             )
             instance.post('s3/upload/profile', formData)
                 .then(res => {
-                    console.log('file', res)
                     setData({ ...data, profile: res.data.data })
                 })
         }

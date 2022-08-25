@@ -42,8 +42,6 @@ const Organizer = () => {
             })
     }
 
-    console.log('users', users);
-
     return (
         <div className="org">
             <SideBar index={2} />

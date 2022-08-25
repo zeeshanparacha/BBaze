@@ -1,7 +1,30 @@
+import { useState, useEffect } from 'react'
 import Avatar from '../../../../assets/images/avatar.jpg'
-import Img from '../../../../assets/images/img1.jpg'
 
-const UserDetail = ({ setModal, data }) => {
+const UserDetail = ({ setModal, data, projectList }) => {
+
+    const [onGoing, setOngoing] = useState([])
+    const [closed, setClosed] = useState([])
+
+    useEffect(() => {
+        const array1 = []
+        const array2 = []
+        projectList.forEach(item => {
+            if (data.user.projects.includes(item._id)) {
+                if (item.status === 'approved') {
+                    array1.push(item)
+                }
+
+                else if (item.status === 'closed') {
+                    array2.push(item)
+                }
+            }
+        })
+        setOngoing(array1)
+        setClosed(array2)
+    }, [])
+
+    // const close = projectList.filter(item => item.status === 'closed' || item.status === 'approved'))
 
     return (
         <div className="user">
@@ -24,81 +47,29 @@ const UserDetail = ({ setModal, data }) => {
                 </div>
                 <p className="user_descTitle">A PROPOS</p>
                 <p className="user_desc">{data?.user?.about}</p>
-                <p className="user_heading">Projets en cours: <span>6</span></p>
+                <p className="user_heading">Projets en cours: <span>{onGoing.length}</span></p>
                 <div className="user_projects">
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
+                    {onGoing.map((item, index) => item.images.map((img, index) => (
+                        <div className="user_box" key={index}>
+                            <div className="user_img">
+                                <img src={img.url} alt="" />
+                            </div>
+                            {/* <p className="user_name">Green Space day</p>
+                                <p className="user_date">mai 2022</p> */}
                         </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
+                    )))}
                 </div>
-                <p className="user_heading">Projets realises: <span>11</span></p>
+                <p className="user_heading">Projets realises: <span>{closed.length}</span></p>
                 <div className="user_projects">
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
+                    {closed.map((item, index) => item.images.map((img, index) => (
+                        <div className="user_box" key={index}>
+                            <div className="user_img">
+                                <img src={img.url} alt="" />
+                            </div>
+                            {/* <p className="user_name">Green Space day</p>
+                                <p className="user_date">mai 2022</p> */}
                         </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
+                    )))}
                 </div>
             </div>
         </div>

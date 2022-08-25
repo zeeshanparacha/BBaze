@@ -104,7 +104,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                     </tbody>
                 </table>
             </div>
-            {modal === 'user' && <UserDetail setModal={setModal} data={updatedData[clickIndex]} />}
+            {modal === 'user' && <UserDetail setModal={setModal} data={updatedData[clickIndex]} projectList={data} />}
             {modal === 'project' && <ProjectDetail category={category} data={updatedData[clickIndex]} setModal={setModal} />}
         </div>
     )

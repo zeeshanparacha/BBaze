@@ -7,7 +7,6 @@ const DeleteUser = ({ setModal, projectId, clickUserId }) => {
             projectId,
             user: clickUserId
         })
-            .then(res => console.log('res delete', res))
     }
 
     return (
