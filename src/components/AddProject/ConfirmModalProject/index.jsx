@@ -64,10 +64,10 @@ const ConfirmModalProject = ({ setModal, type, data }) => {
         <div className="info">
             <div className="info_inner">
                 <span className='info_close' onClick={() => setModal('')}>&#9587;</span>
-                <h6>ARE YOU SURE YOU WANT TO {type} THIS PROJECT ?</h6>
+                <h6>ESTÁS SEGURO QUE QUIERES {type} ESTE PROYECTO ?</h6>
                 <div className="info_btns">
                     <button onClick={handleClick}>{type}</button>
-                    <button onClick={() => setModal('')}>CANCEL</button>
+                    <button onClick={() => setModal('')}>CANCELAR</button>
                 </div>
             </div>
         </div>

@@ -30,7 +30,7 @@ const Header = () => {
                         <p className="header_username">{userName}</p>
                         <div className='position-relative'>
                             <div className="header_userimg" onClick={() => setIsTrue(!isTrue)}>
-                                <img src={userImg !== "undefined" ? userImg : Avatar} alt="..." />
+                                <img src={userImg ? userImg : Avatar} alt="..." />
                             </div>
                             {isTrue && <div className="header_logout">
                                 <a href="#" onClick={handleLogout}>Logout</a>
@@ -47,7 +47,7 @@ const Header = () => {
                 <div className="headerm_user">
                     <div className='position-relative'>
                         <div className="header_userimg" onClick={() => setIsTrue(!isTrue)}>
-                            <img src={userImg !== "undefined" ? userImg : Avatar} alt="..." />
+                            <img src={userImg ? userImg : Avatar} alt="..." />
                         </div>
                         {isTrue && <div className="header_logout">
                             <a href="#" onClick={handleLogout}>Logout</a>

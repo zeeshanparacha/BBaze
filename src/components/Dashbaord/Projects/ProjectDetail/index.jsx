@@ -49,7 +49,7 @@ const ProjectDetail = ({ setModal, category, data }) => {
                 <div className="projectDetail_users">
                     <div>
                         <div className="projectDetail_userImg">
-                            <img src={data.user.profile} alt="" />
+                            <img src={data.user.profile ? data.user.profile : Avatar} alt="" />
                         </div>
                     </div>
                     <div>

@@ -28,6 +28,12 @@
         }
     }
 
+    &_closeDate
+    {
+        font-size: 14px;
+        color: gray !important;
+    }
+
     &_btn
     {
         background-color: $bg-light;
@@ -415,17 +421,38 @@
         }
     }
 
+    &_convoReplyBody
+    {
+        align-items: center;
+        margin: 5px 0;
+        display: none;
+
+        >div
+        {
+            width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            overflow: hidden;
+            margin-right: 5px;
+        }
+
+        img
+        {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &_convoReplyBody.show
+    {
+        display: flex;
+    }
+
     &_reply
     {
         font-size: 12px;
-        margin: 3px 0;
-        display: none;
     }
 
-    &_reply.show
-    {
-        display: block;
-    }
 
     &_authorities
     {

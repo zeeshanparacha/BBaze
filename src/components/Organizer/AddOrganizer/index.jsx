@@ -116,9 +116,9 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
                 <p>Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</p>
             </div> */}
             <div className="addOrg_btns">
-                <button onClick={handleUpdate}>MODIFIER</button>
-                <button onClick={handleSubmit}>SAUVEGARDER</button>
-                <button>ANNULER</button>
+                {editData && <button onClick={handleUpdate}>MODIFIER</button>}
+                {!editData && <button onClick={handleSubmit}>SAUVEGARDER</button>}
+                {/* <button>ANNULER</button> */}
             </div>
         </div>
     )

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import instance from '../../instance'
+import dateFormat from "dateformat";
 
 import InfoModal from './InfoModal'
 import ConfirmModal from './ConfirmModal'
@@ -314,9 +315,12 @@ const AddProject = () => {
             <div className="add_top">
                 <div className="add_topLeft">
                     <img src={projectIcon} alt="" />
-                    <p>{data.category}</p>
+                    <div>
+                        <p>{data.category}</p>
+                        {projectStatus === 'closed' && <p className='add_closeDate'>proyecto cerrado el {dateFormat(location.state.data.updatedAt, "dd-mmm-yyyy")}</p>}
+                    </div>
                 </div>
-                {location.state.edit && <div className="add_topRight">
+                {projectStatus === 'approved' && <div className="add_topRight">
                     <button className='add_btn' onClick={() => setModal('access')}>ACCES A CE PROJET</button>
                 </div>}
             </div>
@@ -387,7 +391,7 @@ const AddProject = () => {
                                     <img src={PlusIcon} alt="" />
                                 </label>
                                 <input type="file" id='doc' onChange={(e) => uploadFile(e, 'doc')} />
-                            </div> : <button onClick={() => setModal('info')}><img src={PlusIcon} alt="" /></button>}
+                            </div> : <button disabled={projectStatus === 'closed' ? true : false} onClick={() => setModal('info')}><img src={PlusIcon} alt="" /></button>}
                         </div>
                         {err.type === 'doc' && <p className='add_error'>{err.text}</p>}
                         <div className="add_authorities">
@@ -442,11 +446,11 @@ const AddProject = () => {
                 </div>
             </div>
             <div className="add_btns">
-                {projectStatus === 'approved' && <button onClick={() => { setBtnType('UPDATE'); setModal('projectModal') }}>MODIFIER</button>}
-                <button onClick={() => navigate('/dashboard')} >ANNULER</button>
-                {role === 'admin' && projectStatus === 'pending' && <button onClick={() => { setBtnType('APPROVE'); setModal('projectModal') }}>APPROUVER LE PROJET</button>}
-                {isNewProject && <button onClick={() => { setBtnType('CREATE'); setModal('projectModal') }}>LANCER LE PROJET</button>}
-                {role === 'admin' && projectStatus === 'approved' && <button onClick={() => { setBtnType('CLOSE'); setModal('projectModal') }}>CLOTURER LE PROJET</button>}
+                {projectStatus === 'approved' && <button onClick={() => { setBtnType('ACTUALIZAR'); setModal('projectModal') }}>MODIFIER</button>}
+                <button onClick={() => navigate('/dashboard')} >{projectStatus === 'closed' ? 'REGRESA' : 'ANNULER'}</button>
+                {role === 'admin' && projectStatus === 'pending' && <button onClick={() => { setBtnType('APROBAR'); setModal('projectModal') }}>APPROUVER LE PROJET</button>}
+                {isNewProject && <button onClick={() => { setBtnType('CREAR'); setModal('projectModal') }}>LANCER LE PROJET</button>}
+                {role === 'admin' && projectStatus === 'approved' && <button onClick={() => { setBtnType('CERCA'); setModal('projectModal') }}>CLOTURER LE PROJET</button>}
             </div>
             {location.state.edit && <div className="add_bot">
                 <div className="add_people">
@@ -472,9 +476,13 @@ const AddProject = () => {
                                     <p className="add_convodesc">{item.message}</p>
                                     {item.replies.length > 0 && <p className="add_convoreplies" onClick={() => toggleReply(index)}>{item.replies.length} responses</p>}
                                     {item.replies.map((reply) => (
-                                        <p className={index === clickIndex ? 'add_reply show' : 'add_reply'} key={reply._id} >{reply.message}</p>
+                                        <div className={index === clickIndex ? 'add_convoReplyBody show' : 'add_convoReplyBody'}>
+                                            <div>
+                                                <img src={reply.user.profile ? reply.user.profile : Avatar} alt="..." />
+                                            </div>
+                                            <p className='add_reply' key={reply._id} >{reply.message}</p>
+                                        </div>
                                     ))}
-                                    {/* <input type="text" placeholder='Add Reply' /> */}
                                     <div className="add_convoReply">
                                         <input type="text" placeholder='Reply To This Conversation' value={reply} onChange={(e) => setReply(e.target.value)} onKeyDown={(e) => addReply(e, item._id)} />
                                         <img src={IconSend} alt="..." />
@@ -484,7 +492,7 @@ const AddProject = () => {
                         ))}
                     </div>
                     {msgList.length === 0 && <div className="add_convoBody">
-                        <h6>THERE IS NO CONVERSATION IN THIS PROJECT BE THE FIRST ONE TO START A CONVERSATION</h6>
+                        <h6>NO HAY CONVERSACIÓN EN ESTE PROYECTO SÉ EL PRIMERO EN INICIAR UNA CONVERSACIÓN</h6>
                     </div>}
                     <div className="add_convoMsg">
                         <input type="text" placeholder='Ecrivez ici' value={msg} onChange={(e) => setMsg(e.target.value)} onKeyDown={addMsg} />
