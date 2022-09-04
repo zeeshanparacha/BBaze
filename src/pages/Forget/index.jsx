@@ -1,30 +1,34 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import Logo from '../../assets/images/logo.svg'
 import Icon1 from '../../assets/images/icon1.PNG'
 import Icon2 from '../../assets/images/icon2.PNG'
-
 const Forget = () => {
-
-    const [step, setStep] = useState(1)
+    const { token } = useParams();
     const navigate = useNavigate()
 
-    return(
+    const _handleSendEmail = () => { }
+    const _handleChangePassword = () => { navigate("/login") }
+
+    return (
         <div className="reset">
             <div className="reset_inner">
                 <div className="reset_logo">
                     <img src={Logo} alt="" />
                 </div>
-                <p className="reset_text">ENTER YOUR EMAIL TO RESET YOUR PASSWORD</p>
-                {step === 1 && <div>
+
+                {!token && <p className="reset_text">ENTREZ VOTRE E-MAIL POUR RÉINITIALISER VOTRE MOT DE PASSE</p>}
+                {token && <p className="reset_text">ENTREZ VOTRE NOUVEAU MOT DE PASSE</p>}
+
+                {!token && <div>
                     <div className="reset_email">
                         <input type="email" placeholder="Email" />
                         <img src={Icon1} alt="" />
                     </div>
-                    <button className="reset_btn" onClick={() => setStep(2)}>SEND EMAIL</button>
+                    <button className="reset_btn" onClick={() => _handleSendEmail()}>ENVOYER UN COURRIEL</button>
                 </div>}
-                {step === 2 && <div>
+                {token && <div>
                     <div className="reset_pass">
                         <input type="password" placeholder="Password" />
                         <img src={Icon2} alt="" />
@@ -33,7 +37,7 @@ const Forget = () => {
                         <input type="password" placeholder="Confirm Password" />
                         <img src={Icon2} alt="" />
                     </div>
-                    <button className="reset_btn" onClick={() => navigate('/login')}>RESET PASSWORD</button>
+                    <button className="reset_btn" onClick={() => _handleChangePassword()}>RÉINITIALISER LE MOT DE PASSE</button>
                 </div>}
             </div>
         </div>

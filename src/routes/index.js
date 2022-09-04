@@ -45,17 +45,20 @@ export const Routes = () => {
     // const isLoggedIn = 'true'
 
     return (
-        <Suspense fallback={<Loader/>}>
+        <Suspense fallback={<Loader />}>
             <Switch>
                 {isLoggedIn !== 'true' && <Route exact path="/" element={<Login />} />}
-                {isLoggedIn !== 'true' && <Route exact path="/forget" element={<Forget />} />}
+                {isLoggedIn !== 'true' && <Route path="/forget">
+                    <Route path=":token" element={<Forget />} />
+                    <Route path="" element={<Forget />} />
+                </Route>}
                 {isLoggedIn === 'true' && <Route exact path="/dashboard" element={<Dashboard />} />}
                 {isLoggedIn === 'true' && <Route exact path="/addproject" element={<AddProject />} />}
-                {isLoggedIn === 'true' && role === 'admin' &&  <Route exact path="/organizer" element={<Organizer />} />}
+                {isLoggedIn === 'true' && role === 'admin' && <Route exact path="/organizer" element={<Organizer />} />}
                 {isLoggedIn === 'true' && <Route exact path="/profile" element={<Profile />} />}
                 {isLoggedIn === 'true' && role === 'admin' && <Route exact path="/approve" element={<Approve />} />}
-                <Route path="*" element={isLoggedIn === 'true' ? <Navigate to="/dashboard" replace /> : <Navigate to="/" replace />}/>
+                <Route path="*" element={isLoggedIn === 'true' ? <Navigate to="/dashboard" replace /> : <Navigate to="/" replace />} />
             </Switch>
-        </Suspense>
+        </Suspense >
     );
 };
