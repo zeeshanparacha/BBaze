@@ -20,7 +20,7 @@
     &_email, &_pass
     {
         position: relative;
-        width: 250px;
+        width: 280px;
         margin: 20px auto 0;
 
         input
@@ -46,8 +46,11 @@
     &_forget
     {
         text-align: left;
-        margin-left: 80px;
         margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0px 30px 0px;
 
         a
         {
@@ -59,9 +62,6 @@
 
     &_checkFields
     {
-        display: flex;
-        margin: 25px 0;
-        flex-wrap: wrap;
 
         div
         {

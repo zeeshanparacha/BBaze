@@ -49,23 +49,15 @@ const Login = () => {
                     <img src={Icon2} alt="" />
                 </div>
                 <div className="login_forget">
-                    <Link to="/forget">Forget Password ?</Link>
+                    <Link to="/forget">Mot de passe oublié?</Link>
+                    <div className="login_checkFields">
+                        <div>
+                            <input type="checkbox" id="memo" />
+                            <label htmlFor="memo">Memoriser</label>
+                        </div>
+                    </div>
                 </div>
                 {err && <p className='login_err'>{err}</p>}
-                <div className="login_checkFields">
-                    <div>
-                        <input type="checkbox" id="memo" />
-                        <label htmlFor="memo">Memoriser</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="mot" />
-                        <label htmlFor="mot">Mot de passe oublie ?</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="nom" />
-                        <label htmlFor="nom">Nom d'utilisateur oublie ?</label>
-                    </div>
-                </div>
                 <button className="login_btn" onClick={handleLogin}>CONNEXION</button>
             </div>
         </div>
