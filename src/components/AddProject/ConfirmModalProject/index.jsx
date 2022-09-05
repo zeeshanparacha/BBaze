@@ -46,16 +46,16 @@ const ConfirmModalProject = ({ setModal, type, data }) => {
     }
 
     const handleClick = () => {
-        if (type === 'UPDATE') {
+        if (type === 'ACTUALIZAR') {
             updateProject()
         }
-        else if (type === 'CREATE') {
+        else if (type === 'CREAR') {
             createProject()
         }
-        else if (type === 'CLOSE') {
+        else if (type === 'CERCA') {
             closeProject()
         }
-        else if (type === 'APPROVE') {
+        else if (type === 'APROBAR') {
             approveProject()
         }
     }
