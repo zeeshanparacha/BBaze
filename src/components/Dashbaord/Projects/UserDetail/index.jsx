@@ -35,7 +35,7 @@ const UserDetail = ({ setModal, data, projectList }) => {
                         <img src={data?.user?.profile ? data?.user?.profile : Avatar} alt="" />
                     </div>
                     <div className="user_right">
-                        <p><span>Noms:</span>{data?.user?.loginName}</p>
+                        <p><span>Noms:</span>{data?.user?.name}</p>
                         <p><span>Profession:</span>{data?.user?.profession}</p>
                         <p><span>Domaine d'expertise:</span>{data?.user?.expertiseFeild}</p>
                         <p><span>Ville:</span>{data?.user?.town}</p>

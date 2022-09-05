@@ -10,7 +10,7 @@ const Access = ({ setModal, projectId, setClickUserId }) => {
     const [users, setUsers] = useState([])
     const [list, setList] = useState([])
     const [search, setSearch] = useState('')
-    const newList = list.filter(item => item.loginName.toLowerCase().includes(search.toLowerCase()))
+    const newList = list.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
 
     useEffect(() => {
         instance.post('permissions/get-all-users-permissions', { projectId })
@@ -55,7 +55,7 @@ const Access = ({ setModal, projectId, setClickUserId }) => {
                                         <img src={item.user.profile ? item.user.profile : Avatar} alt="" onClick={() => { setModal('permission'); setClickUserId(item.user._id) }} />
                                     </td>
                                     <td>
-                                        <p className="access_tableText1">{item.user.loginName}</p>
+                                        <p className="access_tableText1">{item.user.name}</p>
                                         <p className="access_tableText2">{item.user.profession}</p>
                                     </td>
                                     <td>
@@ -81,7 +81,7 @@ const Access = ({ setModal, projectId, setClickUserId }) => {
                             <div className="access_img">
                                 <img src={item.profile ? item.profile : Avatar} alt="" onClick={() => { setModal('permission'); setClickUserId(item._id) }} />
                             </div>
-                            <p className="access_tableText1">{item.loginName}</p>
+                            <p className="access_tableText1">{item.name}</p>
                         </li>
                     ))}
                 </ul>

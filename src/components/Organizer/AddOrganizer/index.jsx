@@ -101,7 +101,7 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
                 </div>
                 {isModify === false && <div className="addOrg_field">
                     <label>Nom d'utilisateur:</label>
-                    <input type="text" value={data.loginName} name='loginName' onChange={handleChange} />
+                    <input type="text" value={data.name} name='name' onChange={handleChange} />
                 </div>}
                 {isModify === false && <div className="addOrg_field">
                     <label>Mot de passe:</label>

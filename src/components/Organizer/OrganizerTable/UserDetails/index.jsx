@@ -12,7 +12,7 @@ const UserDetail = ({ setModal, setActiveTab, data }) => {
                         <img src={data?.profile ? data.profile : Avatar} alt="" />
                     </div>
                     <div className="user_right">
-                        <p><span>Noms:</span>{data?.loginName}</p>
+                        <p><span>Noms:</span>{data?.name}</p>
                         <p><span>Profession:</span>{data?.profession}</p>
                         <p><span>Domaine d'expertise:</span>{data?.expertiseFeild}</p>
                         <p><span>Ville:</span>{data?.town}</p>
