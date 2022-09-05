@@ -42,7 +42,7 @@ const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
                                 <p className="org_tableText2">{user.profession}</p>
                             </td>
                             <td>
-                                <p className="org_tableText1">Luanda</p>
+                                <p className="org_tableText1">{user.town}</p>
                             </td>
                             <td>
                                 <p className="org_tableText1">{dateFormat(user.createdAt, "dd-mmm-yyyy")}</p>

@@ -22,6 +22,7 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
                 mobileNumber: editData.mobileNumber,
                 telephone: editData.telephone,
                 fax: editData.fax,
+                about: editData.about
             })
         }
     }, [])
@@ -35,6 +36,7 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
         instance.post('organization/register', data)
             .then(res => {
                 if (res.data.code === 1) {
+                    getUsers()
                     setActiveTab(1)
                 }
             })
