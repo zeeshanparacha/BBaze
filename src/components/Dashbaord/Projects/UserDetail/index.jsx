@@ -32,7 +32,7 @@ const UserDetail = ({ setModal, data, projectList }) => {
                 <span className='access_close' onClick={() => setModal('')}>&#9587;</span>
                 <div className="user_details">
                     <div className="user_left">
-                        <img src={data?.user?.profile ? data.user.profile : Avatar} alt="" />
+                        <img src={data?.user?.profile ? data?.user?.profile : Avatar} alt="" />
                     </div>
                     <div className="user_right">
                         <p><span>Noms:</span>{data?.user?.loginName}</p>

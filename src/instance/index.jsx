@@ -7,7 +7,7 @@ const instance = axios.create({
     baseURL: "https://bbaze.herokuapp.com/",
     headers: {
         "Content-Type": "application/json",
-        "Authorization": authToken,
+        ...(token && { "Authorization": authToken })
     }
 });
 
