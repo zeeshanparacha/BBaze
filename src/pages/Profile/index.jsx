@@ -9,6 +9,7 @@ import avatar from '../../assets/images/avatar.jpg'
 const Organizer = () => {
 
     const [data, setData] = useState({})
+    const [success, setSuccess] = useState(false)
 
     useEffect(() => {
         instance.post('profile/get-profile', { _id: localStorage.getItem('userId') })
@@ -27,6 +28,17 @@ const Organizer = () => {
                 })
             })
     }, [])
+
+    useEffect(() => {
+        if (data.profile) {
+            instance.post('profile/update-profile', data)
+                .then(res => {
+                    if (res.data.code === 1) {
+                        localStorage.setItem('userImg', res.data.data.profile)
+                    }
+                })
+        }
+    }, [data.profile])
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value })
@@ -53,6 +65,12 @@ const Organizer = () => {
 
     const handleSubmit = () => {
         instance.post('profile/update-profile', data)
+            .then(res => {
+                if (res.data.code === 1) {
+                    localStorage.setItem('userImg', res.data.data.profile)
+                    setSuccess(true)
+                }
+            })
     }
 
     return (
@@ -99,6 +117,7 @@ const Organizer = () => {
                     <div className="addOrg_desc">
                         <textarea value={data.about} name="about" placeholder="A PROPOS" onChange={handleChange}></textarea>
                     </div>
+                    {success && <p className='addOrg_success'>Tu perfil ha sido actualizado</p>}
                     <div className="addOrg_btns">
                         <button onClick={handleSubmit}>UPDATE PROFILE</button>
                     </div>

@@ -19,7 +19,7 @@ const Login = () => {
                 localStorage.setItem('role', res.data.user.role)
                 localStorage.setItem('token', res.data.token)
                 localStorage.setItem('name', res.data.user.name)
-                localStorage.setItem('userImg', res.data.user.profile)
+                localStorage.setItem('userImg', res.data.user.profile ? res.data.user.profile : '')
                 window.location.reload()
             })
             .catch(err => {
@@ -50,12 +50,6 @@ const Login = () => {
                 </div>
                 <div className="login_forget">
                     <Link to="/forget">Mot de passe oublié?</Link>
-                    <div className="login_checkFields">
-                        <div>
-                            <input type="checkbox" id="memo" />
-                            <label htmlFor="memo">Memoriser</label>
-                        </div>
-                    </div>
                 </div>
                 {err && <p className='login_err'>{err}</p>}
                 <button className="login_btn" onClick={handleLogin}>CONNEXION</button>
