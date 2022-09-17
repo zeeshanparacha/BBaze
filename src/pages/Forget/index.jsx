@@ -33,10 +33,10 @@ const Forget = () => {
     const _handleChangePassword = () => {
         setErr('')
         if (pass !== confirmPass) {
-            setErr('Password and Confirm Password Must Be Same')
+            setErr('Le mot de passe et le mot de passe de confirmation doivent être identiques')
         }
         else if (pass.length < 6) {
-            setErr('Password Should be at-least 6 Character')
+            setErr('Le mot de passe doit comporter au moins 6 caractères')
         }
         else {
             instance.post('security/reset-password', {

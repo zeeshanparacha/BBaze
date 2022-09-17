@@ -10,6 +10,7 @@ const Organizer = () => {
 
     const [data, setData] = useState({})
     const [success, setSuccess] = useState(false)
+    const [localImg, setLocalImg] = useState('')
 
     useEffect(() => {
         instance.post('profile/get-profile', { _id: localStorage.getItem('userId') })
@@ -47,7 +48,12 @@ const Organizer = () => {
     const handleImg = (e) => {
         const file = e.target.files[0]
         if (file) {
-            setData({ ...data, profile: '' })
+            const fileReader = new FileReader()
+            fileReader.onloadend = (file) => {
+                setLocalImg(file.target.result)
+            }
+            fileReader.readAsDataURL(file)
+            // setData({ ...data, profile: '' })
             const formData = new FormData()
             formData.append(
                 'userId', localStorage.getItem('userId')
@@ -63,11 +69,15 @@ const Organizer = () => {
         e.target.value = ''
     }
 
+    console.log('profile', data.profile);
+    console.log('localImg', localImg);
+
     const handleSubmit = () => {
         instance.post('profile/update-profile', data)
             .then(res => {
                 if (res.data.code === 1) {
                     localStorage.setItem('userImg', res.data.data.profile)
+                    localStorage.setItem('name', res.data.data.name)
                     setSuccess(true)
                 }
             })
@@ -81,7 +91,8 @@ const Organizer = () => {
                 <div className="addOrg">
                     <div className="addOrg_form">
                         <label htmlFor="dp" className="addOrg_labelImg">
-                            <img src={data?.profile ? data?.profile : avatar} alt="" />
+                            {!localImg && <img src={data?.profile ? data?.profile : avatar} alt="" />}
+                            {localImg && <img src={localImg} alt="" />}
                         </label>
                         <input type="file" id="dp" onChange={handleImg} />
                         <div className="addOrg_field">
