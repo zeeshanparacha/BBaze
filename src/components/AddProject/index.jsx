@@ -44,6 +44,7 @@ const AddProject = () => {
     const [projectStatus, setProjectStatus] = useState('')
     const [users, setUsers] = useState([])
     const [err, setErr] = useState({})
+    const [err2, setErr2] = useState('')
     const [msgList, setMsgList] = useState([])
     const [msg, setMsg] = useState('')
     const [reply, setReply] = useState('')
@@ -452,6 +453,7 @@ const AddProject = () => {
                 {isNewProject && <button onClick={() => { setBtnType('CREAR'); setModal('projectModal') }}>LANCER LE PROJET</button>}
                 {role === 'admin' && projectStatus === 'approved' && <button onClick={() => { setBtnType('CERCA'); setModal('projectModal') }}>CLOTURER LE PROJET</button>}
             </div>
+            {err2 && <p className='add_error'>{err2}</p>}
             {location.state.edit && <div className="add_bot">
                 <div className="add_people">
                     <span className='add_peopleTitle'>ACCES A CE PROJET</span>
@@ -500,7 +502,7 @@ const AddProject = () => {
                     </div>
                 </div>
             </div>}
-            {modal === 'projectModal' && <ConfirmModalProject setModal={setModal} type={btnType} data={data} />}
+            {modal === 'projectModal' && <ConfirmModalProject setErr2={setErr2} setModal={setModal} type={btnType} data={data} />}
             {modal === 'confirm' && <ConfirmModal setModal={setModal} removeFile={removeFile} fileToRemove={fileToRemove} />}
             {modal === 'info' && <InfoModal setModal={setModal} />}
             {modal === 'access' && <Access setModal={setModal} projectId={location.state.data._id} setClickUserId={setClickUserId} />}

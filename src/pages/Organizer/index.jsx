@@ -11,6 +11,7 @@ const Organizer = () => {
     const [activeTab, setActiveTab] = useState(1)
     const [users, setUsers] = useState([])
     const [clickIndex, setClickIndex] = useState(-1)
+    const role = localStorage.getItem('role')
 
     useEffect(() => {
         getUsers()
@@ -49,7 +50,7 @@ const Organizer = () => {
                 <Header />
                 <div className="org_tabs">
                     <p className={activeTab === 1 ? 'org_tabName active' : 'org_tabName'} onClick={() => setActiveTab(1)}>Organisateurs</p>
-                    <p className={activeTab === 2 ? 'org_tabName active' : 'org_tabName'} onClick={() => setActiveTab(2)}>Enregistrer un organisateur</p>
+                    {role === 'admin' && <p className={activeTab === 2 ? 'org_tabName active' : 'org_tabName'} onClick={() => setActiveTab(2)}>Enregistrer un organisateur</p>}
                 </div>
                 {activeTab === 1 && <OrganizerTable setActiveTab={setActiveTab} users={users} clickIndex={clickIndex} setClickIndex={setClickIndex} />}
                 {activeTab === 2 && <AddOrganizer getUsers={getUsers} setActiveTab={setActiveTab} editData={users[clickIndex]} />}

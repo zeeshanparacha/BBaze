@@ -1,18 +1,24 @@
 import { useNavigate } from 'react-router-dom'
 import instance from '../../../instance'
 
-const ConfirmModalProject = ({ setModal, type, data }) => {
+const ConfirmModalProject = ({ setModal, type, data, setErr2 }) => {
 
     const navigate = useNavigate()
 
     const createProject = () => {
-        instance.post('projects/create-project', data)
-            .then(res => {
-                if (res.data.code === 1) {
-                    navigate('/dashboard')
-                }
-            })
-            .catch(err => console.log(err.response))
+        if (data.about && data.animator && data.headQuartier && data.host && data.organizerName && data.projectName && data.town) {
+            instance.post('projects/create-project', data)
+                .then(res => {
+                    if (res.data.code === 1) {
+                        navigate('/dashboard')
+                    }
+                })
+                .catch(err => console.log(err.response))
+        }
+        else {
+            setErr2('Todos los campos son obligatorios')
+            setModal('')
+        }
     }
 
     const updateProject = () => {

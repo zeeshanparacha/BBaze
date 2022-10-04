@@ -41,7 +41,6 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
                 }
             })
             .catch(err => {
-                console.log('err', err.response.data.error)
                 setErr(err.response.data.error)
             })
     }
@@ -55,7 +54,6 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
                 }
             })
             .catch(err => {
-                console.log('err', err.response.data.error)
                 setErr(err.response.data.error)
             })
     }
