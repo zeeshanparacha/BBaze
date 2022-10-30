@@ -54,13 +54,28 @@
         padding: 0 60px;
     }
 
+    &_success
+    {
+        margin-top: 20px;
+        text-align: center;
+        color: green;
+        margin-bottom: -10px;
+    }
+
     &_desc
     {
         margin: 0 25px;
         border: 1px solid $bg-light;
         padding: 15px 10px;
-        font-size: 12px;
-        color: gray;
+
+        textarea
+        {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: gray;
+        }
 
         p
         {
@@ -108,15 +123,15 @@
 
     &_labelImg
     {
-    width: 120px;
-    height: 120px;
-    overflow: hidden;
-    cursor: pointer;
-    margin-top: 30px;
-    margin-left: 100px;
-    border-radius: 50%;
-    border: 3px solid #cbcbcb;
-    margin-bottom: 16px;
+        width: 120px;
+        height: 120px;
+        overflow: hidden;
+        cursor: pointer;
+        margin-top: 30px;
+        margin-left: 100px;
+        border-radius: 50%;
+        border: 3px solid #cbcbcb;
+        margin-bottom: 16px;
 
         img
         {

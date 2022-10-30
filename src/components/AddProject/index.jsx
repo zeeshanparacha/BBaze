@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import instance from '../../instance'
+import dateFormat from "dateformat";
 
 import InfoModal from './InfoModal'
 import ConfirmModal from './ConfirmModal'
+import ConfirmModalProject from './ConfirmModalProject'
 import Access from './Access'
 import Permission from './Permission'
 import DeleteUser from './Access/DeleteUser'
@@ -13,6 +15,7 @@ import Icon2 from '../../assets/images/project-icon2.svg'
 import Icon3 from '../../assets/images/project-icon3.svg'
 import Icon4 from '../../assets/images/project-icon4.svg'
 import Icon5 from '../../assets/images/project-icon5.svg'
+import Avatar from '../../assets/images/avatar.jpg'
 import PlusIcon from '../../assets/images/plus1.svg'
 import PeopleImg from '../../assets/images/people1.png'
 import IconSend from '../../assets/images/send.svg'
@@ -37,6 +40,16 @@ const AddProject = () => {
     const [fileType, setFileType] = useState('')
     const [fileToRemove, setFileToRemove] = useState({})
     const [clickUserId, setClickUserId] = useState('')
+    const [btnType, setBtnType] = useState('')
+    const [projectStatus, setProjectStatus] = useState('')
+    const [users, setUsers] = useState([])
+    const [err, setErr] = useState({})
+    const [err2, setErr2] = useState('')
+    const [msgList, setMsgList] = useState([])
+    const [msg, setMsg] = useState('')
+    const [reply, setReply] = useState('')
+    const [clickIndex, setClickIndex] = useState(-1)
+    const role = localStorage.getItem('role')
     const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
     const location = useLocation()
@@ -58,14 +71,64 @@ const AddProject = () => {
     useEffect(() => {
         getProjectCategoryName()
         getProjectData()
-        // getProjectImages()
+        getUsers()
+        getMsgs()
         // eslint-disable-next-line
     }, [])
 
-    const getProjectImages = () => {
+    const addMsg = (e) => {
+        if (msg) {
+            if (e.key === 'Enter') {
+                instance.post('chat/add-message', {
+                    message: msg,
+                    projectId: location.state.data._id,
+                    user: userId,
+                    parentId: null
+                })
+                    .then(res => {
+                        if (res.data.code === 1) {
+                            getMsgs()
+                            setMsg('')
+                        }
+                    })
+            }
+        }
+    }
+
+    const addReply = (e, parentId) => {
+        if (reply) {
+            if (e.key === 'Enter') {
+                instance.post('chat/add-message', {
+                    message: reply,
+                    projectId: location.state.data._id,
+                    user: userId,
+                    parentId
+                })
+                    .then(res => {
+                        if (res.data.code === 1) {
+                            getMsgs()
+                            setReply('')
+                        }
+                    })
+            }
+        }
+    }
+
+    const getMsgs = () => {
         if (location.state.edit) {
-            instance.post('s3/bucket/images', { projectId: location.state.data._id })
-                .then(res => console.log('res all img', res))
+            instance.post('/chat/get-messages', { projectId: location.state.data._id })
+                .then(res => {
+                    setMsgList(res.data.data)
+                })
+        }
+    }
+
+    const getUsers = () => {
+        if (location.state.edit) {
+            instance.post('permissions/get-all-users-permissions', { projectId: location.state.data._id })
+                .then(res => {
+                    setUsers(res.data.data)
+                })
         }
     }
 
@@ -89,7 +152,6 @@ const AddProject = () => {
 
     const getProjectData = () => {
         if (location.state.edit) {
-
             instance.post('projects/get-project', {
                 _id: location.state.data._id
             })
@@ -115,6 +177,7 @@ const AddProject = () => {
                     setNotes(editData.notes)
                     setImages(editData.images)
                     setDocuments(editData.documents)
+                    setProjectStatus(editData.status)
                 })
         }
         else {
@@ -167,10 +230,10 @@ const AddProject = () => {
 
     const removeFile = (param) => {
         const fileName = param.url.split('/').pop()
-        const tempData = images
-        const newData = tempData.filter((item) => item._id !== param._id)
 
         if (fileType === 'img') {
+            const tempData = images
+            const newData = tempData.filter((item) => item._id !== param._id)
             instance.post('s3/delete/images', {
                 projectId: data._id,
                 fileName: fileName,
@@ -182,6 +245,8 @@ const AddProject = () => {
                 .catch(err => console.log('err', err.response))
         }
         else if (fileType === 'doc') {
+            const tempData = documents
+            const newData = tempData.filter((item) => item._id !== param._id)
             instance.post('s3/delete/files', {
                 projectId: data._id,
                 fileName: fileName,
@@ -192,26 +257,6 @@ const AddProject = () => {
                 })
                 .catch(err => console.log('err', err.response))
         }
-    }
-
-    const handleSubmit = () => {
-        instance.post('projects/create-project', data)
-            .then(res => {
-                if (res.data.code === 1) {
-                    navigate('/dashboard')
-                }
-            })
-            .catch(err => console.log(err.response))
-    }
-
-    const handleUpdate = () => {
-        instance.post('projects/update-project', data)
-            .then(res => {
-                if (res.data.code === 1) {
-                    navigate('/dashboard')
-                }
-            })
-            .catch(err => console.log(err.response))
     }
 
     const uploadFile = (e, type) => {
@@ -226,17 +271,43 @@ const AddProject = () => {
                 'file', file,
             )
             if (type === 'image') {
-                instance.post('s3/upload/images', formData)
-                    .then(res => {
-                        setImages([...images, { url: res.data.data }])
-                    })
+                const allowedType = ['tif', 'tiff', 'bmp', 'jpg', 'jpeg', 'gif', 'png']
+                const uploadedType = file.name.split('.').pop()
+                if (file.size > 2000000) {
+                    setErr({ type: 'image', text: 'Maximum File Size Allowed is 2mb' })
+                }
+                else if (allowedType.includes(uploadedType)) {
+                    instance.post('s3/upload/images', formData)
+                        .then(res => {
+                            setImages([...images, { url: res.data.data }])
+                            setErr({})
+                        })
+                }
+                else {
+                    setErr({ type: 'image', text: 'Only Images Are Allowed' })
+                }
             }
             else if (type === 'doc') {
-                instance.post('s3/upload/files', formData)
-                    .then(res => {
-                        setDocuments([...documents, { url: res.data.data }])
-                    })
+                if (file.size > 2000000) {
+                    setErr({ type: 'doc', text: 'Maximum File Size Allowed is 2mb' })
+                }
+                else {
+                    instance.post('s3/upload/files', formData)
+                        .then(res => {
+                            setDocuments([...documents, { url: res.data.data }])
+                            setErr({})
+                        })
+                }
             }
+        }
+    }
+
+    const toggleReply = (index) => {
+        if (clickIndex === index) {
+            setClickIndex(-1)
+        }
+        else {
+            setClickIndex(index)
         }
     }
 
@@ -245,39 +316,42 @@ const AddProject = () => {
             <div className="add_top">
                 <div className="add_topLeft">
                     <img src={projectIcon} alt="" />
-                    <p>{data.category}</p>
+                    <div>
+                        <p>{data.category}</p>
+                        {projectStatus === 'closed' && <p className='add_closeDate'>proyecto cerrado el {dateFormat(location.state.data.updatedAt, "dd-mmm-yyyy")}</p>}
+                    </div>
                 </div>
-                {location.state.edit && <div className="add_topRight">
+                {projectStatus === 'approved' && <div className="add_topRight">
                     <button className='add_btn' onClick={() => setModal('access')}>ACCES A CE PROJET</button>
                 </div>}
             </div>
             <div className="add_form">
                 <div className="add_formLeft">
                     <label>Nom du projet</label>
-                    <input type="text" name='projectName' value={data.projectName} onChange={handleChange} />
+                    <input type="text" name='projectName' disabled={projectStatus === 'closed' ? true : false} value={data.projectName} onChange={handleChange} />
                     <label>Ville</label>
-                    <input type="text" name='town' value={data.town} onChange={handleChange} />
+                    <input type="text" name='town' disabled={projectStatus === 'closed' ? true : false} value={data.town} onChange={handleChange} />
                     <label>Quartier</label>
-                    <input type="text" name='headQuartier' value={data.headQuartier} onChange={handleChange} />
+                    <input type="text" name='headQuartier' disabled={projectStatus === 'closed' ? true : false} value={data.headQuartier} onChange={handleChange} />
                     <label>À propos du projet</label>
-                    <textarea name='about' value={data.about} onChange={handleChange}></textarea>
+                    <textarea name='about' disabled={projectStatus === 'closed' ? true : false} value={data.about} onChange={handleChange}></textarea>
                     <label>Organisateur (trice)</label>
-                    <input type="text" placeholder="Taper le nom de l'organisateur" name='organizerName' value={data.organizerName} onChange={handleChange} />
+                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Taper le nom de l'organisateur" name='organizerName' value={data.organizerName} onChange={handleChange} />
                     <label>Animateur (trice)</label>
-                    <input type="text" placeholder="Taper le nom de l'animateur" name='animator' value={data.animator} onChange={handleChange} />
+                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Taper le nom de l'animateur" name='animator' value={data.animator} onChange={handleChange} />
                     <label>Hote / Hotesse</label>
-                    <input type="text" placeholder="Taper le nom de la personne (Physique ou morale) qui recoit" name='host' value={data.host} onChange={handleChange} />
+                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Taper le nom de la personne (Physique ou morale) qui recoit" name='host' value={data.host} onChange={handleChange} />
                 </div>
                 <div className="add_formRight">
                     <div>
                         <label>Autorité locale</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Nom de l" value={authorityName} onChange={(e) => setAuthorityName(e.target.value)} />
-                            <button><img src={PlusIcon} alt="" onClick={handleAuthorities} /></button>
+                            <input type="text" placeholder="Nom de l" disabled={projectStatus === 'closed' ? true : false} value={authorityName} onChange={(e) => setAuthorityName(e.target.value)} />
+                            <button disabled={projectStatus === 'closed' ? true : false}><img src={PlusIcon} alt="" onClick={handleAuthorities} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Titre cu role" value={authorityRole} onChange={(e) => setAuthorityRole(e.target.value)} />
-                            <button className='add_btnHidden'></button>
+                            <input type="text" placeholder="Titre cu role" disabled={projectStatus === 'closed' ? true : false} value={authorityRole} onChange={(e) => setAuthorityRole(e.target.value)} />
+                            <button className='add_btnHidden' ></button>
                         </div>
                         <div className="add_authorities">
                             {authorities.length > 0 && authorities.map((item, index) => (
@@ -292,11 +366,11 @@ const AddProject = () => {
                     <div>
                         <label>Autres participants clés</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Nom de l'autorite" value={participantName} onChange={(e) => setParticipantName(e.target.value)} />
-                            <button><img src={PlusIcon} alt="" onClick={handleParticipants} /></button>
+                            <input type="text" placeholder="Nom de l'autorite" disabled={projectStatus === 'closed' ? true : false} value={participantName} onChange={(e) => setParticipantName(e.target.value)} />
+                            <button disabled={projectStatus === 'closed' ? true : false}><img src={PlusIcon} alt="" onClick={handleParticipants} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Titre cu role" value={participantRole} onChange={(e) => setParticipantRole(e.target.value)} />
+                            <input type="text" placeholder="Titre cu role" disabled={projectStatus === 'closed' ? true : false} value={participantRole} onChange={(e) => setParticipantRole(e.target.value)} />
                             <button className='add_btnHidden'></button>
                         </div>
                         <div className="add_authorities">
@@ -313,13 +387,14 @@ const AddProject = () => {
                         <label>Document</label>
                         <div className='add_inputMain'>
                             <input disabled type="text" placeholder="Nom du document" />
-                            {isNewProject === false ? <div>
+                            {(isNewProject === false && projectStatus !== 'closed') ? <div>
                                 <label htmlFor="doc">
                                     <img src={PlusIcon} alt="" />
                                 </label>
                                 <input type="file" id='doc' onChange={(e) => uploadFile(e, 'doc')} />
-                            </div> : <button onClick={() => setModal('info')}><img src={PlusIcon} alt="" /></button>}
+                            </div> : <button disabled={projectStatus === 'closed' ? true : false} onClick={() => setModal('info')}><img src={PlusIcon} alt="" /></button>}
                         </div>
+                        {err.type === 'doc' && <p className='add_error'>{err.text}</p>}
                         <div className="add_authorities">
                             {documents.length > 0 && documents.map((item, index) => (
                                 <div key={index}>
@@ -333,11 +408,11 @@ const AddProject = () => {
                     <div>
                         <label>Notes de la réunion</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Date de la reunion" value={notesDate} onChange={(e) => setNotesDate(e.target.value)} />
-                            <button><img src={PlusIcon} alt="" onClick={handleNotes} /></button>
+                            <input type="text" placeholder="Date de la reunion" disabled={projectStatus === 'closed' ? true : false} value={notesDate} onChange={(e) => setNotesDate(e.target.value)} />
+                            <button disabled={projectStatus === 'closed' ? true : false}><img src={PlusIcon} alt="" onClick={handleNotes} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <textarea type="text" placeholder="Notes" value={notesText} onChange={(e) => setNotesText(e.target.value)} />
+                            <textarea type="text" placeholder="Notes" disabled={projectStatus === 'closed' ? true : false} value={notesText} onChange={(e) => setNotesText(e.target.value)} />
                             <button className='add_btnHidden'></button>
                         </div>
                         <div className="add_authorities">
@@ -358,57 +433,76 @@ const AddProject = () => {
                         <label htmlFor="img">
                             <img src={PlusIcon} alt="" />
                         </label>
-                        <input type="file" id='img' onChange={(e) => uploadFile(e, 'image')} />
+                        <input type="file" id='img' disabled={projectStatus === 'closed' ? true : false} accept="image/*" onChange={(e) => uploadFile(e, 'image')} />
                     </div> : <img src={PlusIcon} alt="" onClick={() => setModal('info')} />}
+                    {err.type === 'image' && <p className='add_error'>{err.text}</p>}
                 </div>
                 <div className="add_images">
                     {data?.images && data.images.map((item) => (
-                        <div className="add_image" key={item.id}>
+                        <div className="add_image" key={item.id} >
                             <img src={item.url} alt="" />
-                            <i className="fa-solid fa-trash" onClick={() => { setModal('confirm'); setFileToRemove(item); setFileType('img') }} ></i>
+                            {projectStatus === 'closed' ? <i className="fa-solid fa-trash" ></i> : <i className="fa-solid fa-trash" onClick={() => { setModal('confirm'); setFileToRemove(item); setFileType('img') }} ></i>}
                         </div>
                     ))}
                 </div>
             </div>
             <div className="add_btns">
-                <button onClick={handleUpdate}>MODIFIER</button>
-                <button>SAUVEGARDER</button>
-                <button>ANNULER</button>
-                <button>APPROUVER LE PROJET</button>
-                <button onClick={handleSubmit}>LANCER LE PROJET</button>
-                <button>CLOTURER LE PROJET</button>
+                {projectStatus === 'approved' && <button onClick={() => { setBtnType('ACTUALIZAR'); setModal('projectModal') }}>MODIFIER</button>}
+                <button onClick={() => navigate('/dashboard')} >{projectStatus === 'closed' ? 'REGRESA' : 'ANNULER'}</button>
+                {role === 'admin' && projectStatus === 'pending' && <button onClick={() => { setBtnType('APROBAR'); setModal('projectModal') }}>APPROUVER LE PROJET</button>}
+                {isNewProject && <button onClick={() => { setBtnType('CREAR'); setModal('projectModal') }}>LANCER LE PROJET</button>}
+                {role === 'admin' && projectStatus === 'approved' && <button onClick={() => { setBtnType('CERCA'); setModal('projectModal') }}>CLOTURER LE PROJET</button>}
             </div>
-            <div className="add_bot">
+            {err2 && <p className='add_error'>{err2}</p>}
+            {location.state.edit && <div className="add_bot">
                 <div className="add_people">
                     <span className='add_peopleTitle'>ACCES A CE PROJET</span>
                     <div className="add_peopleBody">
-                        <img src={PeopleImg} alt="..." />
-                        <img src={PeopleImg} alt="..." />
-                        <img src={PeopleImg} alt="..." />
-                        <img src={PeopleImg} alt="..." />
-                        <img src={PeopleImg} alt="..." />
-                        <img src={PeopleImg} alt="..." />
-                        <img src={PeopleImg} alt="..." />
+                        {users.map((item, index) => (
+                            <div>
+                                <img src={item.user.profile ? item.user.profile : Avatar} alt="..." key={index} />
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className="add_convo">
                     <span className='add_convoTitle'>CONVERSATIONS</span>
-                    <div className="add_convoBody">
-                        <div className="add_convoLeft">
-                            <img src={PeopleImg} alt="..." />
-                        </div>
-                        <div className="add_convoRight">
-                            <p className="add_convoname">Joseph Mpia</p>
-                            <p className="add_convodesc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium aliquam officia eaque aperiam neque. Officia alias dolorum a temporibus sequi.</p>
-                            <p className="add_convoreplies">5 responses</p>
-                        </div>
+                    <div className="add_convoBox">
+                        {msgList.map((item, index) => (
+                            <div className="add_convoBody" key={index}>
+                                <div className="add_convoLeft">
+                                    <img src={item.user.profile ? item.user.profile : Avatar} alt="..." />
+                                </div>
+                                <div className="add_convoRight">
+                                    <p className="add_convoname">{item.user.name}</p>
+                                    <p className="add_convodesc">{item.message}</p>
+                                    {item.replies.length > 0 && <p className="add_convoreplies" onClick={() => toggleReply(index)}>{item.replies.length} responses</p>}
+                                    {item.replies.map((reply) => (
+                                        <div className={index === clickIndex ? 'add_convoReplyBody show' : 'add_convoReplyBody'}>
+                                            <div>
+                                                <img src={reply.user.profile ? reply.user.profile : Avatar} alt="..." />
+                                            </div>
+                                            <p className='add_reply' key={reply._id} >{reply.message}</p>
+                                        </div>
+                                    ))}
+                                    <div className="add_convoReply">
+                                        <input type="text" placeholder='Reply To This Conversation' value={reply} onChange={(e) => setReply(e.target.value)} onKeyDown={(e) => addReply(e, item._id)} />
+                                        <img src={IconSend} alt="..." />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    <div className="add_convoReply">
-                        <input type="text" placeholder='Ecrivez ici' />
+                    {msgList.length === 0 && <div className="add_convoBody">
+                        <h6>NO HAY CONVERSACIÓN EN ESTE PROYECTO SÉ EL PRIMERO EN INICIAR UNA CONVERSACIÓN</h6>
+                    </div>}
+                    <div className="add_convoMsg">
+                        <input type="text" placeholder='Ecrivez ici' value={msg} onChange={(e) => setMsg(e.target.value)} onKeyDown={addMsg} />
                         <img src={IconSend} alt="..." />
                     </div>
                 </div>
-            </div>
+            </div>}
+            {modal === 'projectModal' && <ConfirmModalProject setErr2={setErr2} setModal={setModal} type={btnType} data={data} />}
             {modal === 'confirm' && <ConfirmModal setModal={setModal} removeFile={removeFile} fileToRemove={fileToRemove} />}
             {modal === 'info' && <InfoModal setModal={setModal} />}
             {modal === 'access' && <Access setModal={setModal} projectId={location.state.data._id} setClickUserId={setClickUserId} />}

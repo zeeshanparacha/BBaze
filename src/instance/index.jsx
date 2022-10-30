@@ -5,9 +5,10 @@ const authToken = `Bearer ${token}`;
 
 const instance = axios.create({
     baseURL: "https://bbaze.herokuapp.com/",
+    // baseURL: "http://localhost:4000/",
     headers: {
         "Content-Type": "application/json",
-        "Authorization": authToken,
+        ...(token && { "Authorization": authToken })
     }
 });
 

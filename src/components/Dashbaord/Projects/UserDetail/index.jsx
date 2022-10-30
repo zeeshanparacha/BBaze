@@ -1,10 +1,30 @@
-// import ImgPeople from '../../../../assets/images/people4.jpg'
+import { useState, useEffect } from 'react'
 import Avatar from '../../../../assets/images/avatar.jpg'
-import Img from '../../../../assets/images/img1.jpg'
 
-const UserDetail = ({ setModal, data }) => {
+const UserDetail = ({ setModal, data, projectList }) => {
 
-    console.log('data', data);
+    const [onGoing, setOngoing] = useState([])
+    const [closed, setClosed] = useState([])
+
+    useEffect(() => {
+        const array1 = []
+        const array2 = []
+        projectList.forEach(item => {
+            if (data.user.projects.includes(item._id)) {
+                if (item.status === 'approved') {
+                    array1.push(item)
+                }
+
+                else if (item.status === 'closed') {
+                    array2.push(item)
+                }
+            }
+        })
+        setOngoing(array1)
+        setClosed(array2)
+    }, [])
+
+    // const close = projectList.filter(item => item.status === 'closed' || item.status === 'approved'))
 
     return (
         <div className="user">
@@ -12,10 +32,10 @@ const UserDetail = ({ setModal, data }) => {
                 <span className='access_close' onClick={() => setModal('')}>&#9587;</span>
                 <div className="user_details">
                     <div className="user_left">
-                        <img src={data?.user?.profile ? data.user.profile : Avatar} alt="" />
+                        <img src={data?.user?.profile ? data?.user?.profile : Avatar} alt="" />
                     </div>
                     <div className="user_right">
-                        <p><span>Noms:</span>{data?.user?.loginName}</p>
+                        <p><span>Noms:</span>{data?.user?.name}</p>
                         <p><span>Profession:</span>{data?.user?.profession}</p>
                         <p><span>Domaine d'expertise:</span>{data?.user?.expertiseFeild}</p>
                         <p><span>Ville:</span>{data?.user?.town}</p>
@@ -25,94 +45,31 @@ const UserDetail = ({ setModal, data }) => {
                         <p><span>Fax</span>{data?.user?.fax}</p>
                     </div>
                 </div>
-                {/* <p className="user_descTitle">A PROPOS</p> */}
-                {/* <p className="user_desc"> 
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh 
-                    euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad 
-                    minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
-                    ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate 
-                    velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros
-                    et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit
-                    augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh 
-                    euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad 
-                    minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip 
-                    ex ea commodo consequat. 
-                </p> */}
-                <p className="user_heading">Projets en cours: <span>6</span></p>
+                <p className="user_descTitle">A PROPOS</p>
+                <p className="user_desc">{data?.user?.about}</p>
+                <p className="user_heading">Projets en cours: <span>{onGoing.length}</span></p>
                 <div className="user_projects">
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
+                    {onGoing.map((item, index) => item.images.map((img, index) => (
+                        <div className="user_box" key={index}>
+                            <div className="user_img">
+                                <img src={img.url} alt="" />
+                            </div>
+                            {/* <p className="user_name">Green Space day</p>
+                                <p className="user_date">mai 2022</p> */}
                         </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
+                    )))}
                 </div>
-                <p className="user_heading">Projets realises: <span>11</span></p>
+                <p className="user_heading">Projets realises: <span>{closed.length}</span></p>
                 <div className="user_projects">
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
+                    {closed.map((item, index) => item.images.map((img, index) => (
+                        <div className="user_box" key={index}>
+                            <div className="user_img">
+                                <img src={img.url} alt="" />
+                            </div>
+                            {/* <p className="user_name">Green Space day</p>
+                                <p className="user_date">mai 2022</p> */}
                         </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
-                    <div className="user_box">
-                        <div className="user_img">
-                            <img src={Img} alt="" />
-                        </div>
-                        <p className="user_name">Green Space day</p>
-                        <p className="user_date">mai 2022</p>
-                    </div>
+                    )))}
                 </div>
             </div>
         </div>

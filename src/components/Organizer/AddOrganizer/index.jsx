@@ -22,6 +22,7 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
                 mobileNumber: editData.mobileNumber,
                 telephone: editData.telephone,
                 fax: editData.fax,
+                about: editData.about
             })
         }
     }, [])
@@ -35,11 +36,11 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
         instance.post('organization/register', data)
             .then(res => {
                 if (res.data.code === 1) {
+                    getUsers()
                     setActiveTab(1)
                 }
             })
             .catch(err => {
-                console.log('err', err.response.data.error)
                 setErr(err.response.data.error)
             })
     }
@@ -53,7 +54,6 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
                 }
             })
             .catch(err => {
-                console.log('err', err.response.data.error)
                 setErr(err.response.data.error)
             })
     }
@@ -99,7 +99,7 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
                 </div>
                 {isModify === false && <div className="addOrg_field">
                     <label>Nom d'utilisateur:</label>
-                    <input type="text" value={data.loginName} name='loginName' onChange={handleChange} />
+                    <input type="text" value={data.name} name='name' onChange={handleChange} />
                 </div>}
                 {isModify === false && <div className="addOrg_field">
                     <label>Mot de passe:</label>
@@ -109,13 +109,16 @@ const AddOrganizer = ({ setActiveTab, editData, getUsers }) => {
             </div>
             <p className='addOrg_descTitle'>A PROPOS</p>
             <div className="addOrg_desc">
+                <textarea value={data.about} name="about" placeholder="A PROPOS" onChange={handleChange}></textarea>
+            </div>
+            {/* <div className="addOrg_desc">
                 <p>RESUME / CV<br />Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
                 <p>Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</p>
-            </div>
+            </div> */}
             <div className="addOrg_btns">
-                <button onClick={handleUpdate}>MODIFIER</button>
-                <button onClick={handleSubmit}>SAUVEGARDER</button>
-                <button>ANNULER</button>
+                {editData && <button onClick={handleUpdate}>MODIFIER</button>}
+                {!editData && <button onClick={handleSubmit}>SAUVEGARDER</button>}
+                {/* <button>ANNULER</button> */}
             </div>
         </div>
     )

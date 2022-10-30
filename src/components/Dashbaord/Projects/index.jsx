@@ -31,49 +31,48 @@ const Projects = () => {
         instance.post('projects/get-projects-by-category', {
             category: "Espace vert"
         })
-        .then(res => {
-            setCategory1(res.data.data)
-        })
-        .catch(err => {
-            if (err.response.data.error === 'Your token is expired, please login again.')
-            {
-                localStorage.clear()
-                window.location.reload()
-            }
-        })
+            .then(res => {
+                setCategory1(res.data.data)
+            })
+            .catch(err => {
+                if (err.response.data.error === 'Your token is expired, please login again.') {
+                    localStorage.clear()
+                    window.location.reload()
+                }
+            })
 
         instance.post('projects/get-projects-by-category', {
             category: "Fond local"
         })
-        .then(res => {
-            setCategory2(res.data.data)
-        })
+            .then(res => {
+                setCategory2(res.data.data)
+            })
 
         instance.post('projects/get-projects-by-category', {
             category: "Partage social"
         })
-        .then(res => {
-            setCategory3(res.data.data)
-        })
-        
+            .then(res => {
+                setCategory3(res.data.data)
+            })
+
         instance.post('projects/get-projects-by-category', {
             category: "Wikend"
         })
-        .then(res => {
-            setCategory4(res.data.data)
-        })
+            .then(res => {
+                setCategory4(res.data.data)
+            })
 
         instance.post('projects/get-projects-by-category', {
             category: "KinFest"
         })
-        .then(res => {
-            setCategory5(res.data.data)
-        })
+            .then(res => {
+                setCategory5(res.data.data)
+            })
     }, [])
 
-    return(
+    return (
         <div className="project">
-            <ProjectBody category='Espace vert' 
+            <ProjectBody category='Espace vert'
                 icon={Icon1}
                 plusIcon={Plus1}
                 searchIcon={Search1}

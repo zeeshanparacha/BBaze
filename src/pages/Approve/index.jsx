@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
 import instance from "../../instance"
+import dateFormat from "dateformat";
 
 import SideBar from "../../components/ReuseableComponents/Sidebar"
 import Header from "../../components/ReuseableComponents/Header"
 import ConfirmModal from "../../components/Approve/ConfirmModal"
-import dateFormat from "dateformat";
 
-import people1 from '../../assets/images/people1.png'
 import Search from '../../assets/images/search7.svg'
 import Avatar from '../../assets/images/avatar.jpg'
 
@@ -16,6 +15,8 @@ const Approve = () => {
     const [modal, setModal] = useState('')
     const [type, setType] = useState('')
     const [id, setId] = useState('')
+    const [search, setSearch] = useState('')
+    const updatedProjects = search ? projectList.filter(item => item?.projectName.toLowerCase().includes(search.toLowerCase())) : projectList
 
     useEffect(() => {
         getProjects()
@@ -28,24 +29,22 @@ const Approve = () => {
             })
     }
 
-    console.log('projectList', projectList);
-
     return (
         <div className="org">
             <SideBar index={3} />
             <div className="org_body">
                 <Header />
                 <div className="org_table">
-                    <div className="org_head"><p><span>10</span> Organisateur</p></div>
+                    <div className="org_head"><p><span>{projectList.length}</span>Projets en attente</p></div>
                     <div className="org_search">
                         <img src={Search} alt="" />
-                        <input type="search" placeholder="Chercher" />
+                        <input type="search" placeholder="Chercher" onChange={(e) => setSearch(e.target.value)} />
                     </div>
                     <table>
                         <thead>
                             <tr>
                                 <td></td>
-                                <td>Organisateur</td>
+                                {/* <td>Organisateur</td> */}
                                 <td>Nom du projet</td>
                                 <td>Ville</td>
                                 <td>Date entrée</td>
@@ -53,17 +52,17 @@ const Approve = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {projectList.map((item, index) => (
+                            {updatedProjects.map((item, index) => (
                                 <tr key={index}>
                                     <td>
                                         <div className='project_img'>
                                             <img src={item?.user?.profile ? item.user.profile : Avatar} alt="" />
                                         </div>
                                     </td>
-                                    <td>
+                                    {/* <td>
                                         <p className="project_tableText1">{item?.user?.name}</p>
                                         <p className="project_tableText2">{item?.user?.profession}</p>
-                                    </td>
+                                    </td> */}
                                     <td>
                                         <p className="org_tableText1">{item.projectName}</p>
                                         <p className="org_tableText2">{item.about}</p>
@@ -74,19 +73,19 @@ const Approve = () => {
                                     <td>
                                         <p className="project_tableText1">{dateFormat(item.createdAt, "dd-mmm-yyyy")}</p>
                                         <p className="project_tableText2">{dateFormat(item.createdAt, "shortTime")}</p>
-                                    </td>
+                                    </td >
                                     <td>
                                         <button onClick={() => { setModal('confirm'); setType('approve'); setId(item._id) }}>APPROVE</button>
                                         <button onClick={() => { setModal('confirm'); setType('reject'); setId(item._id) }}>REJECT</button>
                                     </td>
-                                </tr>
+                                </tr >
                             ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                        </tbody >
+                    </table >
+                </div >
+            </div >
             {modal === 'confirm' && <ConfirmModal getProjects={getProjects} setModal={setModal} type={type} id={id} />}
-        </div>
+        </div >
     )
 }
 
