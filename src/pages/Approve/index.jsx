@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 import instance from "../../instance"
 import dateFormat from "dateformat";
 
@@ -17,6 +18,7 @@ const Approve = () => {
     const [id, setId] = useState('')
     const [search, setSearch] = useState('')
     const updatedProjects = search ? projectList.filter(item => item?.projectName.toLowerCase().includes(search.toLowerCase())) : projectList
+    const navigate = useNavigate()
 
     useEffect(() => {
         getProjects()
@@ -35,7 +37,7 @@ const Approve = () => {
             <div className="org_body">
                 <Header />
                 <div className="org_table">
-                    <div className="org_head"><p><span>{projectList.length}</span>Projets en attente</p></div>
+                    <div className="org_head"><p><span>{updatedProjects.length}</span>Projets en attente</p></div>
                     <div className="org_search">
                         <img src={Search} alt="" />
                         <input type="search" placeholder="Chercher" onChange={(e) => setSearch(e.target.value)} />
@@ -64,7 +66,7 @@ const Approve = () => {
                                         <p className="project_tableText2">{item?.user?.profession}</p>
                                     </td> */}
                                     <td>
-                                        <p className="org_tableText1">{item.projectName}</p>
+                                        <p className="org_tableText1" onClick={() => navigate('/addproject', { state: { category: item.category, data: item, edit: 'true' } })} >{item.projectName}</p>
                                         <p className="org_tableText2">{item.about}</p>
                                     </td>
                                     <td>
@@ -75,8 +77,8 @@ const Approve = () => {
                                         <p className="project_tableText2">{dateFormat(item.createdAt, "shortTime")}</p>
                                     </td >
                                     <td>
-                                        <button onClick={() => { setModal('confirm'); setType('approve'); setId(item._id) }}>APPROVE</button>
-                                        <button onClick={() => { setModal('confirm'); setType('reject'); setId(item._id) }}>REJECT</button>
+                                        <button onClick={() => { setModal('confirm'); setType('approve'); setId(item._id) }}>APPROUVER</button>
+                                        <button onClick={() => { setModal('confirm'); setType('reject'); setId(item._id) }}>REJETER</button>
                                     </td>
                                 </tr >
                             ))}

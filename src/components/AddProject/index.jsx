@@ -78,7 +78,7 @@ const AddProject = () => {
 
     const addMsg = (e) => {
         if (msg) {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' || e === 'click') {
                 instance.post('chat/add-message', {
                     message: msg,
                     projectId: location.state.data._id,
@@ -97,7 +97,7 @@ const AddProject = () => {
 
     const addReply = (e, parentId) => {
         if (reply) {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' || e === 'click') {
                 instance.post('chat/add-message', {
                     message: reply,
                     projectId: location.state.data._id,
@@ -334,23 +334,23 @@ const AddProject = () => {
                     <label>Quartier</label>
                     <input type="text" name='headQuartier' disabled={projectStatus === 'closed' ? true : false} value={data.headQuartier} onChange={handleChange} />
                     <label>À propos du projet</label>
-                    <textarea name='about' disabled={projectStatus === 'closed' ? true : false} value={data.about} onChange={handleChange}></textarea>
+                    <textarea name='about' placeholder='Expliquez brièvement le projet' disabled={projectStatus === 'closed' ? true : false} value={data.about} onChange={handleChange}></textarea>
                     <label>Organisateur (trice)</label>
-                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Taper le nom de l'organisateur" name='organizerName' value={data.organizerName} onChange={handleChange} />
+                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Tapez le nom de l’organisateur (trice) de l’activité" name='organizerName' value={data.organizerName} onChange={handleChange} />
                     <label>Animateur (trice)</label>
-                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Taper le nom de l'animateur" name='animator' value={data.animator} onChange={handleChange} />
-                    <label>Hote / Hotesse</label>
-                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Taper le nom de la personne (Physique ou morale) qui recoit" name='host' value={data.host} onChange={handleChange} />
+                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Tapez le nom de l’animateur (trice) de l’activité" name='animator' value={data.animator} onChange={handleChange} />
+                    <label>Hôte / Hôtesse</label>
+                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Tapez le nom de l’organisation ou personne qui accueil l’activité." name='host' value={data.host} onChange={handleChange} />
                 </div>
                 <div className="add_formRight">
                     <div>
                         <label>Autorité locale</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Nom de l" disabled={projectStatus === 'closed' ? true : false} value={authorityName} onChange={(e) => setAuthorityName(e.target.value)} />
+                            <input type="text" placeholder="Ouvert" disabled={projectStatus === 'closed' ? true : false} value={authorityName} onChange={(e) => setAuthorityName(e.target.value)} />
                             <button disabled={projectStatus === 'closed' ? true : false}><img src={PlusIcon} alt="" onClick={handleAuthorities} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Titre cu role" disabled={projectStatus === 'closed' ? true : false} value={authorityRole} onChange={(e) => setAuthorityRole(e.target.value)} />
+                            <input type="text" placeholder="Fonction" disabled={projectStatus === 'closed' ? true : false} value={authorityRole} onChange={(e) => setAuthorityRole(e.target.value)} />
                             <button className='add_btnHidden' ></button>
                         </div>
                         <div className="add_authorities">
@@ -366,11 +366,11 @@ const AddProject = () => {
                     <div>
                         <label>Autres participants clés</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Nom de l'autorite" disabled={projectStatus === 'closed' ? true : false} value={participantName} onChange={(e) => setParticipantName(e.target.value)} />
+                            <input type="text" placeholder="Nom" disabled={projectStatus === 'closed' ? true : false} value={participantName} onChange={(e) => setParticipantName(e.target.value)} />
                             <button disabled={projectStatus === 'closed' ? true : false}><img src={PlusIcon} alt="" onClick={handleParticipants} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Titre cu role" disabled={projectStatus === 'closed' ? true : false} value={participantRole} onChange={(e) => setParticipantRole(e.target.value)} />
+                            <input type="text" placeholder="Titre" disabled={projectStatus === 'closed' ? true : false} value={participantRole} onChange={(e) => setParticipantRole(e.target.value)} />
                             <button className='add_btnHidden'></button>
                         </div>
                         <div className="add_authorities">
@@ -386,7 +386,7 @@ const AddProject = () => {
                     <div>
                         <label>Document</label>
                         <div className='add_inputMain'>
-                            <input disabled type="text" placeholder="Nom du document" />
+                            <input disabled type="text" placeholder="Téléchargez tous les documents liés à ce projet" />
                             {(isNewProject === false && projectStatus !== 'closed') ? <div>
                                 <label htmlFor="doc">
                                     <img src={PlusIcon} alt="" />
@@ -418,7 +418,7 @@ const AddProject = () => {
                         <div className="add_authorities">
                             {notes.length > 0 && notes.map((item, index) => (
                                 <div key={index}>
-                                    <p>{item.meetingDate}</p>
+                                    <p>{dateFormat(location.state.data.updatedAt, "dd-mmm-yyyy")}</p>
                                     <p>{item.text}</p>
                                     <span onClick={() => removeNote(index)}>x</span>
                                 </div>
@@ -456,11 +456,14 @@ const AddProject = () => {
             {err2 && <p className='add_error'>{err2}</p>}
             {location.state.edit && <div className="add_bot">
                 <div className="add_people">
-                    <span className='add_peopleTitle'>ACCES A CE PROJET</span>
+                    {projectStatus === 'approved' && <span className='add_peopleTitle' onClick={() => setModal('access')}>ACCES A CE PROJET</span>}
                     <div className="add_peopleBody">
                         {users.map((item, index) => (
                             <div>
-                                <img src={item.user.profile ? item.user.profile : Avatar} alt="..." key={index} />
+                                <div className="add_peopleBodyImg">
+                                    <img src={item.user.profile ? item.user.profile : Avatar} alt="..." key={index} />
+                                </div>
+                                <p>{item.user.name}</p>
                             </div>
                         ))}
                     </div>
@@ -476,7 +479,7 @@ const AddProject = () => {
                                 <div className="add_convoRight">
                                     <p className="add_convoname">{item.user.name}</p>
                                     <p className="add_convodesc">{item.message}</p>
-                                    {item.replies.length > 0 && <p className="add_convoreplies" onClick={() => toggleReply(index)}>{item.replies.length} responses</p>}
+                                    {item.replies.length > 0 && <p className="add_convoreplies" onClick={() => toggleReply(index)}>{item.replies.length} Réponses</p>}
                                     {item.replies.map((reply) => (
                                         <div className={index === clickIndex ? 'add_convoReplyBody show' : 'add_convoReplyBody'}>
                                             <div>
@@ -486,19 +489,19 @@ const AddProject = () => {
                                         </div>
                                     ))}
                                     <div className="add_convoReply">
-                                        <input type="text" placeholder='Reply To This Conversation' value={reply} onChange={(e) => setReply(e.target.value)} onKeyDown={(e) => addReply(e, item._id)} />
-                                        <img src={IconSend} alt="..." />
+                                        <input type="text" placeholder='Répondre à cette conversation' value={reply} onChange={(e) => setReply(e.target.value)} onKeyDown={(e) => addReply(e, item._id)} />
+                                        <img src={IconSend} alt="..." onClick={() => addReply('click', item._id)} />
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                     {msgList.length === 0 && <div className="add_convoBody">
-                        <h6>NO HAY CONVERSACIÓN EN ESTE PROYECTO SÉ EL PRIMERO EN INICIAR UNA CONVERSACIÓN</h6>
+                        <h6>Il n'y a aucune conversation dans ce projet pour le moment.  Vous pouvez commencer une conversation</h6>
                     </div>}
                     <div className="add_convoMsg">
                         <input type="text" placeholder='Ecrivez ici' value={msg} onChange={(e) => setMsg(e.target.value)} onKeyDown={addMsg} />
-                        <img src={IconSend} alt="..." />
+                        <img src={IconSend} alt="..." onClick={() => addMsg('click')} />
                     </div>
                 </div>
             </div>}
@@ -506,7 +509,7 @@ const AddProject = () => {
             {modal === 'confirm' && <ConfirmModal setModal={setModal} removeFile={removeFile} fileToRemove={fileToRemove} />}
             {modal === 'info' && <InfoModal setModal={setModal} />}
             {modal === 'access' && <Access setModal={setModal} projectId={location.state.data._id} setClickUserId={setClickUserId} />}
-            {modal === 'permission' && <Permission setModal={setModal} projectId={location.state.data._id} clickUserId={clickUserId} />}
+            {modal === 'permission' && <Permission getUsers={getUsers} setModal={setModal} projectId={location.state.data._id} clickUserId={clickUserId} />}
             {modal === 'delete' && <DeleteUser setModal={setModal} projectId={location.state.data._id} clickUserId={clickUserId} />}
         </div >
     )

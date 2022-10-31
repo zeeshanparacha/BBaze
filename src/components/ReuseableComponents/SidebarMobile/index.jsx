@@ -20,9 +20,9 @@ const SideBarMobile = ({ setMenu }) => {
             <ul>
                 <li><Link to="/dashboard">Projects <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
                 <li><Link to="/organizer">Organisateurs <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
-                {role === 'admin' && <li><Link to="/approve">Approve Projects <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>}
+                {role === 'admin' && <li><Link to="/approve">Projets proposés <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>}
                 <li><Link to="/profile">Profil <img src="" alt="" /></Link><i className="fa-solid fa-angle-right"></i></li>
-                <li><a href="#" onClick={handleLogout}>Logout</a><i className="fa-solid fa-angle-right"></i></li>
+                <li><a href="#" onClick={handleLogout}>Déconnexion</a><i className="fa-solid fa-angle-right"></i></li>
             </ul>
         </div>
     )

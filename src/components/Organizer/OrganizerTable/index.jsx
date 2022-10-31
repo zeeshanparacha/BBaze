@@ -13,7 +13,7 @@ const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
 
     return (
         <div className="org_table">
-            <div className="org_head"><p><span>{users.length}</span> Organisateur</p></div>
+            <div className="org_head"><p><span>{users.length}</span> Organisateurs</p></div>
             <div className="org_search">
                 <img src={Search} alt="" />
                 <input type="search" placeholder="Chercher" onChange={(e) => setSearch(e.target.value)} />
@@ -26,7 +26,7 @@ const OrganizerTable = ({ setActiveTab, users, clickIndex, setClickIndex }) => {
                         <td>Ville</td>
                         <td>Date entrée</td>
                         <td>Projets en cours</td>
-                        <td>Projets realises</td>
+                        <td>Projets en réalisés</td>
                     </tr>
                 </thead>
                 <tbody>

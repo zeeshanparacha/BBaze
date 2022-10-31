@@ -16,7 +16,7 @@ const ConfirmModalProject = ({ setModal, type, data, setErr2 }) => {
                 .catch(err => console.log(err.response))
         }
         else {
-            setErr2('Todos los campos son obligatorios')
+            setErr2('Veuillez entrer plus d\'informations')
             setModal('')
         }
     }
@@ -70,7 +70,7 @@ const ConfirmModalProject = ({ setModal, type, data, setErr2 }) => {
         <div className="info">
             <div className="info_inner">
                 <span className='info_close' onClick={() => setModal('')}>&#9587;</span>
-                <h6>ESTÁS SEGURO QUE QUIERES {type} ESTE PROYECTO ?</h6>
+                <h6>Êtes -vous sûr que vous voulez {type} ce contenu ?</h6>
                 <div className="info_btns">
                     <button onClick={handleClick}>{type}</button>
                     <button onClick={() => setModal('')}>CANCELAR</button>

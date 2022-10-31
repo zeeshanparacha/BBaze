@@ -68,8 +68,8 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                             <td></td>
                             <td>Organisateur</td>
                             <td>Quartier</td>
-                            <td>Date cree</td>
-                            <td>Cloture</td>
+                            <td>Date créée</td>
+                            <td>Clôture </td>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,7 +93,7 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                                     <p className="project_tableText2">{dateFormat(item.createdAt, "shortTime")}</p>
                                 </td>
                                 {item.status !== 'closed' && <td style={{ display: 'flex' }}>
-                                    <p className="project_tableText1">{item?.status === 'closed' ? 'Fermé' : 'Pas fermé'}</p>
+                                    <p className="project_tableText1">{item?.status === 'closed' ? 'Fermé' : 'Ouvert'}</p>
                                 </td>}
                                 <td>
                                     {item.status === 'closed' && <p className="project_tableText1">{dateFormat(item.modifieddAt, "dd-mmm-yyyy")}</p>}

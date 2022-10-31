@@ -4,7 +4,7 @@ import instance from '../../../instance';
 
 import People from '../../../assets/images/people1.png'
 
-const Permission = ({ setModal, clickUserId, projectId }) => {
+const Permission = ({ setModal, clickUserId, projectId, getUsers }) => {
 
     const [permissions, setPermissions] = useState({
         "projectId": projectId,
@@ -67,6 +67,7 @@ const Permission = ({ setModal, clickUserId, projectId }) => {
         instance.post('permissions/add-user', permissions)
             .then(res => {
                 setModal('access')
+                getUsers()
             })
     }
 

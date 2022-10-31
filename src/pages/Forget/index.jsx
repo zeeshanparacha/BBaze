@@ -20,7 +20,6 @@ const Forget = () => {
         setErr('')
         instance.post('/security/generate-password-token', { email })
             .then(res => {
-                console.log('res...', res)
                 if (res.data.code === 1) {
                     setSuccess(res.data.message)
                 }

@@ -92,6 +92,28 @@
     {
         margin-right: 5px;
         margin-bottom: 15px;
+        position: relative;
+        background-color: white;
+    }
+
+    &_box:hover
+    {
+        opacity: 0.5;
+    }
+
+    &_box:hover &_download
+    {
+        display: inline-block;
+    }
+
+    &_download
+    {
+        position: absolute;
+        left: 40px;
+        top: 20px;
+        width: 30px;
+        cursor: pointer;
+        display: none;
     }
 
     &_img

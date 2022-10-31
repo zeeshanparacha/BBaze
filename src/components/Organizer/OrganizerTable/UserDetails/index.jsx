@@ -3,6 +3,8 @@ import Avatar from '../../../../assets/images/avatar.jpg'
 
 const UserDetail = ({ setModal, setActiveTab, data }) => {
 
+    const role = localStorage.getItem('role')
+
     return (
         <div className="user">
             <div className="user_inner">
@@ -27,7 +29,7 @@ const UserDetail = ({ setModal, setActiveTab, data }) => {
                 <div className="user_bot">
                     <p className="user_heading">Projets en cours: <span>{data.ongoingProjects.length}</span></p>
                     <p className="user_heading">Projets realises: <span>{data.completedProjects.length}</span></p>
-                    <button onClick={() => { setActiveTab(2) }}>MODIFIER</button>
+                    {role === 'admin' && <button onClick={() => { setActiveTab(2) }}>MODIFIER</button>}
                 </div>
             </div>
         </div>

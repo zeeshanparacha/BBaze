@@ -26,7 +26,7 @@ const ConfirmModal = ({ getProjects, setModal, type, id }) => {
         <div className="info">
             <div className="info_inner">
                 <span className='info_close' onClick={() => setModal('')}>&#9587;</span>
-                <h6>ESTÁS SEGURO QUE QUIERES {type === 'approve' ? 'APROBAR' : 'RECHAZAR'} ESTE PROYECTO</h6>
+                <h6>Êtes-vous sûr de vouloir {type === 'approve' ? 'APROBAR' : 'RECHAZAR'} ce projet ?</h6>
                 <div className="info_btns">
                     {type === 'approve' ? <button onClick={handleApprove}>APROBAR</button> : <button onClick={handleReject}>RECHAZAR</button>}
                     <button onClick={() => setModal('')}>CANCELAR</button>

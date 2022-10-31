@@ -4,13 +4,15 @@ import dateFormat from "dateformat";
 
 import instance from '../../../../instance';
 
-import Img from '../../../../assets/images/img1.jpg'
+import Img from '../../../../assets/images/download.png'
 import Avatar from '../../../../assets/images/avatar.jpg'
 
 const ProjectDetail = ({ setModal, category, data }) => {
 
     const navigate = useNavigate()
     const [users, setUsers] = useState([])
+    const role = localStorage.getItem('role')
+    const userId = localStorage.getItem('userId')
 
     useEffect(() => {
         instance.post('permissions/get-all-users-permissions', { projectId: data._id })
@@ -26,6 +28,7 @@ const ProjectDetail = ({ setModal, category, data }) => {
                 <div className="projectDetail_projects">
                     {data.images.length > 0 && data.images.map((item, index) => (
                         <div className="projectDetail_box">
+                            <a href={item.url} download><img className='projectDetail_download' src={Img} alt="" /></a>
                             <div className="projectDetail_img">
                                 <img src={item.url} alt="" />
                             </div>
@@ -60,9 +63,9 @@ const ProjectDetail = ({ setModal, category, data }) => {
                         ))}
                     </div>
                 </div>
-                <div className="projectDetail_btn">
+                {(role === 'admin' || data.user._id === userId) && <div className="projectDetail_btn">
                     <button onClick={() => navigate('/addproject', { state: { category, data, edit: 'true' } })}>{data.status === 'closed' ? 'VIEW DETAILS' : 'MODIFIER'}</button>
-                </div>
+                </div>}
             </div>
         </div>
     )

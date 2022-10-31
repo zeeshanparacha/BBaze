@@ -11,8 +11,6 @@ const Header = () => {
     const userName = localStorage.getItem('name')
     const userImg = localStorage.getItem('userImg')
 
-    console.log('run....');
-
     return (
         <React.Fragment>
             <div className="header">

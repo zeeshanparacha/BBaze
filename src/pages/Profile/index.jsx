@@ -69,9 +69,6 @@ const Organizer = () => {
         e.target.value = ''
     }
 
-    console.log('profile', data.profile);
-    console.log('localImg', localImg);
-
     const handleSubmit = () => {
         instance.post('profile/update-profile', data)
             .then(res => {
@@ -128,9 +125,9 @@ const Organizer = () => {
                     <div className="addOrg_desc">
                         <textarea value={data.about} name="about" placeholder="A PROPOS" onChange={handleChange}></textarea>
                     </div>
-                    {success && <p className='addOrg_success'>Tu perfil ha sido actualizado</p>}
+                    {success && <p className='addOrg_success'>Votre profil a été mis à jour</p>}
                     <div className="addOrg_btns">
-                        <button onClick={handleSubmit}>UPDATE PROFILE</button>
+                        <button onClick={handleSubmit}>Mettre à jour le profil</button>
                     </div>
                 </div>
             </div>

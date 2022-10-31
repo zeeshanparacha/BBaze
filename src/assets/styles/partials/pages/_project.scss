@@ -144,6 +144,12 @@
                 border-bottom: 1px solid $bg-medium;
             }
 
+            tr:hover
+            {
+                background-color: $yellow;
+                color: black;
+            }
+
             td
             {
                 padding: 5px 0;
