@@ -271,18 +271,31 @@
         padding: 15px;
         min-height: 100px;
         display: flex;
-        flex-wrap: wrap;
-
-        >div
-        {
-            margin: 5px;
-            text-align: center;
-        }
 
         p
         {
             font-size: 12px;
         }
+    }
+
+    &_peopleBodyBox
+    {
+        margin: 5px;
+        text-align: center;
+        width: 65px;
+    }
+
+    &_peopleBodyLeft
+    {
+        padding-right: 10px;
+        margin-right: 10px;
+        border-right: 1px solid #545454;
+    }
+
+    &_peopleBodyRight
+    {
+        display: flex;
+        flex-wrap: wrap;
     }
 
     &_peopleBodyImg

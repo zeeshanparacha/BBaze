@@ -49,10 +49,25 @@ const AddProject = () => {
     const [msg, setMsg] = useState('')
     const [reply, setReply] = useState('')
     const [clickIndex, setClickIndex] = useState(-1)
+    const [ownerDetails, setOwnerDetails] = useState({})
     const role = localStorage.getItem('role')
     const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
     const location = useLocation()
+    const [permissions, setPermissions] = useState({
+        about: {read: true, write: true},
+        animator: {read: true, write: true},
+        authorities: {read: true, write: true},
+        conversations: {read: true, write: true},
+        documents: {read: true, write: true},
+        headQuartier: {read: true, write: true},
+        host: {read: true, write: true},
+        images: {read: true, write: true},
+        notes: {read: true, write: true},
+        organizerName: {read: true, write: true},
+        otherParticipants: {read: true, write: true},
+        town: {read: true, write: true}
+    })
 
     useEffect(() => {
         setData({
@@ -128,6 +143,12 @@ const AddProject = () => {
             instance.post('permissions/get-all-users-permissions', { projectId: location.state.data._id })
                 .then(res => {
                     setUsers(res.data.data)
+                    res.data.data.forEach(item => {
+                        if (item.user._id === userId)
+                        {
+                            setPermissions(item)
+                        }
+                    })
                 })
         }
     }
@@ -178,6 +199,7 @@ const AddProject = () => {
                     setImages(editData.images)
                     setDocuments(editData.documents)
                     setProjectStatus(editData.status)
+                    setOwnerDetails(editData.user)
                 })
         }
         else {
@@ -327,30 +349,44 @@ const AddProject = () => {
             </div>
             <div className="add_form">
                 <div className="add_formLeft">
-                    <label>Nom du projet</label>
-                    <input type="text" name='projectName' disabled={projectStatus === 'closed' ? true : false} value={data.projectName} onChange={handleChange} />
-                    <label>Ville</label>
-                    <input type="text" name='town' disabled={projectStatus === 'closed' ? true : false} value={data.town} onChange={handleChange} />
-                    <label>Quartier</label>
-                    <input type="text" name='headQuartier' disabled={projectStatus === 'closed' ? true : false} value={data.headQuartier} onChange={handleChange} />
-                    <label>À propos du projet</label>
-                    <textarea name='about' placeholder='Expliquez brièvement le projet' disabled={projectStatus === 'closed' ? true : false} value={data.about} onChange={handleChange}></textarea>
-                    <label>Organisateur (trice)</label>
-                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Tapez le nom de l’organisateur (trice) de l’activité" name='organizerName' value={data.organizerName} onChange={handleChange} />
-                    <label>Animateur (trice)</label>
-                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Tapez le nom de l’animateur (trice) de l’activité" name='animator' value={data.animator} onChange={handleChange} />
-                    <label>Hôte / Hôtesse</label>
-                    <input type="text" disabled={projectStatus === 'closed' ? true : false} placeholder="Tapez le nom de l’organisation ou personne qui accueil l’activité." name='host' value={data.host} onChange={handleChange} />
+                    {<div>
+                        <label>Nom du projet</label>
+                        <input type="text" name='projectName' disabled={projectStatus === 'closed' ? true : false} value={data.projectName || ''} onChange={handleChange} />
+                    </div>}
+                    {permissions.town.read && <div>
+                        <label>Ville</label>
+                        <input type="text" name='town' disabled={(projectStatus === 'closed' || !permissions.town.write) ? true : false} value={data.town || ''} onChange={handleChange} />
+                    </div>}
+                    {permissions.headQuartier.read && <div>
+                        <label>Quartier</label>
+                        <input type="text" name='headQuartier' disabled={(projectStatus === 'closed' || !permissions.headQuartier.write) ? true : false} value={data.headQuartier || ''} onChange={handleChange} />
+                    </div>}
+                    {permissions.about.read && <div>
+                        <label>À propos du projet</label>
+                        <textarea name='about' placeholder='Expliquez brièvement le projet' disabled={(projectStatus === 'closed' || !permissions.about.write) ? true : false} value={data.about || ''} onChange={handleChange}></textarea>
+                    </div>}
+                    {permissions.organizerName.read && <div>
+                        <label>Organisateur (trice)</label>
+                        <input type="text" disabled={(projectStatus === 'closed' || !permissions.organizerName.write) ? true : false} placeholder="Tapez le nom de l’organisateur (trice) de l’activité" name='organizerName' value={data.organizerName || ''} onChange={handleChange} />
+                    </div>}
+                    {permissions.animator.read && <div>
+                        <label>Animateur (trice)</label>
+                        <input type="text" disabled={(projectStatus === 'closed' || !permissions.animator.write) ? true : false} placeholder="Tapez le nom de l’animateur (trice) de l’activité" name='animator' value={data.animator || ''} onChange={handleChange} />
+                    </div>}
+                    {permissions.host.read && <div>
+                        <label>Hôte / Hôtesse</label>
+                        <input type="text" disabled={(projectStatus === 'closed' || !permissions.host.write) ? true : false} placeholder="Tapez le nom de l’organisation ou personne qui accueil l’activité." name='host' value={data.host || ''} onChange={handleChange} />
+                    </div>}
                 </div>
                 <div className="add_formRight">
-                    <div>
+                    {permissions.authorities.read && <div>
                         <label>Autorité locale</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Ouvert" disabled={projectStatus === 'closed' ? true : false} value={authorityName} onChange={(e) => setAuthorityName(e.target.value)} />
+                            <input type="text" placeholder="Ouvert" disabled={(projectStatus === 'closed' || !permissions.authorities.write) ? true : false} value={authorityName  || ''} onChange={(e) => setAuthorityName(e.target.value)} />
                             <button disabled={projectStatus === 'closed' ? true : false}><img src={PlusIcon} alt="" onClick={handleAuthorities} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Fonction" disabled={projectStatus === 'closed' ? true : false} value={authorityRole} onChange={(e) => setAuthorityRole(e.target.value)} />
+                            <input type="text" placeholder="Fonction" disabled={(projectStatus === 'closed' || !permissions.authorities.write) ? true : false} value={authorityRole  || ''} onChange={(e) => setAuthorityRole(e.target.value)} />
                             <button className='add_btnHidden' ></button>
                         </div>
                         <div className="add_authorities">
@@ -362,15 +398,15 @@ const AddProject = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
-                    <div>
+                    </div>}
+                    {permissions.otherParticipants.read && <div>
                         <label>Autres participants clés</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Nom" disabled={projectStatus === 'closed' ? true : false} value={participantName} onChange={(e) => setParticipantName(e.target.value)} />
+                            <input type="text" placeholder="Nom" disabled={(projectStatus === 'closed' || !permissions.otherParticipants.write) ? true : false} value={participantName  || ''} onChange={(e) => setParticipantName(e.target.value)} />
                             <button disabled={projectStatus === 'closed' ? true : false}><img src={PlusIcon} alt="" onClick={handleParticipants} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Titre" disabled={projectStatus === 'closed' ? true : false} value={participantRole} onChange={(e) => setParticipantRole(e.target.value)} />
+                            <input type="text" placeholder="Titre" disabled={(projectStatus === 'closed' || !permissions.otherParticipants.write) ? true : false} value={participantRole  || ''} onChange={(e) => setParticipantRole(e.target.value)} />
                             <button className='add_btnHidden'></button>
                         </div>
                         <div className="add_authorities">
@@ -382,8 +418,8 @@ const AddProject = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
-                    <div>
+                    </div>}
+                    {permissions.documents.read && <div>
                         <label>Document</label>
                         <div className='add_inputMain'>
                             <input disabled type="text" placeholder="Téléchargez tous les documents liés à ce projet" />
@@ -391,28 +427,28 @@ const AddProject = () => {
                                 <label htmlFor="doc">
                                     <img src={PlusIcon} alt="" />
                                 </label>
-                                <input type="file" id='doc' onChange={(e) => uploadFile(e, 'doc')} />
-                            </div> : <button disabled={projectStatus === 'closed' ? true : false} onClick={() => setModal('info')}><img src={PlusIcon} alt="" /></button>}
+                                <input type="file" id='doc' disabled={!permissions.documents.write} onChange={(e) => uploadFile(e, 'doc')} />
+                            </div> : <button disabled={(projectStatus === 'closed' || !permissions.documents.write) ? true : false} onClick={() => setModal('info')}><img src={PlusIcon} alt="" /></button>}
                         </div>
                         {err.type === 'doc' && <p className='add_error'>{err.text}</p>}
                         <div className="add_authorities">
                             {documents.length > 0 && documents.map((item, index) => (
                                 <div key={index}>
-                                    <a href={item.url} download><i class="fa-solid fa-file"></i></a>
+                                    <a href={item.url} download><i className="fa-solid fa-file"></i></a>
                                     <p>{item.url.split('/').pop()}</p>
                                     <span onClick={() => { setModal('confirm'); setFileToRemove(item); setFileType('doc') }}>x</span>
                                 </div>
                             ))}
                         </div>
-                    </div>
-                    <div>
+                    </div>}
+                    {permissions.notes.read && <div>
                         <label>Notes de la réunion</label>
                         <div className='add_inputMain'>
-                            <input type="text" placeholder="Date de la reunion" disabled={projectStatus === 'closed' ? true : false} value={notesDate} onChange={(e) => setNotesDate(e.target.value)} />
-                            <button disabled={projectStatus === 'closed' ? true : false}><img src={PlusIcon} alt="" onClick={handleNotes} /></button>
+                            <input type="text" placeholder="Date de la reunion" disabled={(projectStatus === 'closed' || !permissions.notes.write) ? true : false} value={notesDate  || ''} onChange={(e) => setNotesDate(e.target.value)} />
+                            <button disabled={(projectStatus === 'closed' || !permissions.notes.write) ? true : false}><img src={PlusIcon} alt="" onClick={handleNotes} /></button>
                         </div>
                         <div className='add_inputMain'>
-                            <textarea type="text" placeholder="Notes" disabled={projectStatus === 'closed' ? true : false} value={notesText} onChange={(e) => setNotesText(e.target.value)} />
+                            <textarea type="text" placeholder="Notes" disabled={(projectStatus === 'closed' || !permissions.notes.write) ? true : false} value={notesText  || ''} onChange={(e) => setNotesText(e.target.value)} />
                             <button className='add_btnHidden'></button>
                         </div>
                         <div className="add_authorities">
@@ -424,16 +460,16 @@ const AddProject = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
-            <div className="add_imagesBody">
+            {permissions.images.read && <div className="add_imagesBody">
                 <div className="add_btnImg">
                     {isNewProject === false ? <div>
                         <label htmlFor="img">
                             <img src={PlusIcon} alt="" />
                         </label>
-                        <input type="file" id='img' disabled={projectStatus === 'closed' ? true : false} accept="image/*" onChange={(e) => uploadFile(e, 'image')} />
+                        <input type="file" id='img' disabled={(projectStatus === 'closed' || !permissions.images.write) ? true : false} accept="image/*" onChange={(e) => uploadFile(e, 'image')} />
                     </div> : <img src={PlusIcon} alt="" onClick={() => setModal('info')} />}
                     {err.type === 'image' && <p className='add_error'>{err.text}</p>}
                 </div>
@@ -441,11 +477,11 @@ const AddProject = () => {
                     {data?.images && data.images.map((item) => (
                         <div className="add_image" key={item.id} >
                             <img src={item.url} alt="" />
-                            {projectStatus === 'closed' ? <i className="fa-solid fa-trash" ></i> : <i className="fa-solid fa-trash" onClick={() => { setModal('confirm'); setFileToRemove(item); setFileType('img') }} ></i>}
+                            {(projectStatus === 'closed' || !permissions.images.write) ? <i className="fa-solid fa-trash" ></i> : <i className="fa-solid fa-trash" onClick={() => { setModal('confirm'); setFileToRemove(item); setFileType('img') }} ></i>}
                         </div>
                     ))}
                 </div>
-            </div>
+            </div>}
             <div className="add_btns">
                 {projectStatus === 'approved' && <button onClick={() => { setBtnType('ACTUALIZAR'); setModal('projectModal') }}>MODIFIER</button>}
                 <button onClick={() => navigate('/dashboard')} >{projectStatus === 'closed' ? 'REGRESA' : 'ANNULER'}</button>
@@ -458,14 +494,24 @@ const AddProject = () => {
                 <div className="add_people">
                     {projectStatus === 'approved' && <span className='add_peopleTitle' onClick={() => setModal('access')}>ACCES A CE PROJET</span>}
                     <div className="add_peopleBody">
-                        {users.map((item, index) => (
-                            <div>
+                        <div className="add_peopleBodyLeft">
+                            <div className="add_peopleBodyBox">
                                 <div className="add_peopleBodyImg">
-                                    <img src={item.user.profile ? item.user.profile : Avatar} alt="..." key={index} />
+                                    <img src={ownerDetails.profile ? ownerDetails.profile : Avatar} alt="..." />
                                 </div>
-                                <p>{item.user.name}</p>
+                                <p>{ownerDetails.name}</p>
                             </div>
-                        ))}
+                        </div>
+                        <div className="add_peopleBodyRight">
+                            {users.map((item, index) => (
+                                <div className="add_peopleBodyBox" key={index}>
+                                    <div className="add_peopleBodyImg">
+                                        <img src={item.user.profile ? item.user.profile : Avatar} alt="..." />
+                                    </div>
+                                    <p>{item.user.name}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className="add_convo">
@@ -481,11 +527,11 @@ const AddProject = () => {
                                     <p className="add_convodesc">{item.message}</p>
                                     {item.replies.length > 0 && <p className="add_convoreplies" onClick={() => toggleReply(index)}>{item.replies.length} Réponses</p>}
                                     {item.replies.map((reply) => (
-                                        <div className={index === clickIndex ? 'add_convoReplyBody show' : 'add_convoReplyBody'}>
+                                        <div key={reply._id} className={index === clickIndex ? 'add_convoReplyBody show' : 'add_convoReplyBody'}>
                                             <div>
                                                 <img src={reply.user.profile ? reply.user.profile : Avatar} alt="..." />
                                             </div>
-                                            <p className='add_reply' key={reply._id} >{reply.message}</p>
+                                            <p className='add_reply'>{reply.message}</p>
                                         </div>
                                     ))}
                                     <div className="add_convoReply">
@@ -510,7 +556,7 @@ const AddProject = () => {
             {modal === 'info' && <InfoModal setModal={setModal} />}
             {modal === 'access' && <Access setModal={setModal} projectId={location.state.data._id} setClickUserId={setClickUserId} />}
             {modal === 'permission' && <Permission getUsers={getUsers} setModal={setModal} projectId={location.state.data._id} clickUserId={clickUserId} />}
-            {modal === 'delete' && <DeleteUser setModal={setModal} projectId={location.state.data._id} clickUserId={clickUserId} />}
+            {modal === 'delete' && <DeleteUser getUsers={getUsers} setModal={setModal} projectId={location.state.data._id} clickUserId={clickUserId} />}
         </div >
     )
 }

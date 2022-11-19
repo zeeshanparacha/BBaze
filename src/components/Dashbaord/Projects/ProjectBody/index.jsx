@@ -95,10 +95,10 @@ const ProjectBody = ({ category, icon, plusIcon, searchIcon, data }) => {
                                 {item.status !== 'closed' && <td style={{ display: 'flex' }}>
                                     <p className="project_tableText1">{item?.status === 'closed' ? 'Fermé' : 'Ouvert'}</p>
                                 </td>}
-                                <td>
-                                    {item.status === 'closed' && <p className="project_tableText1">{dateFormat(item.modifieddAt, "dd-mmm-yyyy")}</p>}
-                                    {item.status === 'closed' && <p className="project_tableText2">{dateFormat(item.modifiedAt, "shortTime")}</p>}
-                                </td>
+                                {item.status === 'closed' && <td>
+                                    <p className="project_tableText1">{dateFormat(item.modifieddAt, "dd-mmm-yyyy")}</p>
+                                    <p className="project_tableText2">{dateFormat(item.modifiedAt, "shortTime")}</p>
+                                </td>}
                             </tr>
                         ))}
                     </tbody>

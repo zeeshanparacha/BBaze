@@ -1,11 +1,15 @@
 import instance from "../../../../instance"
 
-const DeleteUser = ({ setModal, projectId, clickUserId }) => {
+const DeleteUser = ({ setModal, projectId, clickUserId, getUsers }) => {
 
     const handleDelete = () => {
         instance.post('permissions/delete-user-from-project', {
             projectId,
             user: clickUserId
+        })
+        .then(res => {
+            getUsers()
+            setModal('')
         })
     }
 

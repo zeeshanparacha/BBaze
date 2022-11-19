@@ -11,6 +11,7 @@ const ProjectDetail = ({ setModal, category, data }) => {
 
     const navigate = useNavigate()
     const [users, setUsers] = useState([])
+    const [showBtn, setShowBtn] = useState(false)
     const role = localStorage.getItem('role')
     const userId = localStorage.getItem('userId')
 
@@ -18,6 +19,19 @@ const ProjectDetail = ({ setModal, category, data }) => {
         instance.post('permissions/get-all-users-permissions', { projectId: data._id })
             .then(res => {
                 setUsers(res.data.data)
+                if (role === 'admin' || data.user._id === userId)
+                {
+                    setShowBtn(true)
+                }
+                else
+                {
+                    res.data.data.forEach(item => {
+                        if (item.user._id === userId)
+                        {
+                            setShowBtn(true)
+                        }
+                    })
+                }
             })
     }, [])
 
@@ -27,7 +41,7 @@ const ProjectDetail = ({ setModal, category, data }) => {
                 <span className='projectDetail_close' onClick={() => setModal('')} >&#9587;</span>
                 <div className="projectDetail_projects">
                     {data.images.length > 0 && data.images.map((item, index) => (
-                        <div className="projectDetail_box">
+                        <div className="projectDetail_box" key={index} >
                             <a href={item.url} download><img className='projectDetail_download' src={Img} alt="" /></a>
                             <div className="projectDetail_img">
                                 <img src={item.url} alt="" />
@@ -63,7 +77,7 @@ const ProjectDetail = ({ setModal, category, data }) => {
                         ))}
                     </div>
                 </div>
-                {(role === 'admin' || data.user._id === userId) && <div className="projectDetail_btn">
+                {showBtn && <div className="projectDetail_btn">
                     <button onClick={() => navigate('/addproject', { state: { category, data, edit: 'true' } })}>{data.status === 'closed' ? 'VIEW DETAILS' : 'MODIFIER'}</button>
                 </div>}
             </div>

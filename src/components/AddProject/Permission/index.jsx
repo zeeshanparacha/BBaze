@@ -113,7 +113,7 @@ const Permission = ({ setModal, clickUserId, projectId, getUsers }) => {
                         <p className="per_name">Gina</p>
                         <p className="per_role">Geographe</p>
                     </div>
-                    <span className='per_reject'>Retirer</span>
+                    <span className='per_reject' onClick={() => { setModal('delete') }} >Retirer</span>
                 </div>
                 <p className="per_email">Email: <span>gsola@vil.fr</span></p>
                 <p className="per_phone">Telephone: <span>+1 604 218 269 4455</span></p>
