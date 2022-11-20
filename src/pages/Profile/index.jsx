@@ -9,6 +9,8 @@ import avatar from '../../assets/images/avatar.jpg'
 const Organizer = () => {
 
     const [data, setData] = useState({})
+    const [success, setSuccess] = useState(false)
+    const [localImg, setLocalImg] = useState('')
 
     useEffect(() => {
         instance.post('profile/get-profile', { _id: localStorage.getItem('userId') })
@@ -23,9 +25,21 @@ const Organizer = () => {
                     telephone: res.data.data.telephone,
                     fax: res.data.data.fax,
                     profile: res.data.data.profile,
+                    about: res.data.data.about,
                 })
             })
     }, [])
+
+    useEffect(() => {
+        if (data.profile) {
+            instance.post('profile/update-profile', data)
+                .then(res => {
+                    if (res.data.code === 1) {
+                        localStorage.setItem('userImg', res.data.data.profile)
+                    }
+                })
+        }
+    }, [data.profile])
 
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value })
@@ -34,6 +48,12 @@ const Organizer = () => {
     const handleImg = (e) => {
         const file = e.target.files[0]
         if (file) {
+            const fileReader = new FileReader()
+            fileReader.onloadend = (file) => {
+                setLocalImg(file.target.result)
+            }
+            fileReader.readAsDataURL(file)
+            // setData({ ...data, profile: '' })
             const formData = new FormData()
             formData.append(
                 'userId', localStorage.getItem('userId')
@@ -43,7 +63,6 @@ const Organizer = () => {
             )
             instance.post('s3/upload/profile', formData)
                 .then(res => {
-                    console.log('file', res)
                     setData({ ...data, profile: res.data.data })
                 })
         }
@@ -52,7 +71,13 @@ const Organizer = () => {
 
     const handleSubmit = () => {
         instance.post('profile/update-profile', data)
-        // .then(res => console.log('res update', res))
+            .then(res => {
+                if (res.data.code === 1) {
+                    localStorage.setItem('userImg', res.data.data.profile)
+                    localStorage.setItem('name', res.data.data.name)
+                    setSuccess(true)
+                }
+            })
     }
 
     return (
@@ -63,7 +88,8 @@ const Organizer = () => {
                 <div className="addOrg">
                     <div className="addOrg_form">
                         <label htmlFor="dp" className="addOrg_labelImg">
-                            <img src={data?.profile ? data?.profile : avatar} alt="" />
+                            {!localImg && <img src={data?.profile ? data?.profile : avatar} alt="" />}
+                            {localImg && <img src={localImg} alt="" />}
                         </label>
                         <input type="file" id="dp" onChange={handleImg} />
                         <div className="addOrg_field">
@@ -97,11 +123,11 @@ const Organizer = () => {
                     </div>
                     <p className='addOrg_descTitle'>A PROPOS</p>
                     <div className="addOrg_desc">
-                        <p>RESUME / CV<br />Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
-                        <p>Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</p>
+                        <textarea value={data.about} name="about" placeholder="A PROPOS" onChange={handleChange}></textarea>
                     </div>
+                    {success && <p className='addOrg_success'>Votre profil a été mis à jour</p>}
                     <div className="addOrg_btns">
-                        <button onClick={handleSubmit}>UPDATE PROFILE</button>
+                        <button onClick={handleSubmit}>Mettre à jour le profil</button>
                     </div>
                 </div>
             </div>

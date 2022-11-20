@@ -182,12 +182,14 @@
     {
         font-size: 12px;
         font-weight: 500;
+        cursor: pointer;
     }
 
     &_tableText2
     {
         color: $bg-light;
-        font-size: 10px;
+        font-size: 12px;
+        max-width: 145px;
     }
 }
 

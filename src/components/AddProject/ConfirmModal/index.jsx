@@ -9,10 +9,10 @@ const ConfirmModal = ({ setModal, removeFile, fileToRemove }) => {
         <div className="info">
             <div className="info_inner">
                 <span className='info_close' onClick={() => setModal('')}>&#9587;</span>
-                <h6>ARE YOU SURE YOU WANT TO DELETE THIS IMAGE</h6>
+                <h6>Estás segura de que quieres eliminar esta imagen?</h6>
                 <div className="info_btns">
-                    <button onClick={handleDelete}>CONFIRM</button>
-                    <button onClick={() => setModal('')}>CANCEL</button>
+                    <button onClick={handleDelete}>CONFIRMAR</button>
+                    <button onClick={() => setModal('')}>CANCELAR</button>
                 </div>
             </div>
         </div>
