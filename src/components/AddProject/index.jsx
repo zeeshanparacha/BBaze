@@ -261,10 +261,10 @@ const AddProject = () => {
                 fileName: fileName,
                 fileId: param._id
             })
-                .then(res => {
-                    setImages(newData)
-                })
-                .catch(err => console.log('err', err.response))
+            .then(res => {
+                setImages(newData)
+            })
+            .catch(err => console.log('err', err.response))
         }
         else if (fileType === 'doc') {
             const tempData = documents
@@ -333,6 +333,9 @@ const AddProject = () => {
         }
     }
 
+    console.log('data', data);
+    console.log('ownerDetails', ownerDetails);
+
     return (
         <div className="add">
             <div className="add_top">
@@ -349,10 +352,10 @@ const AddProject = () => {
             </div>
             <div className="add_form">
                 <div className="add_formLeft">
-                    {<div>
+                    <div>
                         <label>Nom du projet</label>
-                        <input type="text" name='projectName' disabled={projectStatus === 'closed' ? true : false} value={data.projectName || ''} onChange={handleChange} />
-                    </div>}
+                        <input type="text" name='projectName' disabled={(projectStatus === 'closed' || (userId !== ownerDetails._id && role !== 'admin')) ? true : false} value={data.projectName || ''} onChange={handleChange} />
+                    </div>
                     {permissions.town.read && <div>
                         <label>Ville</label>
                         <input type="text" name='town' disabled={(projectStatus === 'closed' || !permissions.town.write) ? true : false} value={data.town || ''} onChange={handleChange} />
@@ -475,7 +478,7 @@ const AddProject = () => {
                 </div>
                 <div className="add_images">
                     {data?.images && data.images.map((item) => (
-                        <div className="add_image" key={item.id} >
+                        <div className="add_image" key={item._id} >
                             <img src={item.url} alt="" />
                             {(projectStatus === 'closed' || !permissions.images.write) ? <i className="fa-solid fa-trash" ></i> : <i className="fa-solid fa-trash" onClick={() => { setModal('confirm'); setFileToRemove(item); setFileType('img') }} ></i>}
                         </div>
