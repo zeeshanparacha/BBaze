@@ -333,9 +333,6 @@ const AddProject = () => {
         }
     }
 
-    console.log('data', data);
-    console.log('ownerDetails', ownerDetails);
-
     return (
         <div className="add">
             <div className="add_top">
